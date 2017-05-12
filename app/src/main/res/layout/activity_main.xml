@@ -10,13 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.androidtown.myapplication.MainActivity">
 
-    <ImageView
-        android:id="@+id/mainImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="15dp"
-        android:src="@drawable/main_image" />
-
     <TextView
         android:id="@+id/colorInfoText"
         android:layout_width="wrap_content"
@@ -52,4 +45,16 @@
         android:text="evaluation"
         android:textSize="18sp" />
 
+    <ImageSwitcher
+        android:id="@+id/switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </ImageSwitcher>
+
+    <ImageView
+        android:id="@+id/mainImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/main_image" />
 </FrameLayout>
