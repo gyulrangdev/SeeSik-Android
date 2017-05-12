@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="org.androidtown.myapplication.DailyEvaluation">
 
     <TextView   android:id="@+id/evaluationTitle"
@@ -40,6 +41,7 @@
             android:textSize="25dp" />
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -47,18 +49,20 @@
             android:textSize="15dp" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sugars"
             android:textSize="25dp" />
     </LinearLayout>
 
-    <LinearLayout   android:id="@+id/barSet"
+    <LinearLayout
+        android:id="@+id/barSet"
         android:layout_width="250dp"
         android:layout_height="180dp"
-        android:layout_toRightOf="@+id/ingredientSet"
-        android:layout_marginLeft="20dp"
         android:layout_below="@+id/evaluationTitle"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/ingredientSet"
         android:orientation="vertical">
 
         <ProgressBar
