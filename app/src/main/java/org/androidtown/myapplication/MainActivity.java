@@ -23,15 +23,14 @@ public class MainActivity extends AppCompatActivity {
     ImageSwitcher switcher;
     boolean running;
 
-//    DataBase db;
-//
-//    db = new DataBase(MainActivity.this);
-//        db.createTable();
+    DataBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = new DataBase(MainActivity.this);
+        db.createTable();
         evaBtn = (Button) findViewById(R.id.evaluationBtn);
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
         evaBtn.setOnClickListener(new View.OnClickListener() {

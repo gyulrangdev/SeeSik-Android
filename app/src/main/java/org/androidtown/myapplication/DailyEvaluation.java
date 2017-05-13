@@ -56,7 +56,7 @@ public class DailyEvaluation extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        Toast.makeText(this,"그래프 애니메이션 활성화 : "+hasFocus,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"그래프 애니메이션 활성화"+hasFocus,Toast.LENGTH_SHORT).show();
 
         if(hasFocus){
             growAnim.start();

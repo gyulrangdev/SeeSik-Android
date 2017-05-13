@@ -52,11 +52,11 @@
         android:text="안녕 나는 새쌉이" />
 
     <!--<ImageView-->
-        <!--android:id="@+id/mainImage"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginBottom="15dp"-->
-        <!--android:src="@drawable/main_image" />-->
+    <!--android:id="@+id/mainImage"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginBottom="15dp"-->
+    <!--android:src="@drawable/main_image" />-->
 
 
 </FrameLayout>
