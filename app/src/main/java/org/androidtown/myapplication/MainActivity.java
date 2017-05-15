@@ -18,6 +18,7 @@ import static android.R.attr.data;
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_MENU = 101;
     Button evaBtn;
+    Button selectDietBtn;
     Handler mHandler = new Handler();
     ImageThread thread;
     ImageSwitcher switcher;
@@ -32,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
         db = new DataBase(MainActivity.this);
         db.createTable();
         evaBtn = (Button) findViewById(R.id.evaluationBtn);
+        selectDietBtn = (Button) findViewById(R.id.selectDietBtn);
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
+
         evaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        selectDietBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),SearchFood.class);
+                startActivity(intent);
+            }
+        });
 
         switcher.setFactory(new ViewSwitcher.ViewFactory() {
             public View makeView() {
