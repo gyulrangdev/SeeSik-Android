@@ -29,26 +29,22 @@ public class DailyEvaluation extends AppCompatActivity {
 
         ProgressBar naBar = (ProgressBar) findViewById(R.id.naBar);
         naBar.setIndeterminate(false);
-        naBar.setMax(100);
-        naBar.setProgress(80);
+        naBar.setProgress(70);
         naBar.setAnimation(growAnim);
 
         ProgressBar cholBar = (ProgressBar) findViewById(R.id.cholBar);
-        naBar.setIndeterminate(false);
-        naBar.setMax(100);
-        naBar.setProgress(80);
+        cholBar.setIndeterminate(false);
+          cholBar.setProgress(80);
         cholBar.setAnimation(growAnim);
 
         ProgressBar fatBar = (ProgressBar) findViewById(R.id.fatBar);
-        naBar.setIndeterminate(false);
-        naBar.setMax(100);
-        naBar.setProgress(80);
+        fatBar.setIndeterminate(false);
+        fatBar.setProgress(30);
         fatBar.setAnimation(growAnim);
 
         ProgressBar sugarBar = (ProgressBar) findViewById(R.id.sugarBar);
-        naBar.setIndeterminate(false);
-        naBar.setMax(100);
-        naBar.setProgress(80);
+        sugarBar.setIndeterminate(false);
+        sugarBar.setProgress(50);
         sugarBar.setAnimation(growAnim);
     }
 
