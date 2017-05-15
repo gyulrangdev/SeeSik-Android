@@ -1,21 +1,26 @@
 package org.androidtown.myapplication;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_MENU = 101;
-    ImageView image;
+    ImageButton nurseBtn;
+    ImageView nurseView;
     Button evaBtn;
     Button selectDietBtn;
     Handler mHandler = new Handler();
@@ -34,6 +39,19 @@ public class MainActivity extends AppCompatActivity {
         evaBtn = (Button) findViewById(R.id.evaluationBtn);
         selectDietBtn = (Button) findViewById(R.id.selectDietBtn);
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
+        nurseBtn = (ImageButton) findViewById(R.id.nurse);
+        nurseView = (ImageView) findViewById(R.id.nurseWear);
+
+        nurseBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(nurseView.getVisibility()==View.INVISIBLE)
+                  nurseView.setVisibility(View.VISIBLE);
+                else
+                    nurseView.setVisibility(View.INVISIBLE);
+            }
+        });
+
 
         evaBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -45,6 +45,15 @@
         android:layout_gravity="center">
     </ImageSwitcher>
 
+    <ImageView
+        android:id="@+id/nurseWear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/nurse_wear"
+        android:visibility="invisible"
+        />
+
     <TextView
         android:id="@+id/interactText"
         android:layout_width="79dp"
@@ -52,6 +61,14 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="100dp"
         android:text="안녕 나는 새쌉이" />
+
+    <ImageButton
+        android:id="@+id/nurse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        app:srcCompat="@drawable/nurse"
+        />
 
 
     <!--<ImageView-->
