@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -40,16 +41,18 @@
     <ImageSwitcher
         android:id="@+id/switcher"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
     </ImageSwitcher>
 
     <TextView
         android:id="@+id/interactText"
-        android:layout_width="wrap_content"
+        android:layout_width="79dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="100dp"
         android:text="안녕 나는 새쌉이" />
+
 
     <!--<ImageView-->
     <!--android:id="@+id/mainImage"-->

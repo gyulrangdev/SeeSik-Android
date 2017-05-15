@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.androidtown.myapplication.R;
@@ -50,7 +51,7 @@ public class Calendar_main extends AppCompatActivity {
         setMonthText();
 
         // 이전 월로 넘어가는 이벤트 처리
-        Button monthPrevious = (Button) findViewById(R.id.monthPrevious);
+        ImageButton monthPrevious = (ImageButton) findViewById(R.id.monthPrevious);
         monthPrevious.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 monthViewAdapter.setPreviousMonth();
@@ -61,7 +62,7 @@ public class Calendar_main extends AppCompatActivity {
         });
 
         // 다음 월로 넘어가는 이벤트 처리
-        Button monthNext = (Button) findViewById(R.id.monthNext);
+        ImageButton monthNext = (ImageButton) findViewById(R.id.monthNext);
         monthNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 monthViewAdapter.setNextMonth();
@@ -79,7 +80,6 @@ public class Calendar_main extends AppCompatActivity {
     private void setMonthText() {
         curYear = monthViewAdapter.getCurYear();
         curMonth = monthViewAdapter.getCurMonth();
-
         monthText.setText(curYear + "년 " + (curMonth + 1) + "월");
     }
 

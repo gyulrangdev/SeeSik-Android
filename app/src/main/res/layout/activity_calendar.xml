@@ -3,45 +3,57 @@
     android:id="@+id/activity_calendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#23931622"
+    android:background="#55ffbcb2"
     android:orientation="vertical"
     tools:context="org.androidtown.myapplication.calendar.Calendar_main">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#33931622">
+        android:background="#ffffffff"
+        android:weightSum="5">
 
-        <Button
+
+        <ImageButton
             android:id="@+id/monthPrevious"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:text="back" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:background="#00ffffff"
+            android:gravity="center_horizontal"
+            android:src="@drawable/left_arrow" />
 
         <TextView
             android:id="@+id/monthText"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="3.00"
+            android:background="#00ffffff"
+            android:elevation="1dp"
             android:gravity="center_horizontal"
             android:text="MonthView"
-            android:textSize="24dp"
+            android:textColor="?android:attr/textColorHighlightInverse"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
-        <Button
+        <ImageButton
             android:id="@+id/monthNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:text="forward" />
-    </RelativeLayout>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:background="#00ffffff"
+            android:gravity="center_horizontal"
+            android:src="@drawable/right_arrow" />
+
+    </LinearLayout>
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:stretchColumns="*">
 
         <TableRow>
@@ -82,7 +94,7 @@
         android:id="@+id/monthView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#ffbbbbbb"
+        android:background="#ffffbcb2"
         android:horizontalSpacing="1dp"
         android:numColumns="7"
         android:stretchMode="columnWidth"

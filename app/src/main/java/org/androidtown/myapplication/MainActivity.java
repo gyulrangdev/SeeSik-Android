@@ -15,6 +15,7 @@ import android.widget.ViewSwitcher;
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_MENU = 101;
+    ImageView image;
     Button evaBtn;
     Button selectDietBtn;
     Handler mHandler = new Handler();
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     class ImageThread extends Thread {
         int duration = 1000;
-        final int imageId[] = {R.drawable.closeeyes, R.drawable.openeyes};
+        final int imageId[] = {R.drawable.close_eyes, R.drawable.open_mouth,R.drawable.open_eyes};
         int currentIndex = 0;
 
         @Override

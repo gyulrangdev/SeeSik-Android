@@ -1,20 +1,27 @@
 package org.androidtown.myapplication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.androidtown.myapplication.calendar.Calendar_main;
+
 import static android.R.attr.name;
 import static org.androidtown.myapplication.R.id.naBar;
+import static org.androidtown.myapplication.R.id.recommendBtn;
 
 public class DailyEvaluation extends AppCompatActivity {
+    Button btn;
     LinearLayout mainLayout;
     ProgressDialog dialog;
     Resources res;
@@ -26,6 +33,15 @@ public class DailyEvaluation extends AppCompatActivity {
         setContentView(R.layout.activity_daily_evaluation);
         res=getResources();
         growAnim = AnimationUtils.loadAnimation(this,R.anim.grow);
+
+        btn=(Button) findViewById(R.id.recommendBtn);
+        btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Calendar_main.class);
+                startActivity(intent);
+            }
+        });
 
         ProgressBar naBar = (ProgressBar) findViewById(R.id.naBar);
         naBar.setIndeterminate(false);
