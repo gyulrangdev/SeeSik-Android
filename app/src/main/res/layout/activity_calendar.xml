@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_calendar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#23931622"
+    android:orientation="vertical"
+    tools:context="org.androidtown.myapplication.calendar.Calendar_main">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#33931622">
+
+        <Button
+            android:id="@+id/monthPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:text="back" />
+
+        <TextView
+            android:id="@+id/monthText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:text="MonthView"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/monthNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="forward" />
+    </RelativeLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*">
+
+        <TableRow>
+
+            <TextView
+                android:gravity="center"
+                android:text="S"
+                android:textColor="@android:color/holo_red_dark" />
+
+            <TextView
+                android:gravity="center"
+                android:text="M" />
+
+            <TextView
+                android:gravity="center"
+                android:text="T" />
+
+            <TextView
+                android:gravity="center"
+                android:text="W" />
+
+            <TextView
+                android:gravity="center"
+                android:text="T" />
+
+            <TextView
+                android:gravity="center"
+                android:text="F" />
+
+            <TextView
+                android:gravity="center"
+                android:text="S"
+                android:textColor="?attr/colorPrimary" />
+        </TableRow>
+    </TableLayout>
+
+    <GridView
+        android:id="@+id/monthView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffbbbbbb"
+        android:horizontalSpacing="1dp"
+        android:numColumns="7"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="1dp" />
+
+</LinearLayout>

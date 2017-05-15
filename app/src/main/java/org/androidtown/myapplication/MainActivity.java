@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import static android.R.attr.data;
-
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_MENU = 101;
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_monthly);
+            setContentView(R.layout.activity_calendar);
         }
     }
 
