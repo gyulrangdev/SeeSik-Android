@@ -13,10 +13,6 @@ import java.util.Date;
 
 import static android.provider.Telephony.Mms.Part.FILENAME;
 
-/**
- * Created by jaena on 2017-05-09.
- */
-//foodType,foodIndex,foodName,sugar,na,chol,fat
 public class DataBase extends AppCompatActivity{
     SQLiteDatabase foodDB;
     SQLiteDatabase userDB;
@@ -67,6 +63,23 @@ public class DataBase extends AppCompatActivity{
         }
     }
 
+        public String getAllFoodName(){
+
+        String SQL = "select foodName from foodListSample;";
+        Cursor c1 = foodDB.rawQuery(SQL,null);
+        int num = c1.getCount();
+
+        String foodName = "";
+        for(int i=0;i<num;i++)
+        {
+            c1.moveToNext();
+            foodName= foodName+","+c1.getString(0);
+        }
+        c1.close();
+
+        return foodName;
+    }
+    
     public void insertUserInfo(int age, int gender)
     {
         userDB.execSQL("insert into userInfo(age, gender) values ('"+age+"','"+gender+"');");
