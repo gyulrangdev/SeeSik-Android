@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = new DataBase(MainActivity.this);
-        db.createTable();
         evaBtn = (Button) findViewById(R.id.evaluationBtn);
         selectDietBtn = (Button) findViewById(R.id.selectDietBtn);
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
