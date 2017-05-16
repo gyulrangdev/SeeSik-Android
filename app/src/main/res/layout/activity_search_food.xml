@@ -12,6 +12,7 @@
     tools:context="org.androidtown.myapplication.SearchFood">
 
     <EditText
+        android:id="@+id/searchBar"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:hint="search" />

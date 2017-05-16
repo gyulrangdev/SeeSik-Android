@@ -17,8 +17,8 @@
         </activity>
 
         <activity
-            android:name=".DailyEvaluation"
-            android:label="일일 평가"></activity>
+            android:name=".Evaluation"
+            android:label="평가"></activity>
 
         <activity
             android:name=".SearchFood"

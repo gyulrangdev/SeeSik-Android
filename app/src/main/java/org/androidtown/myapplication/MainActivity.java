@@ -55,18 +55,18 @@ public class MainActivity extends AppCompatActivity {
         evaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DailyEvaluation.class);
+                Intent intent = new Intent(getApplicationContext(), Evaluation.class);
                 startActivityForResult(intent, REQUEST_CODE_MENU);
             }
         });
 
-        selectDietBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),SearchFood.class);
-                startActivity(intent);
-            }
-        });
+//        selectDietBtn.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(),SearchFood.class);
+//                startActivity(intent);
+//            }
+//        });
 
         switcher.setFactory(new ViewSwitcher.ViewFactory() {
             public View makeView() {

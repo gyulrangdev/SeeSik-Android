@@ -1,9 +1,14 @@
 package org.androidtown.myapplication.calendar;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -12,7 +17,9 @@ import android.widget.TextView;
 
 import org.androidtown.myapplication.R;
 
-public class Calendar_main extends AppCompatActivity {
+import java.util.zip.Inflater;
+
+public class Calendar_main extends Fragment {
 
     GridView monthView;//월별 캘린더 뷰 객체
 
@@ -24,14 +31,20 @@ public class Calendar_main extends AppCompatActivity {
 
     int curMonth;//현재 월
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_calendar, container, false);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         // 월별 캘린더 뷰 객체 참조
-        monthView = (GridView) findViewById(R.id.monthView);
-        monthViewAdapter = new MonthAdapter(this);
+        monthView = (GridView) view.findViewById(R.id.monthView);
+        monthViewAdapter = new MonthAdapter(getContext());
         monthView.setAdapter(monthViewAdapter);
 
         // 리스너 설정
@@ -47,11 +60,11 @@ public class Calendar_main extends AppCompatActivity {
         });
 
 
-        monthText = (TextView) findViewById(R.id.monthText);
+        monthText = (TextView) view.findViewById(R.id.monthText);
         setMonthText();
 
         // 이전 월로 넘어가는 이벤트 처리
-        ImageButton monthPrevious = (ImageButton) findViewById(R.id.monthPrevious);
+        ImageButton monthPrevious = (ImageButton) view.findViewById(R.id.monthPrevious);
         monthPrevious.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 monthViewAdapter.setPreviousMonth();
@@ -62,7 +75,7 @@ public class Calendar_main extends AppCompatActivity {
         });
 
         // 다음 월로 넘어가는 이벤트 처리
-        ImageButton monthNext = (ImageButton) findViewById(R.id.monthNext);
+        ImageButton monthNext = (ImageButton) view.findViewById(R.id.monthNext);
         monthNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 monthViewAdapter.setNextMonth();
@@ -82,5 +95,4 @@ public class Calendar_main extends AppCompatActivity {
         curMonth = monthViewAdapter.getCurMonth();
         monthText.setText(curYear + "년 " + (curMonth + 1) + "월");
     }
-
 }
