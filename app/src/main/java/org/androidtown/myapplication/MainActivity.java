@@ -60,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        selectDietBtn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(),SearchFood.class);
-//                startActivity(intent);
-//            }
-//        });
+        selectDietBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),SearchFood.class);
+                startActivity(intent);
+            }
+        });
 
         switcher.setFactory(new ViewSwitcher.ViewFactory() {
             public View makeView() {
