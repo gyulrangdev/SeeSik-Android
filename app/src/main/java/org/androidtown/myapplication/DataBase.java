@@ -108,9 +108,9 @@ public class DataBase extends AppCompatActivity {
         }
         c1.close();
 
-        insertItemInDailyIntakeList(foodType, foodIndex);
-        insertItemInIntakeList(sugar, na, chol, fat);
-        // /""+num+" "+foodType+" "+foodIndex+" "+foodName+" "+sugar+" "+na+" "+chol+" "+fat;
+        //insertItemInDailyIntakeList(foodType, foodIndex);
+        //insertItemInIntakeList(sugar, na, chol, fat);
+        return ""+foodType+" "+foodIndex+" "+str+" "+sugar+" "+na+" "+chol+" "+fat;
     }
 
     public void insertItemInDailyIntakeList(int foodType, int foodIndex) {
@@ -123,7 +123,7 @@ public class DataBase extends AppCompatActivity {
         int num = c1.getCount();
 
         if (num == 0) {
-            String SQL1 = "delete * from dailyIntakeList;";
+            String SQL1 = "delete * from dailyIntakeList;"; // 아무것도 없는데 지우려고 하면 오류나
             Cursor c2 = userDB.rawQuery(SQL1, null);
             // dailyIntakeList안에 있는 모든 걸 지워야지
             // 그 다음 새롭게 값을 넣어야지
