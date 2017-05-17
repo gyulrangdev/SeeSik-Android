@@ -29,16 +29,21 @@ public class SearchFood extends AppCompatActivity {
     String [] foodTypeList = {"패스트푸드", "국", "튀김", "디저트","면","고기(족발, 보쌈 등)"};
     String []foodList= {};
 
+    String [] fastFoodList= {"패스트푸드","피자","햄버거","핫도그","핫바","즉석 짜장,카레","삼각김밥","만두"};
+    String [] soupList= {"국","된장국,찌개","김치찌개","국밥"};
+    String [] noodleList= {"면","국수","라면","냉면","우동","자장면","짬뽕"};
+    String [] dessertList = {"디저트","과자","빵","아이스크림","요거트","초콜릿","젤리","주스","커피"};
+    String [] FriedList = {"튀김류","치킨","탕수육","돈까스","강정"};
+    String [] meatList = {"고기류","족발","보쌈","햄,소시지"};
+
     boolean searchFoodFirst = true;// searchfood에 처음으로 들어갈 때 구분 변수
 
-    StringForSearchFood stringFor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_food);
         db = new DataBase(SearchFood.this);
-        stringFor = new StringForSearchFood();
 
         AboutFoodName(SearchFood.this);
         AboutFoodType();
@@ -52,7 +57,7 @@ public class SearchFood extends AppCompatActivity {
 
         if(searchFoodFirst)
         {
-        foodName=db.getAllFoodName();// 모든 string을 db에서 받아와 foodName에 넣음
+            foodName=db.getAllFoodName();// 모든 string을 db에서 받아와 foodName에 넣음
             searchFoodFirst = false;
         }
 
@@ -86,7 +91,7 @@ public class SearchFood extends AppCompatActivity {
         // foodList도 새롭게 바뀜(정확히 말하면 foodList를 구성하는 어레이가 바뀜)
         // foodList종류가 여러가지! 그거 엑셀에 나눠서 분류해서 따로 Listㅇㅇㅇㅇㅇ 해서 정의? 해두자
         foodsearchedList = (ListView)findViewById(R.id.foodList);//  소분류...
-        ArrayAdapter<String> foodListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,foodList);
+        ArrayAdapter<String> foodListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,fastFoodList);
         foodsearchedList.setAdapter(foodListAdapter);
         //이것도 선택되면 intakeList에 자동추가
     }
