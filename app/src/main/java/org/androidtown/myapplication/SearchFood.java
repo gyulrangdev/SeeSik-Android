@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +28,12 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class SearchFood extends AppCompatActivity {
     EditText searchBar;
-    DataBase db;
+    static DataBase db;
 
     ListView foodType;// 대분류
     ListView foodsearchedList; //소분류
     ListView intakeList; // 섭취 리스트
-    intakeListViewAdapter intakeAdapter = new intakeListViewAdapter();//섭취리스트 어댑터
+    intakeListViewAdapter intakeAdapter;//섭취리스트 어댑터
 
     AutoCompleteTextView textView;
 
@@ -40,6 +41,7 @@ public class SearchFood extends AppCompatActivity {
     String [] foodTypeList = {"패스트푸드", "국", "튀김", "디저트","면","고기(족발, 보쌈 등)"};
     String []foodList= {};
 
+    String [] selectedFoodList;
     String [] fastFoodList= {"패스트푸드","피자","햄버거","핫도그","핫바","즉석 짜장,카레","삼각김밥","만두"};
     String [] soupList= {"국","된장국,찌개","김치찌개","국밥"};
     String [] noodleList= {"면","국수","라면","냉면","우동","자장면","짬뽕"};
@@ -55,11 +57,13 @@ public class SearchFood extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_food);
         db = new DataBase(SearchFood.this);
+        intakeAdapter = new intakeListViewAdapter();
+
+        intakeList = (ListView) findViewById(R.id.intakeList);
 
         AboutFoodName(SearchFood.this);
         AboutFoodType();
         AboutFoodList();
-        AboutDailyIntakeList();
     }
 
     public void AboutFoodName(Context context)
@@ -78,16 +82,19 @@ public class SearchFood extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                // 자동완성에서 선택되면
+                // intakeList에 자동추가,
+                // text는 비워짐
                 String str = textView.getText().toString();
-                String temp = db.insertItemInList("foodList",str);
-                Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_LONG).show();
+
+                db.insertItemInList("foodList",str);//오늘 먹은 음식 list에 삽입
+
+                AboutDailyIntakeList(str);
+
+                textView.setText("");
             }
         });
 
-
-        // 자동완성에서 선택되면
-        // intakeList에 자동추가,
-        // text는 비워짐
     }
 
     public void AboutFoodType()
@@ -95,6 +102,8 @@ public class SearchFood extends AppCompatActivity {
         foodType = (ListView)findViewById(R.id.foodType);
         ArrayAdapter<String> foodTypeAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,foodTypeList);
         foodType.setAdapter(foodTypeAdapter);
+
+        selectedFoodList = fastFoodList;
     }
 
     public void AboutFoodList()
@@ -105,15 +114,46 @@ public class SearchFood extends AppCompatActivity {
         ArrayAdapter<String> foodListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,fastFoodList);
         foodsearchedList.setAdapter(foodListAdapter);
         //이것도 선택되면 intakeList에 자동추가
+
+        foodsearchedList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // 자동완성에서 선택되면
+                // intakeList에 자동추가,
+                // text는 비워짐
+
+
+                String str = selectedFoodList[position];
+
+                //한번 이상 클릭한 경우 이미 리스트에 있으므로
+                // 리스트 아이템을 추가하지 않고 times가 1씩 증가
+//                if(str.equals(db.searchFoodName(foodName)))
+//                {
+//                    db.plusTimes(foodName);
+//                }
+//                else {//한번도 안클릭된 아이템인 경우
+                    db.insertItemInList("simpleFoodList",str);//오늘 먹은 음식 list에 삽입
+                    AboutDailyIntakeList(str);
+              //  }
+
+            }
+        });
     }
 
-    public void AboutDailyIntakeList()
+    public void AboutDailyIntakeList(String name)
     {//커스텀 리스트 뷰 사용!
-        intakeList = (ListView) findViewById(R.id.intakeList);//이건 커스텀으로? 넣어야 할 듯....
+       //이건 커스텀으로? 넣어야 할 듯....
 
         intakeList.setAdapter(intakeAdapter);
+        int times = db.getItemTimes(name);
 
-        intakeAdapter.addItem("ASF", "QWEQWE");
+        Log.d("times","times : "+times);
+        intakeAdapter.addItem(name,times);
+    }
+
+    public static DataBase getDBInstance() {
+        return db;
     }
 }
 

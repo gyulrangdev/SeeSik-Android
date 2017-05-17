@@ -1,22 +1,22 @@
 package org.androidtown.myapplication;
 
-        import android.content.Context;
-        import android.content.res.AssetManager;
-        import android.database.Cursor;
-        import android.database.sqlite.SQLiteDatabase;
-        import android.support.v7.app.AppCompatActivity;
-        import android.util.Log;
-        import android.widget.Toast;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
 
-        import java.io.File;
-        import java.io.FileOutputStream;
-        import java.io.InputStream;
-        import java.io.Serializable;
-        import java.text.DateFormat;
-        import java.text.SimpleDateFormat;
-        import java.util.Date;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-        import static android.provider.Telephony.Mms.Part.FILENAME;
+import static android.provider.Telephony.Mms.Part.FILENAME;
 
 
 public class DataBase extends AppCompatActivity {
@@ -36,9 +36,9 @@ public class DataBase extends AppCompatActivity {
     public void createTable() {
         //To create userInfo, intakeList in database
         if (first) {
-        userDB.execSQL("create table if not exists userInfo (age integer, gender integer);");// Create userInfo table
-        userDB.execSQL("create table if not exists dailyIntakeList(date text,times integer,foodName text ,sugar real,chol real,na real,fat real );");// Create intakeList table
-        userDB.execSQL("create table if not exists intakeList(date text, sugar real, chol real, na real, fat real);");
+            userDB.execSQL("create table if not exists userInfo (age integer, gender integer);");// Create userInfo table
+            userDB.execSQL("create table if not exists dailyIntakeList(date text,times integer,foodName text ,sugar real,chol real,na real,fat real );");// Create intakeList table
+            userDB.execSQL("create table if not exists intakeList(date text, sugar real, chol real, na real, fat real);");
             File folder = new File("data/user/0/org.androidtown.myapplication/databases/");
             //에뮬 주소 data/user/0/org.androidtown.myapplication/databases/
             // 기기 주소 data/data/org.androidtown.myapplication/databases/
@@ -122,7 +122,7 @@ public class DataBase extends AppCompatActivity {
         String SQL = "select * from  dailyIntakeList where date = '" + strDate + "';";// 넣기 전, 같은 날짜의 값이 있는지 확인한다. // 후에 검색 초반으로 옮길 수 있으나 현재는 이렇게
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
-            c1.moveToFirst();
+        c1.moveToFirst();
         if (num == 0) {//  같은 날의 값이 없는 경우
             String SQL1 = "select * from dailyIntakeList;"; // 초기 사용시 리스트에는 아무 것도 없으므로 확인
             Cursor c2 = userDB.rawQuery(SQL1, null);
@@ -169,6 +169,32 @@ public class DataBase extends AppCompatActivity {
         userDB.close();
     }
 
+    public void plusTimes(String foodName) {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        int originTimes, newTimes=0;
+        String SQL1 = "SELECT times FROM dailyIntakeList WHERE foodName='"+foodName+"'", SQL2;
+        Cursor cur = userDB.rawQuery(SQL1, null);
+        cur.moveToFirst();
+        originTimes = cur.getInt(0);
+        newTimes = originTimes+1;
+        Log.d("ASD", newTimes+"");
+        SQL2 = "update dailyIntakeList set times ="+newTimes+" where foodName = '"+foodName+"';";
+
+        userDB.execSQL(SQL2);
+    }
+    public void minusTimes(String foodName) {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        int originTimes, newTimes=0;
+        String SQL1 = "SELECT times FROM dailyIntakeList WHERE foodName='"+foodName+"'", SQL2;
+        Cursor cur = userDB.rawQuery(SQL1, null);
+        cur.moveToFirst();
+        originTimes = cur.getInt(0);
+        newTimes = originTimes-1;
+        SQL2 = "update dailyIntakeList set times ="+newTimes+" where foodName = '"+foodName+"';";
+
+        userDB.execSQL(SQL2);
+    }
+
     public void insertItemInIntakeList( double sugar, double na, double chol, double fat) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
@@ -207,6 +233,14 @@ public class DataBase extends AppCompatActivity {
         userDB.close();
     }
 
+    public int getItemTimes(String foodName){
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        String SQL = "select times from dailyIntakeList where foodName = '"+foodName+"';";
+        Cursor c = userDB.rawQuery(SQL,null);
+        c.moveToFirst();
+        userDB.close();
+        return c.getInt(0);
+    }
 
     public void deleteItemInList(String foodName)
     {
@@ -227,11 +261,11 @@ public class DataBase extends AppCompatActivity {
         double fat = 0;
         c1.moveToFirst();
 
-            times = c1.getInt(0);
-            sugar = c1.getDouble(1);
-            na = c1.getDouble(2);
-            chol = c1.getDouble(3);
-            fat = c1.getDouble(4);
+        times = c1.getInt(0);
+        sugar = c1.getDouble(1);
+        na = c1.getDouble(2);
+        chol = c1.getDouble(3);
+        fat = c1.getDouble(4);
 
         if(times==1)// 1? 등록한 걸 없앨경우!
         {
@@ -267,10 +301,10 @@ public class DataBase extends AppCompatActivity {
         double fatTemp = 0;
 
         c1.moveToFirst();
-            sugarTemp = c1.getDouble(1);
-            naTemp = c1.getDouble(2);
-            cholTemp = c1.getDouble(3);
-            fatTemp = c1.getDouble(4);
+        sugarTemp = c1.getDouble(1);
+        naTemp = c1.getDouble(2);
+        cholTemp = c1.getDouble(3);
+        fatTemp = c1.getDouble(4);
 
         Log.d("intakeList","delete before"+c1.getString(0)+" "+sugarTemp+" "+naTemp+" "+cholTemp+" "+fatTemp+"빼야 될 값 ->"+sugar+" "+na+" "+chol+" "+fat+" ");
 
@@ -379,10 +413,10 @@ public class DataBase extends AppCompatActivity {
         double [] value = new double[4];
 
         c1.moveToFirst();
-            value[0] = c1.getDouble(1);
-            value[1] = c1.getDouble(2);
-            value[2] = c1.getDouble(3);
-            value[3] = c1.getDouble(4);
+        value[0] = c1.getDouble(1);
+        value[1] = c1.getDouble(2);
+        value[2] = c1.getDouble(3);
+        value[3] = c1.getDouble(4);
         c1.close();
         //값 비교!
 
