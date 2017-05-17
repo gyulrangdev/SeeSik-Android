@@ -24,10 +24,8 @@ import org.androidtown.myapplication.calendar.Calendar_main;
 import static android.R.attr.name;
 import static android.R.attr.onClick;
 import static org.androidtown.myapplication.R.id.naBar;
-import static org.androidtown.myapplication.R.id.recommendBtn;
 
 public class DailyEvaluation extends Fragment{
-    Button btn;
     LinearLayout mainLayout;
     ProgressDialog dialog;
     Resources res;
@@ -45,16 +43,6 @@ public class DailyEvaluation extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         res=getResources();
         growAnim = AnimationUtils.loadAnimation(getContext(),R.anim.grow);
-
-       btn= (Button) view.findViewById(R.id.recommendBtn);
-      //  btn=(Button) findViewById(R.id.recommendBtn);
-        btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Calendar_main.class);
-                startActivity(intent);
-            }
-        });
 
         ProgressBar naBar = (ProgressBar) view.findViewById(R.id.naBar);
         naBar.setIndeterminate(false);

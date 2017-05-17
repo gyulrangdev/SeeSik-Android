@@ -15,44 +15,15 @@
         android:id="@+id/colorInfoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:layout_gravity="top"
+        android:layout_marginBottom="10dp"
         android:text="Color info." />
-
-    <Button
-        android:id="@+id/selectDietBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="25dp"
-        android:layout_gravity="bottom"
-        android:text="select diet"
-        android:textSize="18sp" />
-
-    <Button
-        android:id="@+id/evaluationBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="200dp"
-        android:text="evaluation"
-        android:textSize="18sp" />
 
     <ImageSwitcher
         android:id="@+id/switcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
-    </ImageSwitcher>
-
-    <ImageView
-        android:id="@+id/nurseWear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/nurse_wear"
-        android:visibility="invisible"
-        />
+        android:layout_gravity="center"></ImageSwitcher>
 
     <TextView
         android:id="@+id/interactText"
@@ -67,8 +38,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
-        app:srcCompat="@drawable/nurse"
-        />
+        app:srcCompat="@drawable/nurse" />
+
+    <ImageButton
+        android:id="@+id/selectDietBtn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        app:srcCompat="@drawable/select_diet_s" />
+
+    <ImageButton
+        android:id="@+id/evaluationBtn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        app:srcCompat="@drawable/daily_evaluation_s" />
+
+    <ImageView
+        android:id="@+id/nurseWear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/nurse_wear"
+        android:visibility="invisible" />
 
 
     <!--<ImageView-->
