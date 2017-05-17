@@ -11,11 +11,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.androidtown.myapplication.SearchFood">
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/searchBar"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:hint="search" />
+        android:hint="search"
+        android:completionThreshold = "3"
+    />
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -26,89 +28,26 @@
         android:layout_alignParentTop="true"
         app:srcCompat="@android:drawable/ic_menu_search" />
 
-    <ScrollView
+    <LinearLayout
         android:id="@+id/table"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
         android:layout_below="@+id/imageButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:stretchColumns="0,1">
-
-            <TableRow
+            <ListView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:text="soup"
-                    android:textSize="18sp" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:text="ramen"
-                    android:textSize="18sp" />
-            </TableRow>
-
-            <TableRow
+                android:layout_height="match_parent"
+                android:id="@+id/foodType"
+                android:layout_weight="2">
+            </ListView>
+            <ListView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:text="snack"
-                    android:textSize="18sp" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:text="beverage"
-                    android:textSize="18sp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:text="fast food"
-                    android:textSize="18sp" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:text="1"
-                    android:textSize="18sp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:text="2"
-                    android:textSize="18sp" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:text="3"
-                    android:textSize="18sp" />
-            </TableRow>
-
-        </TableLayout>
-    </ScrollView>
+                android:layout_height="match_parent"
+                android:id="@+id/foodList"
+                android:layout_weight="1">
+            </ListView>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -118,7 +57,8 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/intakeList">
 
         </ListView>
 
