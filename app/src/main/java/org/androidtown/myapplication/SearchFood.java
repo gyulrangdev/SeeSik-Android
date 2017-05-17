@@ -1,19 +1,29 @@
 package org.androidtown.myapplication;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class SearchFood extends AppCompatActivity {
     EditText searchBar;
@@ -22,6 +32,7 @@ public class SearchFood extends AppCompatActivity {
     ListView foodType;// 대분류
     ListView foodsearchedList; //소분류
     ListView intakeList; // 섭취 리스트
+    intakeListViewAdapter intakeAdapter = new intakeListViewAdapter();//섭취리스트 어댑터
 
     AutoCompleteTextView textView;
 
@@ -99,6 +110,11 @@ public class SearchFood extends AppCompatActivity {
     public void AboutDailyIntakeList()
     {//커스텀 리스트 뷰 사용!
         intakeList = (ListView) findViewById(R.id.intakeList);//이건 커스텀으로? 넣어야 할 듯....
-    }
 
+        intakeList.setAdapter(intakeAdapter);
+
+        intakeAdapter.addItem("ASF", "QWEQWE");
+    }
 }
+
+
