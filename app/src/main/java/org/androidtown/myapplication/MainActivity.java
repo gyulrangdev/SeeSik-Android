@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_MENU = 101;
     ImageButton nurseBtn;
     ImageView nurseView;
-    Button evaBtn;
-    Button selectDietBtn;
+    ImageButton evaBtn;
+    ImageButton selectDietBtn;
     Handler mHandler = new Handler();
     ImageThread thread;
     ImageSwitcher switcher;
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = new DataBase(MainActivity.this);
-        evaBtn = (Button) findViewById(R.id.evaluationBtn);
-        selectDietBtn = (Button) findViewById(R.id.selectDietBtn);
+        evaBtn = (ImageButton) findViewById(R.id.evaluationBtn);
+        selectDietBtn = (ImageButton) findViewById(R.id.selectDietBtn);
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
         nurseBtn = (ImageButton) findViewById(R.id.nurse);
         nurseView = (ImageView) findViewById(R.id.nurseWear);
