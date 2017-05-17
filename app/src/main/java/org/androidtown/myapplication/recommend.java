@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import java.util.zip.Inflater;
 
-public class recommend extends Fragment {// please change this Recommend 
+public class Recommend extends Fragment {// please change this Recommend
 
     @Nullable
     @Override
