@@ -68,15 +68,15 @@ public class SearchFood extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String str = textView.getText().toString();
-                String temp = db.insertItemInList("foodList",str);
-                Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_LONG).show();
+                db.insertItemInList("foodList",str);
+
+                textView.setText("");
+                // 자동완성에서 선택되면
+                // intakeList에 자동추가,
+                // text는 비워짐
             }
         });
 
-
-        // 자동완성에서 선택되면
-        // intakeList에 자동추가,
-        // text는 비워짐
     }
 
     public void AboutFoodType()
@@ -84,6 +84,7 @@ public class SearchFood extends AppCompatActivity {
         foodType = (ListView)findViewById(R.id.foodType);
         ArrayAdapter<String> foodTypeAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,foodTypeList);
         foodType.setAdapter(foodTypeAdapter);
+
     }
 
     public void AboutFoodList()
