@@ -1,24 +1,23 @@
 package org.androidtown.myapplication;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+        import android.content.Context;
+        import android.content.res.AssetManager;
+        import android.database.Cursor;
+        import android.database.sqlite.SQLiteDatabase;
+        import android.support.v7.app.AppCompatActivity;
+        import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+        import java.io.File;
+        import java.io.FileOutputStream;
+        import java.io.InputStream;
+        import java.io.Serializable;
+        import java.text.DateFormat;
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
 
-import static android.provider.Telephony.Mms.Part.FILENAME;
+        import static android.provider.Telephony.Mms.Part.FILENAME;
 
 
-//foodType,foodIndex,foodName,sugar,na,chol,fat
 public class DataBase extends AppCompatActivity {
     SQLiteDatabase foodDB;
     SQLiteDatabase userDB;
@@ -35,14 +34,14 @@ public class DataBase extends AppCompatActivity {
     public void createTable(Context context) {
         //To create userInfo, intakeList in database
         userDB.execSQL("create table if not exists userInfo (age integer, gender integer);");// Create userInfo table
-        userDB.execSQL("create table if not exists dailyIntakeList(date text, foodType int, foodIndex int, times int);");// Create intakeList table
+        userDB.execSQL("create table if not exists dailyIntakeList(date text, times int, foodName text ,sugar real, chol real, na real, fat real );");// Create intakeList table
         userDB.execSQL("create table if not exists intakeList(date text, sugar real, chol real, na real, fat real);");
         if (first) {
-            File folder = new File("data/user/0/org.androidtown.myapplication/databases/");
+            File folder = new File("data/data/org.androidtown.myapplication/databases/");
             //에뮬 주소 data/user/0/org.androidtown.myapplication/databases/
             // 기기 주소 data/data/org.androidtown.myapplication/databases/
             if (!folder.exists()) folder.mkdir();
-            File file = new File("data/user/0/org.androidtown.myapplication/databases/foodList.db");
+            File file = new File("data/data/org.androidtown.myapplication/databases/foodList.db");
             //에뮬 주소data/user/0/org.androidtown.myapplication/databases/foodList.db
             //기기 주소 data/data/org.androidtown.myapplication/databases/foodList.db
             AssetManager assetManager = context.getAssets();
@@ -85,22 +84,18 @@ public class DataBase extends AppCompatActivity {
         return foodName;
     }
 
-    public String insertItemInList(String table,String str) {
+    public void insertItemInList(String table,String str) {
         String SQL = "select * from "+table+" where foodName = '" + str + "';";
         Cursor c1 = foodDB.rawQuery(SQL, null);
 
         int num = c1.getCount();
-        int foodType = 0;
-        int foodIndex = 0;
         double sugar = 0;
         double na = 0;
         double chol = 0;
         double fat = 0;
-
+        // 어차피 name value로 같은 값을 찾기 때문에 따로 복사는 안함
         for (int i = 0; i < num; i++) {
             c1.moveToNext();
-            foodType = c1.getInt(0);
-            foodIndex = c1.getInt(1);
             sugar = c1.getDouble(3);
             na = c1.getDouble(4);
             chol = c1.getDouble(5);
@@ -108,46 +103,56 @@ public class DataBase extends AppCompatActivity {
         }
         c1.close();
 
-        //insertItemInDailyIntakeList(foodType, foodIndex);
-        //insertItemInIntakeList(sugar, na, chol, fat);
-        return ""+foodType+" "+foodIndex+" "+str+" "+sugar+" "+na+" "+chol+" "+fat;
+        insertItemInDailyIntakeList(str,sugar, na, chol, fat);
+        insertItemInIntakeList(sugar, na, chol, fat);
     }
 
-    public void insertItemInDailyIntakeList(int foodType, int foodIndex) {
+    public void insertItemInDailyIntakeList(String foodName, double sugar, double na, double chol, double fat) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
         String strDate = dateFormat.format(date);
 
-        String SQL = "select * from  dailyIntakeList where date = '" + strDate + "';";
+        String SQL = "select * from  dailyIntakeList where date = '" + strDate + "';";// 넣기 전, 같은 날짜의 값이 있는지 확인한다. // 후에 검색 초반으로 옮길 수 있으나 현재는 이렇게
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
 
-        if (num == 0) {
-            String SQL1 = "delete * from dailyIntakeList;"; // 아무것도 없는데 지우려고 하면 오류나
+        if (num == 0) {//  같은 날의 값이 없는 경우
+            String SQL1 = "select * from dailyIntakeList;"; // 초기 사용시 리스트에는 아무 것도 없으므로 확인
             Cursor c2 = userDB.rawQuery(SQL1, null);
-            // dailyIntakeList안에 있는 모든 걸 지워야지
-            // 그 다음 새롭게 값을 넣어야지
-            SQL1 = "insert into dailyIntakeList (date, foodType, foodIndex, times) values('"+strDate+"','"+foodType+"','"+0+"')";
-            c2 = userDB.rawQuery(SQL1, null);
+            int num1 = c2.getCount();
+            if(num==0)
+            {//초기 사용이라면 리스트 안에 값을 넣음
+                SQL1 = "insert into dailyIntakeList (date, times, foodName ,sugar , chol, na , fat) values('"+strDate+"','"+1+"','"+foodName+"','"+sugar+"','"+na+"','"+chol+"','"+fat+"')";
+                c2 = userDB.rawQuery(SQL1, null);
+            }
+            else
+            {//아니라면 새로운 날이므로 모든 리스트에 있는 값을 지운 후 새로운 값을 넣는다
+                SQL1 = "delete * from dailyIntakeList;";
+                c2 = userDB.rawQuery(SQL1, null);
+                // dailyIntakeList안에 있는 모든 걸 지워야지
+                // 그 다음 새롭게 값을 넣어야지
+                SQL1 = "insert into dailyIntakeList (date, times, foodName ,sugar , chol, na , fat) values('"+strDate+"','"+1+"','"+foodName+"','"+sugar+"','"+na+"','"+chol+"','"+fat+"')";
+                c2 = userDB.rawQuery(SQL1, null);
+            }
+
         } else {
             //dailyIntakeList안에 값을 집어 넣어야지
-            //그 전에 푸드 index가 같은게 있나 확인
-            String SQL1 = "select times from  dailyIntakeList where foodIndex = "+foodIndex+ ";";
+            //그 전에 푸드 이름이 같은게 있나 확인
+            String SQL1 = "select times from  dailyIntakeList where foodName = '"+foodName+"';"; // 음식이름이 같은게 있나 확인
             Cursor c2  = userDB.rawQuery(SQL1, null);
             num = c2.getCount();
             c2.moveToNext();
             int time = c2.getInt(0);
             if(num==1) {
                 //있을 시, 횟수 늘려주기
-                SQL1 = "update dailyIntakeList set times ="+(++time)+" where index = "+foodIndex+";";
+                SQL1 = "update dailyIntakeList set times ="+(++time)+" where foodName = "+foodName+";";
                 c2  = userDB.rawQuery(SQL1, null);
             }
-            else {
-                SQL1 = "insert into dailyIntakeList (date, foodType, foodIndex, times) values('"+strDate+"','"+foodType+"','"+0+"')";
+            else { //아무것도 없을 시 새로 값을 넣어줌
+                SQL1 = "insert into dailyIntakeList (date, times, foodName ,sugar , chol, na , fat) values('"+strDate+"','"+1+"','"+foodName+"','"+sugar+"','"+na+"','"+chol+"','"+fat+"')";
                 c2 = userDB.rawQuery(SQL1, null);
             }
         }
-        //date text, foodType int, foodIndex int, times int
     }
 
     public void insertItemInIntakeList( double sugar, double na, double chol, double fat) {
@@ -156,10 +161,212 @@ public class DataBase extends AppCompatActivity {
         Date date = new Date();
         String strDate = dateFormat.format(date);
 
-        // 일단 디비에서 값을 가져와
-        //오늘이랑 날짜 같은게 있나? 봐
-        //없을 시, 새로 insert
-        //있을 시, 값을 거기에 더해
+        String SQL = "select * from  IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인
+        Cursor c1 = userDB.rawQuery(SQL, null);
+        int num = c1.getCount();
+
+        if (num == 0) {
+            String SQL1 = "insert into IntakeList (date, sugar, na, chol, fat) values('"+strDate+"','"+sugar+"','"+na+"','"+chol+"','"+fat+"');"; //아무것도 없다면 그냥 추가
+            Cursor c2 = userDB.rawQuery(SQL1,null);
+        } else {
+            c1.moveToNext();
+            double sugarTemp = c1.getDouble(1);
+            double naTemp = c1.getDouble(2);
+            double cholTemp = c1.getDouble(3);
+            double fatTemp = c1.getDouble(4);
+
+            sugarTemp = sugarTemp + sugar;
+            naTemp = naTemp + na;
+            cholTemp = cholTemp + chol;
+            fatTemp = fatTemp +fat; // 값 업데이트
+
+            String SQL1= "update IntakeList set sugar ="+sugarTemp+", na = "+naTemp+", chol = "+cholTemp+", fatTemp = "+fatTemp+"where date = '"+strDate+"';";// 값 업데이트
+            Cursor c2 = userDB.rawQuery(SQL1,null);
+            c2.close();
+        }
+        c1.close();
     }
 
+
+    public void deleteItemInList(String foodName)
+    {
+        deleteItemInDailyIntakeList(foodName);
+
+    }
+
+    public void deleteItemInDailyIntakeList(String foodName)
+    {
+        String SQL = "select times, sugar, na, chol, fat from  dailyIntakeList where foodName = '" + foodName + "';";
+        Cursor c1 = userDB.rawQuery(SQL, null);
+        int num = c1.getCount();
+        int times=0;
+
+        double sugar = 0;
+        double na = 0;
+        double chol = 0;
+        double fat = 0;
+
+        for (int i = 0; i < num; i++) {
+            c1.moveToNext();
+            times = c1.getInt(0);
+            sugar = c1.getDouble(1);
+            na = c1.getDouble(2);
+            chol = c1.getDouble(3);
+            fat = c1.getDouble(4);
+        }
+
+        if(times==1)// 1? 등록한 걸 없앨경우!
+        {
+            String SQL1 = "delete * from dailyIntakeList where foodName = '"+foodName+"';";
+            Cursor c2 = userDB.rawQuery(SQL1,null);
+            c2.close();
+        }
+        else {// 값을 수정할 경우
+
+            String SQL1= "update IntakeList set fatTemp = "+(--times)+"where foodName = '"+foodName+"';";// 값 업데이트
+            Cursor c2 = userDB.rawQuery(SQL1,null);
+            c2.close();
+
+        }
+        c1.close();
+        deleteItemInIntakeList(sugar,na,chol,fat);
+    }
+
+    public void deleteItemInIntakeList(double sugar, double na, double chol, double fat)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        Date date = new Date();
+        String strDate = dateFormat.format(date);
+        String SQL = "select * from  IntakeList where date = '" + strDate + "';";
+
+        Cursor c1 = userDB.rawQuery(SQL, null);
+        int num = c1.getCount();
+
+        double sugarTemp = 0;
+        double naTemp = 0;
+        double cholTemp = 0;
+        double fatTemp = 0;
+
+        for (int i = 0; i < num; i++) {
+            c1.moveToNext();
+            sugarTemp = c1.getDouble(1);
+            naTemp = c1.getDouble(2);
+            cholTemp = c1.getDouble(3);
+            fatTemp = c1.getDouble(4);
+        }
+
+        sugarTemp = sugarTemp - sugar;
+        naTemp = naTemp - na;
+        cholTemp = cholTemp - chol;
+        fatTemp = fatTemp - fat; // 값 업데이트
+
+        String SQL1= "update IntakeList set sugar ="+sugarTemp+", na = "+naTemp+", chol = "+cholTemp+", fatTemp = "+fatTemp+"where date = '"+strDate+"';";// 값 업데이트
+        Cursor c2 = userDB.rawQuery(SQL1,null);
+        c2.close();
+
+    }
+
+    public double getSugar()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        Date date = new Date();
+        String strDate = dateFormat.format(date);
+        String SQL = "select sugar from  IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인
+
+        Cursor c1 = userDB.rawQuery(SQL, null);
+        int num = c1.getCount();
+        double sugar=0;
+        for (int i = 0; i < num; i++) {
+            c1.moveToNext();
+            sugar = c1.getDouble(0);
+        }
+        c1.close();
+        return sugar;
+    }
+    public double getNa()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        Date date = new Date();
+        String strDate = dateFormat.format(date);
+        String SQL = "select na from  IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인
+
+        Cursor c1 = userDB.rawQuery(SQL, null);
+        int num = c1.getCount();
+        double na=0;
+        for (int i = 0; i < num; i++) {
+            c1.moveToNext();
+            na = c1.getDouble(0);
+        }
+        c1.close();
+        return na;
+    }
+    public double getChol()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        Date date = new Date();
+        String strDate = dateFormat.format(date);
+        String SQL = "select chol from  IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인
+
+        Cursor c1 = userDB.rawQuery(SQL, null);
+        int num = c1.getCount();
+        double chol=0;
+        for (int i = 0; i < num; i++) {
+            c1.moveToNext();
+            chol = c1.getDouble(0);
+        }
+        c1.close();
+        return chol;
+    }
+    public double getFat()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        Date date = new Date();
+        String strDate = dateFormat.format(date);
+        String SQL = "select fat from  IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인
+
+        Cursor c1 = userDB.rawQuery(SQL, null);
+        int num = c1.getCount();
+        double fat=0;
+        for (int i = 0; i < num; i++) {
+            c1.moveToNext();
+            fat = c1.getDouble(0);
+        }
+        c1.close();
+        return fat;
+    }
+
+    public int getHighestValue()
+    {// 1: sugar 2: na 3: chol 4: fat
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        Date date = new Date();
+        String strDate = dateFormat.format(date);
+        String SQL = "select * from  IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인
+
+        Cursor c1 = userDB.rawQuery(SQL, null);
+
+        int high=0;
+
+        int num = c1.getCount();
+        double [] value = new double[4];
+
+        for (int i = 0; i < num; i++) {
+            c1.moveToNext();
+            value[0] = c1.getDouble(1);
+            value[1] = c1.getDouble(2);
+            value[2] = c1.getDouble(3);
+            value[3] = c1.getDouble(4);
+        }
+        c1.close();
+        //값 비교!
+
+        int max = 0;
+
+        for(int i=1 ; i < 4 ;i++)
+        {
+            if(max<value[i])
+                max = i;
+        }
+        return max+1;
+    }
 }
