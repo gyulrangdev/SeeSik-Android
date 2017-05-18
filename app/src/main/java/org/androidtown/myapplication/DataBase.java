@@ -113,7 +113,7 @@ public class DataBase extends AppCompatActivity {
         insertItemInIntakeList(sugar, na, chol, fat);
     }
 
-    public void insertItemInDailyIntakeList(String foodName, double sugar, double na, double chol, double fat) {
+    private void insertItemInDailyIntakeList(String foodName, double sugar, double na, double chol, double fat) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
@@ -135,7 +135,7 @@ public class DataBase extends AppCompatActivity {
             }
             else
             {//아니라면 새로운 날이므로 모든 리스트에 있는 값을 지운 후 새로운 값을 넣는다
-                SQL1 = "delete * from dailyIntakeList;";
+                SQL1 = "delete from dailyIntakeList;";
                 userDB.execSQL(SQL1);
                 // dailyIntakeList안에 있는 모든 걸 지워야지
                 // 그 다음 새롭게 값을 넣어야지
@@ -189,13 +189,13 @@ public class DataBase extends AppCompatActivity {
         Cursor cur = userDB.rawQuery(SQL1, null);
         cur.moveToFirst();
         originTimes = cur.getInt(0);
-        newTimes = originTimes-1;
-        SQL2 = "update dailyIntakeList set times ="+newTimes+" where foodName = '"+foodName+"';";
+            newTimes = originTimes - 1;
+            SQL2 = "update dailyIntakeList set times =" + newTimes + " where foodName = '" + foodName + "';";
 
-        userDB.execSQL(SQL2);
+            userDB.execSQL(SQL2);
     }
 
-    public void insertItemInIntakeList( double sugar, double na, double chol, double fat) {
+    private void insertItemInIntakeList( double sugar, double na, double chol, double fat) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
@@ -247,7 +247,7 @@ public class DataBase extends AppCompatActivity {
         deleteItemInDailyIntakeList(foodName);
     }
 
-    public void deleteItemInDailyIntakeList(String foodName)
+    private void deleteItemInDailyIntakeList(String foodName)
     {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         String SQL = "select times, sugar, na, chol, fat from  dailyIntakeList where foodName = '" + foodName + "';";
@@ -267,24 +267,15 @@ public class DataBase extends AppCompatActivity {
         chol = c1.getDouble(3);
         fat = c1.getDouble(4);
 
-        if(times==1)// 1? 등록한 걸 없앨경우!
-        {
-            Log.d("dailyintakeList","delete"+c1.getString(0)+" "+times+" "+foodName+" "+sugar+" "+na+" "+chol+" "+fat+" ");
-            String SQL1 = "delete * from dailyIntakeList where foodName = '"+foodName+"';";
+            Log.d("dailyintakeList","delete "+c1.getString(0)+" "+times+" "+foodName+" "+sugar+" "+na+" "+chol+" "+fat+" ");
+            String SQL1 = "delete from dailyIntakeList where foodName = '"+foodName+"';";
             userDB.execSQL(SQL1);
-        }
-        else {// 값을 수정할 경우
-            times -=times;
-            String SQL1= "update dailyIntakeList set fat = "+times+" where foodName = '"+foodName+"';";// 값 업데이트
-            Log.d("dailyintakeList","update times"+c1.getString(0)+" "+times+" "+foodName+" "+sugar+" "+na+" "+chol+" "+fat+" ");
-            userDB.execSQL(SQL1);
-        }
         c1.close();
         userDB.close();
         deleteItemInIntakeList(sugar,na,chol,fat);
     }
 
-    public void deleteItemInIntakeList(double sugar, double na, double chol, double fat)
+    private void deleteItemInIntakeList(double sugar, double na, double chol, double fat)
     {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
