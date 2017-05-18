@@ -19,6 +19,7 @@ import static org.androidtown.myapplication.MainActivity.getDBInstance;
 
 public class intakeListViewAdapter extends BaseAdapter {
     private ArrayList<intakeListViewItem> listViewItemList = new ArrayList<intakeListViewItem>();
+
     private static DataBase db;
     TextView intakeItemTxt;
     Button increBtn;
@@ -57,7 +58,6 @@ public class intakeListViewAdapter extends BaseAdapter {
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final intakeListViewItem intakelistViewItem = listViewItemList.get(position);
-
 
         // 아이템 내 각 위젯에 데이터 반영
 //            iconImageView.setImageDrawable(listViewItem.getIcon());
