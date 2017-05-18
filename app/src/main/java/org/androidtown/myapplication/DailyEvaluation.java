@@ -24,12 +24,14 @@ import org.androidtown.myapplication.calendar.Calendar_main;
 import static android.R.attr.name;
 import static android.R.attr.onClick;
 import static org.androidtown.myapplication.R.id.naBar;
+import static org.androidtown.myapplication.SearchFood.db;
 
 public class DailyEvaluation extends Fragment{
     LinearLayout mainLayout;
     ProgressDialog dialog;
     Resources res;
     Animation growAnim;
+    static DataBase db;
 
     @Nullable
     @Override
@@ -43,25 +45,31 @@ public class DailyEvaluation extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         res=getResources();
         growAnim = AnimationUtils.loadAnimation(getContext(),R.anim.grow);
+        db = MainActivity.getDBInstance();
+        double na, chol, fat, sugar;
+        na = db.getNa();
+        chol=db.getChol();
+        fat=db.getFat();
+        sugar=db.getSugar();
 
         ProgressBar naBar = (ProgressBar) view.findViewById(R.id.naBar);
         naBar.setIndeterminate(false);
-        naBar.setProgress(70);
+        naBar.setProgress((int)na);
         naBar.setAnimation(growAnim);
 
         ProgressBar cholBar = (ProgressBar) view.findViewById(R.id.cholBar);
         cholBar.setIndeterminate(false);
-        cholBar.setProgress(80);
+        cholBar.setProgress((int)chol);
         cholBar.setAnimation(growAnim);
 
         ProgressBar fatBar = (ProgressBar) view.findViewById(R.id.fatBar);
         fatBar.setIndeterminate(false);
-        fatBar.setProgress(30);
+        fatBar.setProgress((int)fat);
         fatBar.setAnimation(growAnim);
 
         ProgressBar sugarBar = (ProgressBar) view.findViewById(R.id.sugarBar);
         sugarBar.setIndeterminate(false);
-        sugarBar.setProgress(50);
+        sugarBar.setProgress((int)sugar);
         sugarBar.setAnimation(growAnim);
 
     }

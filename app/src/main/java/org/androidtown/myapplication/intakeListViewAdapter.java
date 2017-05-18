@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static org.androidtown.myapplication.MainActivity.getDBInstance;
+
 /**
  * Created by sohyeon on 2017-05-17.
  */
@@ -25,9 +27,9 @@ public class intakeListViewAdapter extends BaseAdapter {
     TextView intakeNumTxt;
 
     public intakeListViewAdapter() {
-        db = SearchFood.getDBInstance();
+        db = MainActivity.getDBInstance();
     }
-
+//TODO; 베베베베벱새삽이
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
     public int getCount() {

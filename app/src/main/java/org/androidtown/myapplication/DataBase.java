@@ -90,9 +90,9 @@ public class DataBase extends AppCompatActivity {
         return foodName;
     }
 
-    public void insertItemInList(String table,String str) {
+    public void insertItemInList(String table, String str) {
         foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
-        String SQL = "select * from "+table+" where foodName = '" + str + "';";
+        String SQL = "select * from " + table + " where foodName = '" + str + "';";
         Cursor c1 = foodDB.rawQuery(SQL, null);
 
         int num = c1.getCount();
@@ -109,7 +109,7 @@ public class DataBase extends AppCompatActivity {
         c1.close();
         foodDB.close();
 
-        insertItemInDailyIntakeList(str,sugar, na, chol, fat);
+        insertItemInDailyIntakeList(str, sugar, na, chol, fat);
         insertItemInIntakeList(sugar, na, chol, fat);
     }
 
@@ -128,74 +128,71 @@ public class DataBase extends AppCompatActivity {
             Cursor c2 = userDB.rawQuery(SQL1, null);
             int num1 = c2.getCount();
             c2.moveToFirst();
-            if(num1==0)
-            {//초기 사용이라면 리스트 안에 값을 넣음
-                SQL1 = "insert into dailyIntakeList values(\""+strDate+"\","+1+",\""+foodName+"\","+sugar+","+na+","+chol+","+fat+");";
+            if (num1 == 0) {//초기 사용이라면 리스트 안에 값을 넣음
+                SQL1 = "insert into dailyIntakeList values(\"" + strDate + "\"," + 1 + ",\"" + foodName + "\"," + sugar + "," + na + "," + chol + "," + fat + ");";
                 userDB.execSQL(SQL1);
-            }
-            else
-            {//아니라면 새로운 날이므로 모든 리스트에 있는 값을 지운 후 새로운 값을 넣는다
+            } else {//아니라면 새로운 날이므로 모든 리스트에 있는 값을 지운 후 새로운 값을 넣는다
                 SQL1 = "delete from dailyIntakeList;";
                 userDB.execSQL(SQL1);
                 // dailyIntakeList안에 있는 모든 걸 지워야지
                 // 그 다음 새롭게 값을 넣어야지
-                SQL1 = "insert into dailyIntakeList values(\""+strDate+"\","+1+",\""+foodName+"\","+sugar+","+na+","+chol+","+fat+");";
+                SQL1 = "insert into dailyIntakeList values(\"" + strDate + "\"," + 1 + ",\"" + foodName + "\"," + sugar + "," + na + "," + chol + "," + fat + ");";
                 userDB.execSQL(SQL1);
             }
         } else {
             //dailyIntakeList안에 값을 집어 넣어야지
             //그 전에 푸드 이름이 같은게 있나 확인
-            String SQL1 = "select times from  dailyIntakeList where foodName = '"+foodName+"';"; // 음식이름이 같은게 있나 확인
-            Cursor c2  = userDB.rawQuery(SQL1, null);
+            String SQL1 = "select times from  dailyIntakeList where foodName = '" + foodName + "';"; // 음식이름이 같은게 있나 확인
+            Cursor c2 = userDB.rawQuery(SQL1, null);
             num = c2.getCount();
             c2.moveToFirst();
-            if(num==1) {
+            if (num == 1) {
                 //있을 시, 횟수 늘려주기
                 int time = c2.getInt(0);
-                SQL1 = "update dailyIntakeList set times ="+(++time)+" where foodName = '"+foodName+"';";
+                SQL1 = "update dailyIntakeList set times =" + (++time) + " where foodName = '" + foodName + "';";
                 userDB.execSQL(SQL1);
-            }
-            else { //아무것도 없을 시 새로 값을 넣어줌
-                SQL1 = "insert into dailyIntakeList values(\""+strDate+"\","+1+",\""+foodName+"\","+sugar+","+na+","+chol+","+fat+");";
+            } else { //아무것도 없을 시 새로 값을 넣어줌
+                SQL1 = "insert into dailyIntakeList values(\"" + strDate + "\"," + 1 + ",\"" + foodName + "\"," + sugar + "," + na + "," + chol + "," + fat + ");";
                 userDB.execSQL(SQL1);
             }
         }
         //select로 값이 들어갔는지 확인
-        String sql ="select * from dailyIntakeList where foodName = '"+foodName+"';";
-        Cursor c3 = userDB.rawQuery(sql,null);
+        String sql = "select * from dailyIntakeList where foodName = '" + foodName + "';";
+        Cursor c3 = userDB.rawQuery(sql, null);
         int d = c3.getCount();
         c3.moveToFirst();
-        Log.d("dailyintakeList","insert "+c3.getString(0)+" "+c3.getInt(1)+" "+c3.getString(2)+" "+c3.getDouble(3)+" "+c3.getDouble(4)+" "+c3.getDouble(5)+" "+c3.getDouble(6)+" ");
+        Log.d("dailyintakeList", "insert " + c3.getString(0) + " " + c3.getInt(1) + " " + c3.getString(2) + " " + c3.getDouble(3) + " " + c3.getDouble(4) + " " + c3.getDouble(5) + " " + c3.getDouble(6) + " ");
         userDB.close();
     }
 
     public void plusTimes(String foodName) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-        int originTimes, newTimes=0;
-        String SQL1 = "SELECT times FROM dailyIntakeList WHERE foodName='"+foodName+"'", SQL2;
+        int originTimes, newTimes = 0;
+        String SQL1 = "SELECT times FROM dailyIntakeList WHERE foodName='" + foodName + "'", SQL2;
         Cursor cur = userDB.rawQuery(SQL1, null);
         cur.moveToFirst();
         originTimes = cur.getInt(0);
-        newTimes = originTimes+1;
-        Log.d("ASD", newTimes+"");
-        SQL2 = "update dailyIntakeList set times ="+newTimes+" where foodName = '"+foodName+"';";
+        newTimes = originTimes + 1;
+        Log.d("ASD", newTimes + "");
+        SQL2 = "update dailyIntakeList set times =" + newTimes + " where foodName = '" + foodName + "';";
 
         userDB.execSQL(SQL2);
     }
+
     public void minusTimes(String foodName) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-        int originTimes, newTimes=0;
-        String SQL1 = "SELECT times FROM dailyIntakeList WHERE foodName='"+foodName+"'", SQL2;
+        int originTimes, newTimes = 0;
+        String SQL1 = "SELECT times FROM dailyIntakeList WHERE foodName='" + foodName + "'", SQL2;
         Cursor cur = userDB.rawQuery(SQL1, null);
         cur.moveToFirst();
         originTimes = cur.getInt(0);
-            newTimes = originTimes - 1;
-            SQL2 = "update dailyIntakeList set times =" + newTimes + " where foodName = '" + foodName + "';";
+        newTimes = originTimes - 1;
+        SQL2 = "update dailyIntakeList set times =" + newTimes + " where foodName = '" + foodName + "';";
 
-            userDB.execSQL(SQL2);
+        userDB.execSQL(SQL2);
     }
 
-    private void insertItemInIntakeList( double sugar, double na, double chol, double fat) {
+    private void insertItemInIntakeList(double sugar, double na, double chol, double fat) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
@@ -208,7 +205,7 @@ public class DataBase extends AppCompatActivity {
         c1.moveToFirst();
 
         if (num == 0) {
-            String SQL1 = "insert into IntakeList values('"+strDate+"',"+sugar+","+na+","+chol+","+fat+");"; //아무것도 없다면 그냥 추가
+            String SQL1 = "insert into IntakeList values('" + strDate + "'," + sugar + "," + na + "," + chol + "," + fat + ");"; //아무것도 없다면 그냥 추가
             userDB.execSQL(SQL1);
         } else {
             c1.moveToFirst();
@@ -220,40 +217,38 @@ public class DataBase extends AppCompatActivity {
             sugarTemp = sugarTemp + sugar;
             naTemp = naTemp + na;
             cholTemp = cholTemp + chol;
-            fatTemp = fatTemp +fat; // 값 업데이트
+            fatTemp = fatTemp + fat; // 값 업데이트
 
-            String SQL1= "update IntakeList set sugar ="+sugarTemp+", na = "+naTemp+", chol = "+cholTemp+", fat= "+fatTemp+" where date = '"+strDate+"';";// 값 업데이트
+            String SQL1 = "update IntakeList set sugar =" + sugarTemp + ", na = " + naTemp + ", chol = " + cholTemp + ", fat= " + fatTemp + " where date = '" + strDate + "';";// 값 업데이트
             userDB.execSQL(SQL1);
         }
         c1.close();
-        String sql = "select * from IntakeList where date='"+strDate+"';";
-        Cursor c3 = userDB.rawQuery(sql,null);
+        String sql = "select * from IntakeList where date='" + strDate + "';";
+        Cursor c3 = userDB.rawQuery(sql, null);
         c3.moveToFirst();
-        Log.d("dailyintakeList","insert "+c3.getString(0)+c3.getDouble(1)+" "+c3.getDouble(2)+" "+c3.getDouble(3)+" "+c3.getDouble(4)+" ");
+        Log.d("dailyintakeList", "insert " + c3.getString(0) + c3.getDouble(1) + " " + c3.getDouble(2) + " " + c3.getDouble(3) + " " + c3.getDouble(4) + " ");
         userDB.close();
     }
 
-    public int getItemTimes(String foodName){
+    public int getItemTimes(String foodName) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-        String SQL = "select times from dailyIntakeList where foodName = '"+foodName+"';";
-        Cursor c = userDB.rawQuery(SQL,null);
+        String SQL = "select times from dailyIntakeList where foodName = '" + foodName + "';";
+        Cursor c = userDB.rawQuery(SQL, null);
         c.moveToFirst();
         userDB.close();
         return c.getInt(0);
     }
 
-    public void deleteItemInList(String foodName)
-    {
+    public void deleteItemInList(String foodName) {
         deleteItemInDailyIntakeList(foodName);
     }
 
-    private void deleteItemInDailyIntakeList(String foodName)
-    {
+    private void deleteItemInDailyIntakeList(String foodName) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         String SQL = "select times, sugar, na, chol, fat from  dailyIntakeList where foodName = '" + foodName + "';";
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
-        int times=0;
+        int times = 0;
 
         double sugar = 0;
         double na = 0;
@@ -267,16 +262,15 @@ public class DataBase extends AppCompatActivity {
         chol = c1.getDouble(3);
         fat = c1.getDouble(4);
 
-            Log.d("dailyintakeList","delete "+c1.getString(0)+" "+times+" "+foodName+" "+sugar+" "+na+" "+chol+" "+fat+" ");
-            String SQL1 = "delete from dailyIntakeList where foodName = '"+foodName+"';";
-            userDB.execSQL(SQL1);
+        Log.d("dailyintakeList", "delete " + c1.getString(0) + " " + times + " " + foodName + " " + sugar + " " + na + " " + chol + " " + fat + " ");
+        String SQL1 = "delete from dailyIntakeList where foodName = '" + foodName + "';";
+        userDB.execSQL(SQL1);
         c1.close();
         userDB.close();
-        deleteItemInIntakeList(sugar,na,chol,fat);
+        deleteItemInIntakeList(sugar, na, chol, fat);
     }
 
-    private void deleteItemInIntakeList(double sugar, double na, double chol, double fat)
-    {
+    private void deleteItemInIntakeList(double sugar, double na, double chol, double fat) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
@@ -297,7 +291,7 @@ public class DataBase extends AppCompatActivity {
         cholTemp = c1.getDouble(3);
         fatTemp = c1.getDouble(4);
 
-        Log.d("intakeList","delete before"+c1.getString(0)+" "+sugarTemp+" "+naTemp+" "+cholTemp+" "+fatTemp+"빼야 될 값 ->"+sugar+" "+na+" "+chol+" "+fat+" ");
+        Log.d("intakeList", "delete before" + c1.getString(0) + " " + sugarTemp + " " + naTemp + " " + cholTemp + " " + fatTemp + "빼야 될 값 ->" + sugar + " " + na + " " + chol + " " + fat + " ");
 
         sugarTemp = sugarTemp - sugar;
         naTemp = naTemp - na;
@@ -305,18 +299,17 @@ public class DataBase extends AppCompatActivity {
         fatTemp = fatTemp - fat; // 값 업데이트
 
 
-        String SQL1= "update IntakeList set sugar ="+sugarTemp+", na = "+naTemp+", chol = "+cholTemp+", fat = "+fatTemp+" where date = '"+strDate+"';";// 값 업데이트
+        String SQL1 = "update IntakeList set sugar =" + sugarTemp + ", na = " + naTemp + ", chol = " + cholTemp + ", fat = " + fatTemp + " where date = '" + strDate + "';";// 값 업데이트
         userDB.execSQL(SQL1);
 
-        String sql = "select * from IntakeList where date='"+strDate+"';";
-        Cursor c3 = userDB.rawQuery(sql,null);
+        String sql = "select * from IntakeList where date='" + strDate + "';";
+        Cursor c3 = userDB.rawQuery(sql, null);
         c3.moveToFirst();
-        Log.d("intakeList","delete after"+c3.getString(0)+" "+c3.getString(1)+" "+c3.getString(2)+" "+c3.getString(3)+" "+c3.getString(4)+"");
+        Log.d("intakeList", "delete after" + c3.getString(0) + " " + c3.getString(1) + " " + c3.getString(2) + " " + c3.getString(3) + " " + c3.getString(4) + "");
         userDB.close();
     }
 
-    public double getSugar()
-    {
+    public double getSugar() {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
@@ -325,16 +318,20 @@ public class DataBase extends AppCompatActivity {
 
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
-        double sugar=0;
-        c1.moveToFirst();
-        sugar = c1.getDouble(0);
-        c1.close();
-        Log.d("getSugar",""+sugar);
-        userDB.close();
+        double sugar = 0;
+        if (num == 0) {
+            num = 0;
+        } else {
+            c1.moveToFirst();
+            sugar = c1.getDouble(0);
+            c1.close();
+            Log.d("getSugar", "" + sugar);
+            userDB.close();
+        }
         return sugar;
     }
-    public double getNa()
-    {
+
+    public double getNa() {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
@@ -343,16 +340,20 @@ public class DataBase extends AppCompatActivity {
 
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
-        double na=0;
-        c1.moveToFirst();
-        na = c1.getDouble(0);
-        c1.close();
-        Log.d("getNa",""+na);
-        userDB.close();
+        double na;
+        if (num == 0) {
+            na = 0;
+        } else {
+            c1.moveToFirst();
+            na = c1.getDouble(0);
+            c1.close();
+            Log.d("getNa", "" + na);
+            userDB.close();
+        }
         return na;
     }
-    public double getChol()
-    {
+
+    public double getChol() {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
@@ -361,16 +362,20 @@ public class DataBase extends AppCompatActivity {
 
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
-        double chol=0;
-        c1.moveToFirst();
-        chol = c1.getDouble(0);
-        c1.close();
-        Log.d("getChol",""+chol);
-        userDB.close();
+        double chol;
+        if (num == 0) {
+            chol = 0;
+        } else {
+            c1.moveToFirst();
+            chol = c1.getDouble(0);
+            c1.close();
+            Log.d("getChol", "" + chol);
+            userDB.close();
+        }
         return chol;
     }
-    public double getFat()
-    {
+
+    public double getFat() {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
@@ -379,17 +384,20 @@ public class DataBase extends AppCompatActivity {
 
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
-        double fat=0;
-        c1.moveToFirst();
-        fat = c1.getDouble(0);
-        c1.close();
-        Log.d("getFat",""+fat);
-        userDB.close();
+        double fat = 0;
+        if (num == 0) {
+            fat = 0;
+        } else {
+            c1.moveToFirst();
+            fat = c1.getDouble(0);
+            c1.close();
+            Log.d("getFat", "" + fat);
+            userDB.close();
+        }
         return fat;
     }
 
-    public int getHighestValue()
-    {//  return 1: sugar 2: na 3: chol 4: fat
+    public int getHighestValue() {//  return 1: sugar 2: na 3: chol 4: fat
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
@@ -398,10 +406,10 @@ public class DataBase extends AppCompatActivity {
 
         Cursor c1 = userDB.rawQuery(SQL, null);
 
-        int high=0;
+        int high = 0;
 
         int num = c1.getCount();
-        double [] value = new double[4];
+        double[] value = new double[4];
 
         c1.moveToFirst();
         value[0] = c1.getDouble(1);
@@ -413,13 +421,12 @@ public class DataBase extends AppCompatActivity {
 
         int max = 0;
 
-        for(int i=1 ; i < 4 ;i++)
-        {
-            if(max<value[i])
+        for (int i = 1; i < 4; i++) {
+            if (max < value[i])
                 max = i;
         }
-        Log.d("getHighestValue",""+max+"return 1: sugar 2: na 3: chol 4: fat");
+        Log.d("getHighestValue", "" + max + "return 1: sugar 2: na 3: chol 4: fat");
         userDB.close();
-        return max+1;
+        return max + 1;
     }
 }

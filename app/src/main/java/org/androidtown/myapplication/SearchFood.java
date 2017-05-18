@@ -56,7 +56,7 @@ public class SearchFood extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_food);
-        db = new DataBase(SearchFood.this);
+        db = MainActivity.getDBInstance();
         intakeAdapter = new intakeListViewAdapter();
 
         intakeList = (ListView) findViewById(R.id.intakeList);
@@ -152,9 +152,7 @@ public class SearchFood extends AppCompatActivity {
         intakeAdapter.addItem(name,times);
     }
 
-    public static DataBase getDBInstance() {
-        return db;
-    }
+
 }
 
 
