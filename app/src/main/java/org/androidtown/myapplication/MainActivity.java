@@ -46,23 +46,25 @@ public class MainActivity extends AppCompatActivity {
         nurseBtn = (ImageButton) findViewById(R.id.nurse);
         nurseView = (ImageView) findViewById(R.id.nurseWear);
         final Animation ani = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.click_animation);
-
+        final Animation ani2 =  AnimationUtils.loadAnimation(getApplicationContext(),R.anim.click_up_animation);
 
         switcher.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 v.clearAnimation();
               switcher.startAnimation(ani);
+                switcher.startAnimation(ani2);
+
             }
         });
 
         nurseBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(nurseView.getVisibility()==View.INVISIBLE)
-                  nurseView.setVisibility(View.VISIBLE);
-                else
-                    nurseView.setVisibility(View.INVISIBLE);
+                if(nurseView.getVisibility()==View.INVISIBLE) {
+                    nurseView.setVisibility(View.VISIBLE);
+                } else
+                 nurseView.setVisibility(View.INVISIBLE);
             }
         });
 
