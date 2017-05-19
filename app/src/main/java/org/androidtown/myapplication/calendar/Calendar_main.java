@@ -1,5 +1,6 @@
 package org.androidtown.myapplication.calendar;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,14 +23,12 @@ import java.util.zip.Inflater;
 public class Calendar_main extends Fragment {
 
     GridView monthView;//월별 캘린더 뷰 객체
-
     MonthAdapter monthViewAdapter;//월별 캘린터 어댑터
-
     TextView monthText;//월 표시하는 텍스트뷰
-
     int curYear;//현재 연도
-
     int curMonth;//현재 월
+
+    private Context context;
 
     @Nullable
     @Override
@@ -41,10 +40,10 @@ public class Calendar_main extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        context = getActivity().getApplicationContext();
         // 월별 캘린더 뷰 객체 참조
         monthView = (GridView) view.findViewById(R.id.monthView);
-        monthViewAdapter = new MonthAdapter(getContext());
+        monthViewAdapter = new MonthAdapter(context);
         monthView.setAdapter(monthViewAdapter);
 
         // 리스너 설정

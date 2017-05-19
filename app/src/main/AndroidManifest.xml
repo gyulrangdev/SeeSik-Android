@@ -24,9 +24,6 @@
             android:name=".SearchFood"
             android:label="음식 추가"></activity>
 
-        <activity
-            android:name=".calendar.Calendar_main"
-            android:label="월별 평가"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package org.androidtown.myapplication;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class DailyEvaluation extends Fragment{
     Resources res;
     Animation growAnim;
     static DataBase db;
+    private Context context;
 
     @Nullable
     @Override
@@ -40,11 +42,13 @@ public class DailyEvaluation extends Fragment{
         return rootView;
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         res=getResources();
-        growAnim = AnimationUtils.loadAnimation(getContext(),R.anim.grow);
+        context = getActivity().getApplicationContext();
+        growAnim = AnimationUtils.loadAnimation(context,R.anim.grow);
         db = MainActivity.getDBInstance();
         double na, chol, fat, sugar;
         na = db.getNa();

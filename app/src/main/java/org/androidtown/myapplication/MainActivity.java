@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+import static java.security.AccessController.getContext;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
         nurseBtn = (ImageButton) findViewById(R.id.nurse);
         nurseView = (ImageView) findViewById(R.id.nurseWear);
+        final Animation ani = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.click_animation);
+
+
+        switcher.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                v.clearAnimation();
+              switcher.startAnimation(ani);
+            }
+        });
 
         nurseBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -57,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         evaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.clearAnimation();
+                evaBtn.startAnimation(ani);
                 Intent intent = new Intent(getApplicationContext(), Evaluation.class);
                 startActivityForResult(intent, REQUEST_CODE_MENU);
             }
@@ -65,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         selectDietBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                v.clearAnimation();
+                selectDietBtn.startAnimation(ani);
                 Intent intent = new Intent(getApplicationContext(),SearchFood.class);
                 startActivity(intent);
             }
