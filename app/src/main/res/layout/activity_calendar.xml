@@ -3,14 +3,12 @@
     android:id="@+id/activity_calendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#55ffbcb2"
     android:orientation="vertical"
     tools:context="org.androidtown.myapplication.calendar.Calendar_main">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffffff"
         android:weightSum="5">
 
 
@@ -30,11 +28,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="3.00"
-            android:background="#00ffffff"
             android:elevation="1dp"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:text="MonthView"
-            android:textColor="?android:attr/textColorHighlightInverse"
+            android:textColor="#535854"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -51,7 +48,8 @@
     </LinearLayout>
 
     <TableLayout
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:stretchColumns="*">
@@ -59,45 +57,68 @@
         <TableRow>
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="S"
-                android:textColor="@android:color/holo_red_dark" />
+                android:text="SUN"
+                android:textColor="#c33c3c"
+                android:textStyle="normal|bold" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="M" />
+                android:text="MON"
+                android:textStyle="normal|bold" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="T" />
+                android:text="TUE"
+                android:textStyle="normal|bold" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="W" />
+                android:text="WED"
+                android:textStyle="normal|bold" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="T" />
+                android:text="THU"
+                android:textStyle="normal|bold" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="F" />
+                android:text="FRI"
+                android:textStyle="normal|bold" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="S"
-                android:textColor="?attr/colorPrimary" />
+                android:text="SAT"
+                android:textColor="#424c9b"
+                android:textStyle="normal|bold" />
         </TableRow>
     </TableLayout>
 
     <GridView
         android:id="@+id/monthView"
-        android:layout_width="wrap_content"
+        android:padding="3dp"
+        android:layout_gravity="center"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:background="#ffffbcb2"
-        android:horizontalSpacing="1dp"
+        android:horizontalSpacing="3dp"
         android:numColumns="7"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="1dp" />
+        android:verticalSpacing="3dp"
+        android:background="#43885a"/>
 
 </LinearLayout>

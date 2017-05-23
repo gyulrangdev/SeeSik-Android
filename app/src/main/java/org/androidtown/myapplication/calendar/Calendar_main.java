@@ -4,21 +4,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.androidtown.myapplication.R;
 
-import java.util.zip.Inflater;
 
 public class Calendar_main extends Fragment {
 
@@ -92,6 +88,6 @@ public class Calendar_main extends Fragment {
     private void setMonthText() {
         curYear = monthViewAdapter.getCurYear();
         curMonth = monthViewAdapter.getCurMonth();
-        monthText.setText(curYear + "년 " + (curMonth + 1) + "월");
+        monthText.setText(curYear + "년 " + curMonth + "월");
     }
 }

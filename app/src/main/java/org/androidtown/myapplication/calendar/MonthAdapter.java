@@ -1,7 +1,10 @@
 package org.androidtown.myapplication.calendar;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.text.format.Time;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -10,7 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.lang.String;
 
 /**
  * Created by sohyeon on 2017-05-15.
@@ -20,7 +27,6 @@ import java.util.Calendar;
 public class MonthAdapter extends BaseAdapter {
 
     public static final String TAG = "MonthAdapter";
-
     Context mContext;
 
     public static int oddColor = Color.rgb(225, 225, 225);
@@ -41,21 +47,17 @@ public class MonthAdapter extends BaseAdapter {
     int lastDay;
 
     Calendar mCalendar;
-    boolean recreateItems = false;
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd", java.util.Locale.getDefault());
+    Date date = new Date();
+    String[] strDate = dateFormat.format(date).split(" ");
+    int nowYear = Integer.parseInt(strDate[0]);
+    int nowMonth = Integer.parseInt(strDate[1]);
+    int nowDay = Integer.parseInt(strDate[2]);
 
     public MonthAdapter(Context context) {
         super();
-
         mContext = context;
-
-        init();
-    }
-
-    public MonthAdapter(Context context, AttributeSet attrs) {
-        super();
-
-        mContext = context;
-
         init();
     }
 
@@ -77,18 +79,19 @@ public class MonthAdapter extends BaseAdapter {
         // get week day
         int dayOfWeek = mCalendar.get(Calendar.DAY_OF_WEEK);
         firstDay = getFirstDay(dayOfWeek);
-        Log.d(TAG, "firstDay : " + firstDay);
+      //  Log.d(TAG, "firstDay : " + firstDay);
 
         mStartDay = mCalendar.getFirstDayOfWeek();
         curYear = mCalendar.get(Calendar.YEAR);
         curMonth = mCalendar.get(Calendar.MONTH);
         lastDay = getMonthLastDay(curYear, curMonth);
 
-        Log.d(TAG, "curYear : " + curYear + ", curMonth : " + curMonth + ", lastDay : " + lastDay);
+      //  Log.d(TAG, "curYear : " + curYear + ", curMonth : " + curMonth + ", lastDay : " + lastDay);
+       // Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
 
         int diff = mStartDay - Calendar.SUNDAY - 1;
         startDay = getFirstDayOfWeek();
-        Log.d(TAG, "mStartDay : " + mStartDay + ", startDay : " + startDay);
+      //  Log.d(TAG, "mStartDay : " + mStartDay + ", startDay : " + startDay);
 
     }
 
@@ -148,7 +151,7 @@ public class MonthAdapter extends BaseAdapter {
     }
 
     public int getCurMonth() {
-        return curMonth;
+        return curMonth+1;
     }
 
 
@@ -170,9 +173,8 @@ public class MonthAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d(TAG, "getView(" + position + ") called.");
-
         MonthItemView itemView;
+
         if (convertView == null) {
             itemView = new MonthItemView(mContext);
         } else {
@@ -188,30 +190,27 @@ public class MonthAdapter extends BaseAdapter {
         int rowIndex = position / countColumn;
         int columnIndex = position % countColumn;
 
-        Log.d(TAG, "Index : " + rowIndex + ", " + columnIndex);
-
         // set item data and properties
         itemView.setItem(items[position]);
         itemView.setLayoutParams(params);
         itemView.setPadding(2, 2, 2, 2);
 
-        // set properties
-        itemView.setGravity(Gravity.LEFT);
+//        // set properties
+//        itemView.setGravity(Gravity.LEFT);
+//
+//        if (columnIndex == 0) {
+//            itemView.setTextColor(Color.rgb(195,60,60));
+//        } else if(columnIndex == 6){
+//            itemView.setTextColor(Color.rgb(66,76,155));
+//        }
 
-        if (columnIndex == 0) {
-            itemView.setTextColor(Color.RED);
-        } else {
-            itemView.setTextColor(Color.BLACK);
-        }
-
-        // set background color
-        if (position == getSelectedPosition()) {
-             itemView.setBackgroundColor(Color.YELLOW);
+         //set background color
+        if (position == nowDay && getCurMonth()==nowMonth
+                && getCurYear() ==nowYear) {
+             itemView.setBackgroundColor(Color.argb(255, 215, 247, 210));
         } else {
             itemView.setBackgroundColor(Color.WHITE);
         }
-
-
 
 
         return itemView;
