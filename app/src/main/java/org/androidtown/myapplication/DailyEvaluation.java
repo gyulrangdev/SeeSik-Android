@@ -32,6 +32,7 @@ public class DailyEvaluation extends Fragment{
     ProgressDialog dialog;
     Resources res;
     Animation growAnim;
+    TextView recommendText;
     static DataBase db;
     private Context context;
 
@@ -49,12 +50,17 @@ public class DailyEvaluation extends Fragment{
         res=getResources();
         context = getActivity().getApplicationContext();
         growAnim = AnimationUtils.loadAnimation(context,R.anim.grow);
+        recommendText = (TextView) view.findViewById(R.id.recommendText);
         db = MainActivity.getDBInstance();
         double na, chol, fat, sugar;
+
+
         na = db.getNa();
         chol=db.getChol();
         fat=db.getFat();
         sugar=db.getSugar();
+
+        recommendText.setText("Na: "+na+"\nchol: "+chol+"\nfat: "+fat+"\nsugar: "+sugar);
 
         ProgressBar naBar = (ProgressBar) view.findViewById(R.id.naBar);
         naBar.setIndeterminate(false);
