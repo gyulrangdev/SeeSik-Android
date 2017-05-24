@@ -42,12 +42,12 @@ public class SearchFood extends AppCompatActivity {
     String []foodList= {};
 
     String [] selectedFoodList;
-    String [] fastFoodList= {"패스트푸드","피자","햄버거","핫도그","핫바","즉석 짜장,카레","삼각김밥","만두"};
+    String [] fastFoodList= {"패스트푸드","피자","햄버거","핫도그","핫바","즉석짜장,카레","삼각김밥","만두"};
     String [] soupList= {"국","된장국,찌개","김치찌개","국밥"};
     String [] noodleList= {"면","국수","라면","냉면","우동","자장면","짬뽕"};
     String [] dessertList = {"디저트","과자","빵","아이스크림","요거트","초콜릿","젤리","주스","커피"};
-    String [] FriedList = {"튀김류","치킨","탕수육","돈까스","강정"};
-    String [] meatList = {"고기류","족발","보쌈","햄,소시지"};
+    String [] friedList = {"튀김류","치킨","탕수육","돈까스","강정"};
+    String [] meatList = {"고기류","족발","보쌈","햄소시지"};
 
     boolean searchFoodFirst = true;// searchfood에 처음으로 들어갈 때 구분 변수
 
@@ -102,8 +102,14 @@ public class SearchFood extends AppCompatActivity {
         foodType = (ListView)findViewById(R.id.foodType);
         ArrayAdapter<String> foodTypeAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,foodTypeList);
         foodType.setAdapter(foodTypeAdapter);
-
         selectedFoodList = fastFoodList;
+        foodType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                changeRightList(position);
+
+            }
+    });
     }
 
     public void AboutFoodList()
@@ -111,32 +117,16 @@ public class SearchFood extends AppCompatActivity {
         // foodList도 새롭게 바뀜(정확히 말하면 foodList를 구성하는 어레이가 바뀜)
         // foodList종류가 여러가지! 그거 엑셀에 나눠서 분류해서 따로 Listㅇㅇㅇㅇㅇ 해서 정의? 해두자
         foodsearchedList = (ListView)findViewById(R.id.foodList);//  소분류...
-        ArrayAdapter<String> foodListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,fastFoodList);
+        ArrayAdapter<String> foodListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,selectedFoodList);
         foodsearchedList.setAdapter(foodListAdapter);
         //이것도 선택되면 intakeList에 자동추가
 
         foodsearchedList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                // 자동완성에서 선택되면
-                // intakeList에 자동추가,
-                // text는 비워짐
-
-
                 String str = selectedFoodList[position];
-
-                //한번 이상 클릭한 경우 이미 리스트에 있으므로
-                // 리스트 아이템을 추가하지 않고 times가 1씩 증가
-//                if(str.equals(db.searchFoodName(foodName)))
-//                {
-//                    db.plusTimes(foodName);
-//                }
-//                else {//한번도 안클릭된 아이템인 경우
-                    db.insertItemInList("simpleFoodList",str);//오늘 먹은 음식 list에 삽입
-                    AboutDailyIntakeList(str);
-              //  }
-
+                db.insertItemInList("simpleFoodList",str);//오늘 먹은 음식 list에 삽입
+                AboutDailyIntakeList(str);
             }
         });
     }
@@ -147,12 +137,51 @@ public class SearchFood extends AppCompatActivity {
 
         intakeList.setAdapter(intakeAdapter);
         int times = db.getItemTimes(name);
-
         Log.d("times","times : "+times);
         intakeAdapter.addItem(name,times);
     }
 
+    public void changeRightList(int position)
+    {
+        ArrayAdapter<String> fastFoodListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,fastFoodList);
+        ArrayAdapter<String> soupListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,soupList);
+        ArrayAdapter<String> noodleListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,noodleList);
+        ArrayAdapter<String> dessertListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,dessertList);
+        ArrayAdapter<String> friedListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,friedList);
+        ArrayAdapter<String> meatListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,meatList);
+        switch (position)
+        {
+            case 0:
+                selectedFoodList = fastFoodList;
+                foodsearchedList.setAdapter(fastFoodListAdapter);
+                break;
+            case 1:
+                selectedFoodList = soupList;
+                foodsearchedList.setAdapter(soupListAdapter);
+                break;
+            case 2:
+                selectedFoodList = friedList;
+                foodsearchedList.setAdapter(friedListAdapter);
+                break;
+            case 3:
+                selectedFoodList = dessertList;
+                foodsearchedList.setAdapter(dessertListAdapter);
+                break;
+            case 4:
+                selectedFoodList = noodleList;
+                foodsearchedList.setAdapter(noodleListAdapter);
+                break;
+            case 5:
+                selectedFoodList = meatList;
+                foodsearchedList.setAdapter(meatListAdapter);
+                break;
+        default:
+            foodsearchedList.setAdapter(fastFoodListAdapter);
+            break;
+        }
+    }
 
 }
+
 
 
