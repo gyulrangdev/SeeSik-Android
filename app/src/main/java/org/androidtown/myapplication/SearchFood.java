@@ -35,6 +35,7 @@ public class SearchFood extends AppCompatActivity {
     ListView intakeList; // 섭취 리스트
     intakeListViewAdapter intakeAdapter;//섭취리스트 어댑터
 
+
     AutoCompleteTextView textView;
 
     String foodName[]={""};// AutoCompleteTextView 안에 들어갈 String list

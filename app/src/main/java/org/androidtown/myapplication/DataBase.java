@@ -40,12 +40,8 @@ public class DataBase extends AppCompatActivity {
             userDB.execSQL("create table if not exists dailyList(date text,times integer,foodName text ,sugar real,na real,chol real,fat real );");// Create intakeList table
             userDB.execSQL("create table if not exists intakeList(date text, sugar real, na real, chol real, fat real, highestIngredient int);");
             File folder = new File("data/data/org.androidtown.myapplication/databases/");
-            //에뮬 주소 data/user/0/org.androidtown.myapplication/databases/
-            // 기기 주소 data/data/org.androidtown.myapplication/databases/
             if (!folder.exists()) folder.mkdir();
             File file = new File("data/data/org.androidtown.myapplication/databases/foodList.db");
-            //에뮬 주소data/user/0/org.androidtown.myapplication/databases/foodList.db
-            //기기 주소 data/data/org.androidtown.myapplication/databases/foodList.db
             AssetManager assetManager = context.getAssets();
             try {
 
@@ -112,7 +108,6 @@ public class DataBase extends AppCompatActivity {
         insertItemInDailyList(str, sugar, na, chol, fat);
         insertItemInIntakeList(sugar, na, chol, fat);
         calculateHighestIngredient();
-        userDB.close();
     }
 
     private void insertItemInDailyList(String foodName, double sugar, double na, double chol, double fat) {
@@ -430,6 +425,7 @@ public class DataBase extends AppCompatActivity {
         }
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         userDB.execSQL("update intakeList set highestIngredient ="+(highIndex+1)+" where date = '"+strDate+"';");
+        userDB.close();
     }
 
     public int getHighestIngredient() {
