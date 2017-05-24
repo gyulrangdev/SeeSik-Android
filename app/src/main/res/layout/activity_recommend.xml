@@ -18,10 +18,17 @@
         android:textSize="30dp"
         android:gravity="center"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/recommendTitle">
+
     <TextView
         android:layout_below="@id/recommendTitle"
         android:id="@+id/recommendContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="This is a textfield for diet recommendation."/>
+        android:text="This is a textfield for diet recommendation."
+        android:textSize="15dp"/>
+    </ScrollView>
 </RelativeLayout>
