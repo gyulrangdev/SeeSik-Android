@@ -25,7 +25,9 @@ public class Recommend extends Fragment {// please change this Recommend
     TextView recommendContent;
 
     String[] naRecommendFoodList = {"배","바나나", "키위", "검은콩", "감자", "브로콜리", "양파", "고구마", "옥수수", "오이", "시금치", "호두"};
-    int[] naRecommendAmountList = {170, 358, 290, 1240, 396, 316, 146, 337, 287, 147, 558, 441,};
+    int[] naRecommendKaList = {170, 358, 290, 1860, 396, 316, 146, 337, 287, 147, 558, 441,};
+    double [] naRecommendAmountList = { 0.25, 0.5, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 10};
+    String[] naUnitList={"개", "개", "개", "컵", "개", "개", "개", "개", "개", "개", "단", "알"}; //디비가 너무 귀찮았음... 흡 안귀찮을 때 디비로 바꿀게
     String[] cholRecommendFoodList = {"사과", "포도", "옥수수", "우유", "마늘", "부추", "양파", "표고버섯", "당근", "다시마", "아몬드", "굴", "감귤"};
     @Nullable
     @Override
@@ -58,15 +60,15 @@ public class Recommend extends Fragment {// please change this Recommend
             String naComment="<나트륨>\n";
             naComment += "현재 권장량 2000mg 중 "+excessAmount+" mg 초과했습니다.\n\n";
             naComment += naRecommendFoodList[r]+"을(를) 섭취하는 것을 추천합니다.\n";
-            naComment += naRecommendFoodList[r]+"은(는) 100g 당 "+naRecommendAmountList[r]+" mg 만큼의 칼륨 함량을 가지고 있습니다.\n\n";
+            naComment += naRecommendFoodList[r]+"은(는) "+naRecommendAmountList[r]+" "+naUnitList[r]+" 당 "+naRecommendKaList[r]+" mg 만큼의 칼륨 함량을 가지고 있습니다.\n\n";
             naComment +="WTO 에서는 나트륨과 칼륨을 1:1 비율로 섭취하는 것을 권장합니다.\n";
-            int rate=1;
-            if(excessAmount>naRecommendAmountList[r])
+            double rate=1;
+            if(excessAmount>naRecommendKaList[r])
             {
-                rate= excessAmount/naRecommendAmountList[r];
+                rate= excessAmount/naRecommendKaList[r];
             }
             naComment +="초과한 "+excessAmount+" mg 만큼의 칼륨을 섭취하려면\n";
-            naComment +="약 "+rate*100+"g의 "+naRecommendFoodList[r]+"을(를) 섭취하는 것을 추천합니다.\n\n";
+            naComment +="약 "+rate*naRecommendAmountList[r]+" "+naUnitList[r]+"의 "+naRecommendFoodList[r]+"을(를) 섭취하는 것을 추천합니다.\n\n";
             comment += naComment;
         }
         if(chol>600)
