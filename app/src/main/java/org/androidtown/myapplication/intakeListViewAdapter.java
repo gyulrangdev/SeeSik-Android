@@ -77,11 +77,10 @@ public class intakeListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if(intakelistViewItem.getItemNumStr()==1){
-                    db.deleteDailyList(intakelistViewItem.getItemNumStr()+"");
+                    db.deleteDailyList(intakelistViewItem.getItemNameStr());
                 }
                 else if(intakelistViewItem.getItemNumStr()<1)
                 {
-
                 }
                 else {
                     db.minusTimes(intakelistViewItem.getItemNameStr());
@@ -94,7 +93,7 @@ public class intakeListViewAdapter extends BaseAdapter {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.deleteDailyList(intakelistViewItem.getItemNumStr()+"");
+                db.deleteDailyList(intakelistViewItem.getItemNameStr());
             }
         });
 

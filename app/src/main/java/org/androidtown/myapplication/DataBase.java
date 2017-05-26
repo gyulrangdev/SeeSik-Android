@@ -199,7 +199,7 @@ public class DataBase extends AppCompatActivity {
 
     public void deleteDailyList(String foodName) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-        String SQL = "SELECT sugar,na,chol,fat FROM dailyList WHERE foodName='"+foodName +"'";
+        String SQL = "SELECT sugar,na,chol,fat,times FROM dailyList WHERE foodName='"+foodName +"'";
         Cursor c1 = userDB.rawQuery(SQL, null);
 
         double sugar = 0;
@@ -212,6 +212,7 @@ public class DataBase extends AppCompatActivity {
         na = c1.getDouble(1);
         chol = c1.getDouble(2);
         fat = c1.getDouble(3);
+        int times = c1.getInt(4);
 
         String SQL1 = "DELETE FROM dailyList WHERE foodName = '"+ foodName + "';";
         logDailyList("After delete dailyList",foodName);
@@ -219,7 +220,7 @@ public class DataBase extends AppCompatActivity {
         userDB.execSQL(SQL1);
         c1.close();
         userDB.close();
-        deleteIntakeList(sugar, na, chol, fat);
+        deleteIntakeList(sugar, na, chol, fat,times);
     }
 
     public void minusTimes(String foodName) {
@@ -242,10 +243,10 @@ public class DataBase extends AppCompatActivity {
         userDB.execSQL(SQL2);
         userDB.close();
         logDailyList("After minusTime",foodName);
-        deleteIntakeList(sugar,na,chol,fat);
+        deleteIntakeList(sugar,na,chol,fat,1);
     }
 
-    private void deleteIntakeList(double sugar, double na, double chol, double fat) {
+    private void deleteIntakeList(double sugar, double na, double chol, double fat,int times) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
@@ -255,21 +256,21 @@ public class DataBase extends AppCompatActivity {
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
 
-        double newSugar = 0;
-        double newNa = 0;
-        double newChol = 0;
-        double newFat = 0;
+        double originSugar = 0;
+        double originNa = 0;
+        double originChol = 0;
+        double originFat = 0;
 
         c1.moveToFirst();
-        newSugar = c1.getDouble(0);
-        newNa = c1.getDouble(1);
-        newChol = c1.getDouble(2);
-        newFat = c1.getDouble(3);
+        originSugar = c1.getDouble(0);
+        originNa = c1.getDouble(1);
+        originChol = c1.getDouble(2);
+        originFat = c1.getDouble(3);
 
-        newSugar = newSugar - sugar;
-        newNa = newNa - na;
-        newChol = newChol - chol;
-        newFat = newFat - fat; // 값 업데이트
+        double newSugar = originSugar - (sugar*times);
+        double newNa = originNa - (na*times);
+        double newChol = originChol - (chol*times);
+        double newFat = originFat - (fat*times); // 값 업데이트
 
         logIntakeList("Before Delete",today);
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);// 위의 로그 때문에 넣은 것, 같이 지워야 함
@@ -443,7 +444,7 @@ public class DataBase extends AppCompatActivity {
         Cursor c3 = userDB.rawQuery(sql, null);
         int d = c3.getCount();
         c3.moveToFirst();
-        Log.d( state, " 오늘날짜, "+c3.getString(0) + " 횟수, " + c3.getInt(1) + " 음식이름, " + c3.getString(2) + " 당, " + c3.getDouble(3) + " 나트륨, " + c3.getDouble(4) + " 콜레스테롤, " + c3.getDouble(5) + " 포화지방, " + c3.getDouble(6));
+        Log.d( state, " 오늘날짜: "+c3.getString(0) + ", 횟수: " + c3.getInt(1) + " ,음식이름: " + c3.getString(2) + " ,당: " + c3.getDouble(3) + " ,나트륨: " + c3.getDouble(4) + " ,콜레스테롤: " + c3.getDouble(5) + " ,포화지방: " + c3.getDouble(6));
         userDB.close();
     }
 
@@ -454,7 +455,7 @@ public class DataBase extends AppCompatActivity {
         Cursor c3 = userDB.rawQuery(sql, null);
         int d = c3.getCount();
         c3.moveToFirst();
-        Log.d( state, "날짜, "+c3.getString(0) + " ,당 " + c3.getDouble(1) + " 나트륨, " + c3.getDouble(2) + " 콜레스테롤, " + c3.getDouble(3) + " 포화지방, " + c3.getDouble(4) + " "+c3.getInt(5));
+        Log.d( state, "날짜: "+c3.getString(0) + " ,당: " + c3.getDouble(1) + " ,나트륨: " + c3.getDouble(2) + " ,콜레스테롤: " + c3.getDouble(3) + " ,포화지방: " + c3.getDouble(4) + " "+c3.getInt(5));
         userDB.close();
     }
 }
