@@ -11,12 +11,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static android.provider.Telephony.Mms.Part.FILENAME;
 
 
 public class DataBase extends AppCompatActivity {
@@ -86,7 +82,7 @@ public class DataBase extends AppCompatActivity {
         return foodName;
     }
 
-    public void insertItemInList(String table, String str) {
+    public void SearchInDatabase(String table, String str) {
         foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
         String SQL = "select * from " +table + " where foodName = '" + str + "';";
         Cursor c1 = foodDB.rawQuery(SQL, null);
@@ -102,149 +98,109 @@ public class DataBase extends AppCompatActivity {
         na = c1.getDouble(4);
         chol = c1.getDouble(5);
         fat = c1.getDouble(6);
+        Log.d("search in database"," "+c1.getString(2)+" "+c1.getDouble(3)+" "+c1.getDouble(4)+" "+c1.getDouble(5)+" "+c1.getDouble(6));
         c1.close();
         foodDB.close();
-
-        insertItemInDailyList(str, sugar, na, chol, fat);
-        insertItemInIntakeList(sugar, na, chol, fat);
-        calculateHighestIngredient();
+        insertDailyList(str, sugar, na, chol, fat);
     }
 
-    private void insertItemInDailyList(String foodName, double sugar, double na, double chol, double fat) {
+    public void insertDailyList(String foodName, double sugar, double na, double chol, double fat) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
-        String strDate = dateFormat.format(date);
+        String today = dateFormat.format(date);
 
-        String SQL = "select * from  dailyList where date = '" + strDate + "';";// 넣기 전, 같은 날짜의 값이 있는지 확인한다. // 후에 검색 초반으로 옮길 수 있으나 현재는 이렇게
+        String SQL = "SELECT date FROM  dailyList WHERE date = '" + today + "';";// 넣기 전, 같은 날짜의 값이 있는지 확인한다. // 후에 검색 초반으로 옮길 수 있으나 현재는 이렇게
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
         c1.moveToFirst();
-        if (num == 0) {//  같은 날의 값이 없는 경우
-            String SQL1 = "select * from dailyList;"; // 초기 사용시 리스트에는 아무 것도 없으므로 확인
-            Cursor c2 = userDB.rawQuery(SQL1, null);
-            int num1 = c2.getCount();
-            c2.moveToFirst();
-            if (num1 == 0) {//초기 사용이라면 리스트 안에 값을 넣음
-                SQL1 = "insert into dailyList values(\"" + strDate + "\"," + 1 + ",\"" + foodName + "\"," + sugar + "," + na + "," + chol + "," + fat + ");";
-                userDB.execSQL(SQL1);
-            } else {//아니라면 새로운 날이므로 모든 리스트에 있는 값을 지운 후 새로운 값을 넣는다
-                SQL1 = "delete from dailyList;";
-                userDB.execSQL(SQL1);
-                // dailyList안에 있는 모든 걸 지워야지
-                // 그 다음 새롭게 값을 넣어야지
-                SQL1 = "insert into dailyList values(\"" + strDate + "\"," + 1 + ",\"" + foodName + "\"," + sugar + "," + na + "," + chol + "," + fat + ");";
-                userDB.execSQL(SQL1);
-            }
+        if (num == 0) {
+            String SQL1 = "INSERT INTO dailyList VALUES('" + today + "'," + 1 + ",'" + foodName + "'," + sugar + "," + na + "," + chol + "," + fat + ");";
+            userDB.execSQL(SQL1);
         } else {
-            //dailyList안에 값을 집어 넣어야지
-            //그 전에 푸드 이름이 같은게 있나 확인
-            String SQL1 = "select times from  dailyList where foodName = '" + foodName + "';"; // 음식이름이 같은게 있나 확인
+            String SQL1 = "SELECT times from  dailyList where foodName = '" + foodName + "';"; // 음식이름이 같은게 있나 확인
             Cursor c2 = userDB.rawQuery(SQL1, null);
             num = c2.getCount();
             c2.moveToFirst();
             if (num == 1) {
-                //있을 시, 횟수 늘려주기
-                int time = c2.getInt(0);
-                SQL1 = "update dailyList set times =" + (++time) + " where foodName = '" + foodName + "';";
-                userDB.execSQL(SQL1);
-            } else { //아무것도 없을 시 새로 값을 넣어줌
-                SQL1 = "insert into dailyList values(\"" + strDate + "\"," + 1 + ",\"" + foodName + "\"," + sugar + "," + na + "," + chol + "," + fat + ");";
-                userDB.execSQL(SQL1);
+                int originTimes = c2.getInt(0);
+                int newTimes = originTimes +1;
+                String SQL2 = "UPDATE dailyList SET times =" + newTimes + " WHERE foodName = '" + foodName + "';";
+                userDB.execSQL(SQL2);
+            } else {
+                String SQL2 = "INSERT INTO dailyList VALUES('" + today + "'," + 1 + ",'" + foodName + "'," + sugar + "," + na + "," + chol + "," + fat + ");";
+                userDB.execSQL(SQL2);
             }
         }
-        //select로 값이 들어갔는지 확인
-        String sql = "select * from dailyList where foodName = '" + foodName + "';";
-        Cursor c3 = userDB.rawQuery(sql, null);
-        int d = c3.getCount();
-        c3.moveToFirst();
-        Log.d("dailyList", "insert " + c3.getString(0) + " " + c3.getInt(1) + " " + c3.getString(2) + " " + c3.getDouble(3) + " " + c3.getDouble(4) + " " + c3.getDouble(5) + " " + c3.getDouble(6) + " ");
+        logDailyList("insert dailyList",foodName);
+        insertIntakeList(sugar,na,chol,fat);
     }
 
     public void plusTimes(String foodName) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         int originTimes, newTimes = 0;
-        String SQL1 = "SELECT times FROM dailyList WHERE foodName='" + foodName + "'", SQL2;
+        double sugar, na, chol, fat;
+        String SQL1 = "SELECT * FROM dailyList WHERE foodName='" + foodName + "'", SQL2;
         Cursor cur = userDB.rawQuery(SQL1, null);
         cur.moveToFirst();
-        originTimes = cur.getInt(0);
+
+        originTimes = cur.getInt(1);
+        sugar = cur.getDouble(3);
+        na = cur.getDouble(4);
+        chol = cur.getDouble(5);
+        fat = cur.getDouble(6);
+
         newTimes = originTimes + 1;
         Log.d("ASD", newTimes + "");
-        SQL2 = "update dailyList set times =" + newTimes + " where foodName = '" + foodName + "';";
+        SQL2 = "UPDATE dailyList SET times =" + newTimes + " WHERE foodName = '" + foodName + "';";
 
         userDB.execSQL(SQL2);
+        userDB.close();
+        logDailyList("plusTimes",foodName);
+        insertIntakeList(sugar,na,chol,fat);
     }
 
-    public void minusTimes(String foodName) {
+
+    private void insertIntakeList(double sugar, double na, double chol, double fat) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-        int originTimes, newTimes = 0;
-        String SQL1 = "SELECT times FROM dailyList WHERE foodName='" + foodName + "'", SQL2;
-        Cursor cur = userDB.rawQuery(SQL1, null);
-        cur.moveToFirst();
-        originTimes = cur.getInt(0);
-        newTimes = originTimes - 1;
-        SQL2 = "update dailyList set times =" + newTimes + " where foodName = '" + foodName + "';";
-
-        userDB.execSQL(SQL2);
-    }
-
-    private void insertItemInIntakeList(double sugar, double na, double chol, double fat) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
-        String strDate = dateFormat.format(date);
+        String today = dateFormat.format(date);
 
-        String SQL = "select * from  IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인
+        String SQL = "SELECT sugar, na, chol, fat from  IntakeList WHERE date = '" + today + "';";
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
 
         c1.moveToFirst();
 
         if (num == 0) {
-            String SQL1 = "insert into IntakeList values('" + strDate + "'," + sugar + "," + na + "," + chol + "," + fat + "," + 0+");"; //아무것도 없다면 그냥 추가
+            String SQL1 = "INSERT INTO IntakeList VALUES('" + today + "'," + sugar + "," + na + "," + chol + "," + fat + "," + 0+");";
             userDB.execSQL(SQL1);
         } else {
             c1.moveToFirst();
-            double sugarTemp = c1.getDouble(1);
-            double naTemp = c1.getDouble(2);
-            double cholTemp = c1.getDouble(3);
-            double fatTemp = c1.getDouble(4);
+            double newSugar = c1.getDouble(0);
+            double newNa = c1.getDouble(1);
+            double newChol = c1.getDouble(2);
+            double newFat = c1.getDouble(3);
 
-            sugarTemp = sugarTemp + sugar;
-            naTemp = naTemp + na;
-            cholTemp = cholTemp + chol;
-            fatTemp = fatTemp + fat; // 값 업데이트
+            newSugar = newSugar + sugar;
+            newNa = newNa + na;
+            newChol = newChol + chol;
+            newFat = newFat + fat; // 값 업데이트
 
-            String SQL1 = "update IntakeList set sugar =" + sugarTemp + ", na = " + naTemp + ", chol = " + cholTemp + ", fat= " + fatTemp + " where date = '" + strDate + "';";// 값 업데이트
+            String SQL1 = "UPDATE IntakeList SET sugar =" + newSugar + ", na = " + newNa + ", chol = " + newChol + ", fat= " + newFat + " WHERE date = '" + today + "';";
             userDB.execSQL(SQL1);
         }
         c1.close();
-        String sql = "select * from IntakeList where date='" + strDate + "';";
-        Cursor c3 = userDB.rawQuery(sql, null);
-        c3.moveToFirst();
-        Log.d("dailyList", "insert " + c3.getString(0) + c3.getDouble(1) + " " + c3.getDouble(2) + " " + c3.getDouble(3) + " " + c3.getDouble(4) + " "+c3.getInt(5));
-    }
-
-    public int getItemTimes(String foodName) {
-        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-        String SQL = "select times from dailyList where foodName = '" + foodName + "';";
-        Cursor c = userDB.rawQuery(SQL, null);
-        c.moveToFirst();
         userDB.close();
-        return c.getInt(0);
-    }
-
-    public void deleteItemInList(String foodName) {
-
-        deleteItemInDailyList(foodName);
+        logIntakeList("insert IntakeList",today);
         calculateHighestIngredient();
     }
 
-    private void deleteItemInDailyList(String foodName) {
+    public void deleteDailyList(String foodName) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-        String SQL = "select times, sugar, na, chol, fat from  dailyList where foodName = '" + foodName + "';";
+        String SQL = "SELECT sugar,na,chol,fat FROM dailyList WHERE foodName='"+foodName +"'";
         Cursor c1 = userDB.rawQuery(SQL, null);
-        int num = c1.getCount();
-        int times = 0;
 
         double sugar = 0;
         double na = 0;
@@ -252,57 +208,84 @@ public class DataBase extends AppCompatActivity {
         double fat = 0;
         c1.moveToFirst();
 
-        times = c1.getInt(0);
-        sugar = c1.getDouble(1);
-        na = c1.getDouble(2);
-        chol = c1.getDouble(3);
-        fat = c1.getDouble(4);
+        sugar = c1.getDouble(0);
+        na = c1.getDouble(1);
+        chol = c1.getDouble(2);
+        fat = c1.getDouble(3);
 
-        Log.d("dailyList", "delete " + c1.getString(0) + " " + times + " " + foodName + " " + sugar + " " + na + " " + chol + " " + fat + " ");
-        String SQL1 = "delete from dailyList where foodName = '" + foodName + "';";
+        String SQL1 = "DELETE FROM dailyList WHERE foodName = '"+ foodName + "';";
+        logDailyList("After delete dailyList",foodName);
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         userDB.execSQL(SQL1);
         c1.close();
         userDB.close();
-        deleteItemInIntakeList(sugar, na, chol, fat);
+        deleteIntakeList(sugar, na, chol, fat);
     }
 
-    private void deleteItemInIntakeList(double sugar, double na, double chol, double fat) {
+    public void minusTimes(String foodName) {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        int originTimes, newTimes = 0;
+        double sugar, na, chol, fat;
+        String SQL1 = "SELECT times,sugar,na,chol,fat FROM dailyList WHERE foodName='" + foodName + "'", SQL2;
+        Cursor cur = userDB.rawQuery(SQL1, null);
+        cur.moveToFirst();
+
+        originTimes = cur.getInt(0);
+        sugar = cur.getDouble(1);
+        na = cur.getDouble(2);
+        chol = cur.getDouble(3);
+        fat = cur.getDouble(4);
+
+        newTimes = originTimes - 1;
+        Log.d("ASD", newTimes + "");
+        SQL2 = "UPDATE dailyList SET times =" + newTimes + " WHERE foodName = '" + foodName + "';";
+        userDB.execSQL(SQL2);
+        userDB.close();
+        logDailyList("After minusTime",foodName);
+        deleteIntakeList(sugar,na,chol,fat);
+    }
+
+    private void deleteIntakeList(double sugar, double na, double chol, double fat) {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
-        String strDate = dateFormat.format(date);
-        String SQL = "select * from  IntakeList where date = '" + strDate + "';";
+        String today = dateFormat.format(date);
+        String SQL = "SELECT sugar, na, chol, fat FROM IntakeList WHERE date = '" + today + "';";
 
         Cursor c1 = userDB.rawQuery(SQL, null);
         int num = c1.getCount();
 
-        double sugarTemp = 0;
-        double naTemp = 0;
-        double cholTemp = 0;
-        double fatTemp = 0;
+        double newSugar = 0;
+        double newNa = 0;
+        double newChol = 0;
+        double newFat = 0;
 
         c1.moveToFirst();
-        sugarTemp = c1.getDouble(1);
-        naTemp = c1.getDouble(2);
-        cholTemp = c1.getDouble(3);
-        fatTemp = c1.getDouble(4);
+        newSugar = c1.getDouble(0);
+        newNa = c1.getDouble(1);
+        newChol = c1.getDouble(2);
+        newFat = c1.getDouble(3);
 
-        Log.d("intakeList", "delete before" + c1.getString(0) + " " + sugarTemp + " " + naTemp + " " + cholTemp + " " + fatTemp + "빼야 될 값 ->" + sugar + " " + na + " " + chol + " " + fat + " ");
+        newSugar = newSugar - sugar;
+        newNa = newNa - na;
+        newChol = newChol - chol;
+        newFat = newFat - fat; // 값 업데이트
 
-        sugarTemp = sugarTemp - sugar;
-        naTemp = naTemp - na;
-        cholTemp = cholTemp - chol;
-        fatTemp = fatTemp - fat; // 값 업데이트
-
-
-        String SQL1 = "update IntakeList set sugar =" + sugarTemp + ", na = " + naTemp + ", chol = " + cholTemp + ", fat = " + fatTemp + " where date = '" + strDate + "';";// 값 업데이트
+        logIntakeList("Before Delete",today);
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);// 위의 로그 때문에 넣은 것, 같이 지워야 함
+        String SQL1 = "UPDATE IntakeList SET sugar =" + newSugar + ", na = " + newNa + ", chol = " + newChol + ", fat = " + newFat + " WHERE date = '" +today + "';";// 값 업데이트
         userDB.execSQL(SQL1);
-
-        String sql = "select * from IntakeList where date='" + strDate + "';";
-        Cursor c3 = userDB.rawQuery(sql, null);
-        c3.moveToFirst();
-        Log.d("intakeList", "delete after" + c3.getString(0) + " " + c3.getString(1) + " " + c3.getString(2) + " " + c3.getString(3) + " " + c3.getString(4) + "");
+        logIntakeList("After Delete",today);
         userDB.close();
+    }
+
+    public int getItemTimes(String foodName) {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        String SQL = "SELECT times FROM dailyList WHERE foodName = '" + foodName + "';";
+        Cursor c = userDB.rawQuery(SQL, null);
+        c.moveToFirst();
+        userDB.close();
+        return c.getInt(0);
     }
 
     public double getSugar() {
@@ -442,6 +425,37 @@ public class DataBase extends AppCompatActivity {
         int ingredient = c1.getInt(0);
         userDB.close();
         return ingredient;
+    }
+
+    public void resetDailyList()//Search Food에 들어갈 때마다 비교해 봐야 할 것 같당
+    {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        String SQL;
+        SQL = "DELETE FROM dailyList;";
+        userDB.execSQL(SQL);
+        userDB.close();
+    }
+
+    public void logDailyList(String state,String foodName)
+    {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        String sql = "SELECT * FROM dailyList WHERE foodName = '" + foodName + "';";
+        Cursor c3 = userDB.rawQuery(sql, null);
+        int d = c3.getCount();
+        c3.moveToFirst();
+        Log.d( state, " 오늘날짜, "+c3.getString(0) + " 횟수, " + c3.getInt(1) + " 음식이름, " + c3.getString(2) + " 당, " + c3.getDouble(3) + " 나트륨, " + c3.getDouble(4) + " 콜레스테롤, " + c3.getDouble(5) + " 포화지방, " + c3.getDouble(6));
+        userDB.close();
+    }
+
+    public void logIntakeList(String state,String date)
+    {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        String sql = "SELECT * FROM intakeList WHERE date = '" + date + "';";
+        Cursor c3 = userDB.rawQuery(sql, null);
+        int d = c3.getCount();
+        c3.moveToFirst();
+        Log.d( state, "날짜, "+c3.getString(0) + " ,당 " + c3.getDouble(1) + " 나트륨, " + c3.getDouble(2) + " 콜레스테롤, " + c3.getDouble(3) + " 포화지방, " + c3.getDouble(4) + " "+c3.getInt(5));
+        userDB.close();
     }
 }
 

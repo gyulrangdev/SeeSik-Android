@@ -1,7 +1,6 @@
 package org.androidtown.myapplication;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import static org.androidtown.myapplication.MainActivity.getDBInstance;
 
 /**
  * Created by sohyeon on 2017-05-17.
@@ -79,17 +76,25 @@ public class intakeListViewAdapter extends BaseAdapter {
         decreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.minusTimes(intakelistViewItem.getItemNameStr());
-                intakelistViewItem.setItemNumStr(db.getItemTimes(_foodName));
-                intakeNumTxt.setText(intakelistViewItem.getItemNumStr()+"");
+                if(intakelistViewItem.getItemNumStr()==1){
+                    db.deleteDailyList(intakelistViewItem.getItemNumStr()+"");
+                }
+                else if(intakelistViewItem.getItemNumStr()<1)
+                {
+
+                }
+                else {
+                    db.minusTimes(intakelistViewItem.getItemNameStr());
+                    intakelistViewItem.setItemNumStr(db.getItemTimes(_foodName));
+                    intakeNumTxt.setText(intakelistViewItem.getItemNumStr() + "");
+                }
             }
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // db.deleteItemInDailyIntakeList();
-
+                db.deleteDailyList(intakelistViewItem.getItemNumStr()+"");
             }
         });
 
