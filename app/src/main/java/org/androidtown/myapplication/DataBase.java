@@ -382,7 +382,6 @@ public class DataBase extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
         String strDate = dateFormat.format(date);
-
         double ingredient[] = new double[4]; //1 : Na 2: fat 3: chol 4: sugar
         ingredient[0] = getNa();
         ingredient[1] = getFat();
@@ -412,20 +411,23 @@ public class DataBase extends AppCompatActivity {
         userDB.close();
     }
 
-    public int getHighestIngredient() {
-        //return 1 : Na 2: fat 3: chol 4: sugar
+    public int getHighestIngredient(String strDate) {
+        //return 1:Na  2:fat  3:chol  4:sugar
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
-        Date date = new Date();
-        String strDate = dateFormat.format(date);
-        String SQL = "select highestIngredient from  IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인
 
+        Log.d("날짜 어떻게 넘어갔나", strDate);
+        String SQL = "select highestIngredient from IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인
         Cursor c1 = userDB.rawQuery(SQL, null);
 
-        c1. moveToFirst();
-        int ingredient = c1.getInt(0);
-        userDB.close();
-        return ingredient;
+        if(c1.getCount()==0)
+            return 0;
+        else {
+            c1.moveToFirst();
+            int ingredient = c1.getInt(0);
+            userDB.close();
+            return ingredient;
+        }
+
     }
 
     public void resetDailyList()//Search Food에 들어갈 때마다 비교해 봐야 할 것 같당
@@ -455,7 +457,7 @@ public class DataBase extends AppCompatActivity {
         Cursor c3 = userDB.rawQuery(sql, null);
         int d = c3.getCount();
         c3.moveToFirst();
-        Log.d( state, "날짜: "+c3.getString(0) + " ,당: " + c3.getDouble(1) + " ,나트륨: " + c3.getDouble(2) + " ,콜레스테롤: " + c3.getDouble(3) + " ,포화지방: " + c3.getDouble(4) + " "+c3.getInt(5));
+        Log.d( state, "날짜: "+c3.getString(0) + " ,당: " + c3.getDouble(1) + " ,나트륨: " + c3.getDouble(2) + " ,콜레스테롤: " + c3.getDouble(3) + " ,포화지방: " + c3.getDouble(4) + " 초과한성분"+c3.getInt(5));
         userDB.close();
     }
 }

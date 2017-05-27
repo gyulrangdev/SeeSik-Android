@@ -20,10 +20,10 @@ import static org.androidtown.myapplication.R.id.textView;
  */
 
 //일(day)에 표시하는 텍스트뷰 정의
-public class MonthItemView  extends View {
+public class MonthItemView extends AppCompatTextView {
 
     private MonthItem item;
-    private Canvas canvas = new Canvas();
+
     public MonthItemView(Context context) {
         super(context);
 
@@ -34,38 +34,21 @@ public class MonthItemView  extends View {
 
     }
 
-    protected void onDraw(Canvas canvas){
-        int day = item.getDay();
-        if(day==0){
-
-        }
-        else {
-            Paint pnt = new Paint();
-            pnt.setColor(Color.BLUE);
-            canvas.drawCircle(90, 60, 32, pnt);
-
-            pnt.setColor(Color.BLACK);
-            pnt.setAntiAlias(true);
-
-            pnt.setTypeface(Typeface.create((String)null, Typeface.BOLD));
-            pnt.setTextSize(35);
-
-            String dayStr = day + "";
-            canvas.drawText(dayStr, 10, 38, pnt);
-        }
-    }
-    private void init() {
-        setBackgroundColor(Color.WHITE);
-    }
-
-
     public MonthItem getItem() {
         return item;
     }
 
     public void setItem(MonthItem item) {
         this.item = item;
-    }
 
+        int day = item.getDay();
+        if (day != 0) {
+            setText(" "+String.valueOf(day));
+            setTypeface(Typeface.DEFAULT_BOLD);
+        } else {
+            setText("");
+        }
+
+    }
 
 }

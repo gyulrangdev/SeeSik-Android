@@ -14,6 +14,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
+import org.androidtown.myapplication.DataBase;
+import org.androidtown.myapplication.MainActivity;
+import org.androidtown.myapplication.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,17 +30,24 @@ import java.lang.String;
 //어댑터 객체 정의
 public class MonthAdapter extends BaseAdapter {
 
+    DataBase db;
+
+    // indredient color
+    int[] indiredient = new int[] {
+            Color.WHITE,
+            Color.rgb(255, 213, 0),
+            Color.rgb(153, 204, 0),
+            Color.rgb(0, 221, 255),
+            Color.rgb(170, 102, 204)
+    };
+
     public static final String TAG = "MonthAdapter";
     Context mContext;
 
     public static int oddColor = Color.rgb(225, 225, 225);
     public static int headColor = Color.rgb(12, 32, 158);
 
-    private int selectedPosition = -1;
-
     private MonthItem[] items;
-
-    private int countColumn = 7;
 
     int mStartDay;
     int startDay;
@@ -58,6 +69,7 @@ public class MonthAdapter extends BaseAdapter {
     public MonthAdapter(Context context) {
         super();
         mContext = context;
+        db = MainActivity.getDBInstance();
         init();
     }
 
@@ -67,7 +79,6 @@ public class MonthAdapter extends BaseAdapter {
         mCalendar = Calendar.getInstance();
         recalculate();
         resetDayNumbers();
-        selectedPosition=-1;
 
     }
 
@@ -86,10 +97,9 @@ public class MonthAdapter extends BaseAdapter {
         curMonth = mCalendar.get(Calendar.MONTH);
         lastDay = getMonthLastDay(curYear, curMonth);
 
-      //  Log.d(TAG, "curYear : " + curYear + ", curMonth : " + curMonth + ", lastDay : " + lastDay);
-       // Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
+        Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
 
-        int diff = mStartDay - Calendar.SUNDAY - 1;
+       // int diff = mStartDay - Calendar.SUNDAY - 1;
         startDay = getFirstDayOfWeek();
       //  Log.d(TAG, "mStartDay : " + mStartDay + ", startDay : " + startDay);
 
@@ -100,7 +110,6 @@ public class MonthAdapter extends BaseAdapter {
         recalculate();
 
         resetDayNumbers();
-        selectedPosition = -1;
     }
 
     public void setNextMonth() {
@@ -108,7 +117,6 @@ public class MonthAdapter extends BaseAdapter {
         recalculate();
 
         resetDayNumbers();
-        selectedPosition = -1;
     }
 
     public void resetDayNumbers() {
@@ -154,17 +162,11 @@ public class MonthAdapter extends BaseAdapter {
         return curMonth+1;
     }
 
-
-    public int getNumColumns() {
-        return 7;
-    }
-
     public int getCount() {
         return 7 * 6;
     }
 
     public Object getItem(int position) {
-        setSelectedPosition(position);
         return items[position];
     }
 
@@ -174,6 +176,9 @@ public class MonthAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         MonthItemView itemView;
+
+        Log.d(TAG, "curYear : " + getCurYear() + ", curMonth : " + getCurMonth()+ " curDay: "+position+" curMonthLastDay: "+lastDay);
+        Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
 
         if (convertView == null) {
             itemView = new MonthItemView(mContext);
@@ -186,34 +191,52 @@ public class MonthAdapter extends BaseAdapter {
                 GridView.LayoutParams.MATCH_PARENT,
                 120);
 
-        // calculate row and column
-        int rowIndex = position / countColumn;
-        int columnIndex = position % countColumn;
-
         // set item data and properties
         itemView.setItem(items[position]);
         itemView.setLayoutParams(params);
         itemView.setPadding(2, 2, 2, 2);
 
-//        // set properties
-//        itemView.setGravity(Gravity.LEFT);
-//
-//        if (columnIndex == 0) {
-//            itemView.setTextColor(Color.rgb(195,60,60));
-//        } else if(columnIndex == 6){
-//            itemView.setTextColor(Color.rgb(66,76,155));
-//        }
+        // set properties
+        itemView.setGravity(Gravity.LEFT);
+        itemView.setBackgroundColor(Color.WHITE);
+        itemView.setTextColor(Color.BLACK);
 
-         //set background color
+         //set today's text color
         if (position == nowDay && getCurMonth()==nowMonth
                 && getCurYear() ==nowYear) {
-             itemView.setBackgroundColor(Color.argb(255, 215, 247, 210));
-        } else {
-            itemView.setBackgroundColor(Color.WHITE);
+            itemView.setTextColor(Color.rgb(66, 134, 244));
         }
 
+        if(getCurYear()<=nowYear && position>0 && position<=lastDay) {
 
+            if(getCurYear()==nowYear && getCurMonth()==nowMonth && position<=nowDay)
+                setExceedColor(itemView, position);
+            else if(getCurYear()==nowYear && getCurMonth()>nowMonth){}
+            else
+                setExceedColor(itemView, position);
+        }
         return itemView;
+    }
+
+    public void setExceedColor(View itemView,int day){
+        String year = String.valueOf(getCurYear());
+        String month = String.valueOf(getCurMonth());
+        String curDay = String.valueOf(day);
+
+        if(getCurMonth()<10)
+            month="0"+String.valueOf(getCurMonth());
+
+        if(day<10)
+            curDay="0"+String.valueOf(day);
+
+
+        String date =year+"-"+month+"-"+curDay;
+
+        int highValue = db.getHighestIngredient(date);
+
+        itemView.setBackgroundColor(indiredient[highValue]);
+
+
     }
 
 
@@ -264,23 +287,6 @@ public class MonthAdapter extends BaseAdapter {
                     return (28);
                 }
         }
-    }
-
-
-    /**
-     * set selected row
-     */
-    public void setSelectedPosition(int selectedPosition) {
-        this.selectedPosition = selectedPosition;
-    }
-
-    /**
-     * get selected row
-     *
-     * @return
-     */
-    public int getSelectedPosition() {
-        return selectedPosition;
     }
 
 }

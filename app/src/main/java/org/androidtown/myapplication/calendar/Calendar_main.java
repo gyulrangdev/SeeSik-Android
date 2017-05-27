@@ -42,19 +42,6 @@ public class Calendar_main extends Fragment {
         monthViewAdapter = new MonthAdapter(context);
         monthView.setAdapter(monthViewAdapter);
 
-        // 리스너 설정
-        monthView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // 현재 선택한 일자 정보 표시
-                MonthItem curItem = (MonthItem) monthViewAdapter.getItem(position);
-                int day = curItem.getDay();
-
-                Log.d("MainActivity", "Selected : " + day);
-            }
-        });
-
-
         monthText = (TextView) view.findViewById(R.id.monthText);
         setMonthText();
 
