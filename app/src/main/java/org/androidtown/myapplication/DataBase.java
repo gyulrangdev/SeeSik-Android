@@ -66,7 +66,7 @@ public class DataBase extends AppCompatActivity {
         foodDB.close();
     }
 
-    public String[] getAllFoodName() {
+    public String[] getFoodName() {
         foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
         String SQL = "select foodName from foodList;";
         Cursor c1 = foodDB.rawQuery(SQL, null);
@@ -382,6 +382,7 @@ public class DataBase extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
         String strDate = dateFormat.format(date);
+
         double ingredient[] = new double[4]; //1 : Na 2: fat 3: chol 4: sugar
         ingredient[0] = getNa();
         ingredient[1] = getFat();
@@ -430,6 +431,66 @@ public class DataBase extends AppCompatActivity {
 
     }
 
+    public String[] getAllFoodName()
+    {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        String sql = "SELECT foodName FROM dailyList;";
+        Cursor cursor = userDB.rawQuery(sql,null);
+        int num = cursor.getCount();
+        String []foodName = new String[num];
+        cursor.moveToFirst();
+        for(int i=0;i<num;i++)
+        {
+            foodName[i] = cursor.getString(0);
+            cursor.moveToNext();
+        }
+
+        return foodName;
+    }
+
+    public int[] getAlltimes()
+    {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        String sql = "SELECT times FROM dailyList;";
+        Cursor cursor = userDB.rawQuery(sql,null);
+        int num = cursor.getCount();
+        int []times = new int[num];
+        cursor.moveToFirst();
+        for(int i=0;i<num;i++)//?오류?
+        {
+            times[i]= cursor.getInt(0);
+            cursor.moveToNext();
+        }
+
+        return times;
+    }
+
+    public boolean checkDateChanged()
+    {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        Date date = new Date();
+        String today = dateFormat.format(date);
+
+        String SQL = "SELECT date FROM  dailyList WHERE date = '" + today + "';";// 넣기 전, 같은 날짜의 값이 있는지 확인한다. // 후에 검색 초반으로 옮길 수 있으나 현재는 이렇게
+        Cursor c1 = userDB.rawQuery(SQL, null);
+        int num = c1.getCount();
+        if(num==0)
+        {
+            String SQL2 = "SELECT times FROM  dailyList;";
+            Cursor c2 = userDB.rawQuery(SQL2,null);
+            num = c2.getCount();
+            userDB.close();
+            if(num==0)
+                return false;
+            else
+                return true;
+        }
+        else {
+            userDB.close();
+            return false;
+        }
+    }
     public void resetDailyList()//Search Food에 들어갈 때마다 비교해 봐야 할 것 같당
     {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
@@ -447,6 +508,7 @@ public class DataBase extends AppCompatActivity {
         int d = c3.getCount();
         c3.moveToFirst();
         Log.d( state, " 오늘날짜: "+c3.getString(0) + ", 횟수: " + c3.getInt(1) + " ,음식이름: " + c3.getString(2) + " ,당: " + c3.getDouble(3) + " ,나트륨: " + c3.getDouble(4) + " ,콜레스테롤: " + c3.getDouble(5) + " ,포화지방: " + c3.getDouble(6));
+        c3.close();
         userDB.close();
     }
 
@@ -457,7 +519,38 @@ public class DataBase extends AppCompatActivity {
         Cursor c3 = userDB.rawQuery(sql, null);
         int d = c3.getCount();
         c3.moveToFirst();
-        Log.d( state, "날짜: "+c3.getString(0) + " ,당: " + c3.getDouble(1) + " ,나트륨: " + c3.getDouble(2) + " ,콜레스테롤: " + c3.getDouble(3) + " ,포화지방: " + c3.getDouble(4) + " 초과한성분"+c3.getInt(5));
+        Log.d( state, "날짜: "+c3.getString(0) + " ,당: " + c3.getDouble(1) + " ,나트륨: " + c3.getDouble(2) + " ,콜레스테롤: " + c3.getDouble(3) + " ,포화지방: " + c3.getDouble(4) + " , 가장 많이 섭취한 성분(나팻콜슈):"+c3.getInt(5));
+        c3.close();
+        userDB.close();
+    }
+
+    public void logAll()
+    {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+        String sql = "SELECT * FROM dailyList;";
+        String sql2 = "SELECT * FROM intakeList;";
+
+        Cursor c1 = userDB.rawQuery(sql,null);
+        Cursor c2 = userDB.rawQuery(sql2,null);
+
+        int num1 = c1.getCount();
+        int num2 = c2.getCount();
+
+        c1.moveToFirst();
+        c2.moveToFirst();
+
+        for(int i=0;i<num1;i++)
+        {
+            Log.d( "Daily List All", " 오늘날짜: "+c1.getString(0) + ", 횟수: " + c1.getInt(1) + " ,음식이름: " + c1.getString(2) + " ,당: " + c1.getDouble(3) + " ,나트륨: " + c1.getDouble(4) + " ,콜레스테롤: " + c1.getDouble(5) + " ,포화지방: " + c1.getDouble(6));
+            c1.moveToNext();
+        }
+        c1.close();
+        for(int i=0;i<num2;i++)
+        {
+            Log.d("Intake List All", "날짜: "+c2.getString(0) + " ,당: " + c2.getDouble(1) + " ,나트륨: " + c2.getDouble(2) + " ,콜레스테롤: " + c2.getDouble(3) + " ,포화지방: " + c2.getDouble(4) + " , 가장 많이 섭취한 성분(나팻콜슈):"+c2.getInt(5));
+            c2.moveToNext();
+        }
+        c2.close();
         userDB.close();
     }
 }

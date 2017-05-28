@@ -8,13 +8,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 public class SearchFood extends AppCompatActivity {
-    EditText searchBar;
     static DataBase db;
 
+    ImageButton imageButton;
     ListView foodType;// 대분류
     ListView foodsearchedList; //소분류
     ListView intakeList; // 섭취 리스트
@@ -47,9 +47,27 @@ public class SearchFood extends AppCompatActivity {
 
         intakeList = (ListView) findViewById(R.id.intakeList);
 
+
+        if(db.checkDateChanged())
+        {
+            db.resetDailyList();
+        }
+        loadList();
         AboutFoodName(SearchFood.this);
         AboutFoodType();
         AboutFoodList();
+        showAllThingDB();
+    }
+
+    public void loadList()
+    {
+        int []times = db.getAlltimes();
+        String[] foodName = db.getAllFoodName();
+        intakeList.setAdapter(intakeAdapter);
+        for(int i=0;i<times.length;i++)
+        {
+            intakeAdapter.addItem(foodName[i],times[i]);
+        }
     }
 
     public void AboutFoodName(Context context)
@@ -58,7 +76,7 @@ public class SearchFood extends AppCompatActivity {
 
         if(searchFoodFirst)
         {
-            foodName=db.getAllFoodName();// 모든 string을 db에서 받아와 foodName에 넣음
+            foodName=db.getFoodName();// 모든 string을 db에서 받아와 foodName에 넣음
             searchFoodFirst = false;
         }
 
@@ -68,9 +86,6 @@ public class SearchFood extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // 자동완성에서 선택되면
-                // intakeList에 자동추가,
-                // text는 비워짐
                 String str = textView.getText().toString();
 
                 db.SearchInDatabase("foodList",str);//오늘 먹은 음식 list에 삽입
@@ -93,9 +108,8 @@ public class SearchFood extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 changeRightList(position);
-
             }
-    });
+        });
     }
 
     public void AboutFoodList()
@@ -119,13 +133,13 @@ public class SearchFood extends AppCompatActivity {
     }
 
     public void AboutDailyIntakeList(String name)
-    {//커스텀 리스트 뷰 사용!
-       //이건 커스텀으로? 넣어야 할 듯....
-
+    {
         intakeList.setAdapter(intakeAdapter);
         int times = db.getItemTimes(name);
         Log.d("times","times : "+times);
-        intakeAdapter.addItem(name,times);
+        if(times==1)
+            intakeAdapter.addItem(name,times);
+        else;//나중에 여기에 값 수정하는 걸 넣을 예정
     }
 
     public void changeRightList(int position)
@@ -162,13 +176,20 @@ public class SearchFood extends AppCompatActivity {
                 selectedFoodList = meatList;
                 foodsearchedList.setAdapter(meatListAdapter);
                 break;
-        default:
-            foodsearchedList.setAdapter(fastFoodListAdapter);
-            break;
+            default:
+                foodsearchedList.setAdapter(fastFoodListAdapter);
+                break;
         }
     }
+    public void showAllThingDB()
+    {
+        imageButton = (ImageButton) findViewById(R.id.imageButton);
 
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.logAll();
+            }
+        });
+    }
 }
-
-
-
