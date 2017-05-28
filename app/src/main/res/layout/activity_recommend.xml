@@ -4,31 +4,176 @@
     android:id="@+id/activity_recommend"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.androidtown.myapplication.Recommend">
 
-    <TextView   android:id="@+id/recommendTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="recommend diet"
-        android:textSize="30dp"
-        android:gravity="center"/>
+    tools:context="org.androidtown.myapplication.Recommend">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/recommendTitle">
+        android:layout_height="350dp"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
-    <TextView
-        android:layout_below="@id/recommendTitle"
-        android:id="@+id/recommendContent"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="This is a textfield for diet recommendation."
-        android:textSize="15dp"/>
+        android:stretchColumns="1,2,3">
+       <TableRow>
+           <TextView
+               android:layout_width="50dp"
+               android:layout_height="wrap_content"
+               android:text="성분명"
+               android:gravity="center"/>
+
+           <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="초과량"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="추천 음식/활동"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="얼마나?"
+            android:gravity="center"/>
+    </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="#c4e167" />
+
+        <TableRow>
+          <TextView
+              android:layout_width="50dp"
+              android:layout_height="wrap_content"
+              android:text="나트륨"
+              android:gravity= "center"
+              android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/naExceedTxt"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+            <TextView
+                android:id="@+id/naRecommend"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/naRecommendAmount"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="#accfc0" />
+
+        <TableRow>
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="콜레스테롤"
+                android:gravity= "center"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/cholExceedTxt"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+            <TextView
+                android:id="@+id/cholRecommend"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/cholRecommendAmount"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+        </TableRow>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="#e6baba" />
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity= "center"
+                android:text="포화\n지방"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/fatExceedTxt"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/fatRecommend"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/fatRecommendAmount"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+        </TableRow>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="#ada1ef" />
+
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity= "center"
+                android:layout_gravity="center_vertical"
+                android:text="당" />
+
+            <TextView
+                android:id="@+id/sugarExceedTxt"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/sugarRecommend"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/sugarRecommendAmount"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+        </TableRow>
+
+    </TableLayout>
     </ScrollView>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:src="@drawable/open_eyes"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

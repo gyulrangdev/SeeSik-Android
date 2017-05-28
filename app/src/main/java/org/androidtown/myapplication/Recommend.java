@@ -13,16 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.zip.Inflater;
+
 
 public class Recommend extends Fragment {// please change this Recommend
 
     private Context context;
 
     DataBase db;
-
-    TextView recommendTitle;
-    TextView recommendContent;
 
     String[] naRecommendFoodList = {"배","바나나", "키위", "검은콩", "감자", "브로콜리", "양파", "고구마", "옥수수", "오이", "시금치", "호두"};
     int[] naRecommendKaList = {170, 358, 290, 1860, 396, 316, 146, 337, 287, 147, 558, 441,};
@@ -41,8 +41,24 @@ public class Recommend extends Fragment {// please change this Recommend
         super.onViewCreated(view, savedInstanceState);
         context = getActivity().getApplicationContext();
 
-        recommendTitle = (TextView) view.findViewById(R.id.recommendTitle);
-        recommendContent = (TextView) view.findViewById(R.id.recommendContent);
+        //초과량
+        TextView naExceed = (TextView)view.findViewById(R.id.naExceedTxt);
+        TextView cholExceed = (TextView)view.findViewById(R.id.cholExceedTxt);
+        TextView fatExceed = (TextView)view.findViewById(R.id.fatExceedTxt);
+        TextView sugarExceed = (TextView)view.findViewById(R.id.sugarExceedTxt);
+
+
+        //추천음식/활동
+        TextView naRecommend = (TextView)view.findViewById(R.id.naRecommend);
+        TextView fatRecommend = (TextView)view.findViewById(R.id.fatRecommend);
+        TextView cholRecommend = (TextView)view.findViewById(R.id.cholRecommend);
+        TextView sugarRecommend = (TextView)view.findViewById(R.id.sugarRecommend);
+
+        //추천음식/활동 양(얼마나?)
+        TextView naAmount = (TextView)view.findViewById(R.id.naRecommendAmount);
+        TextView fatAmount = (TextView)view.findViewById(R.id.fatRecommendAmount);
+        TextView cholAmount = (TextView)view.findViewById(R.id.cholRecommendAmount);
+        TextView sugarAmount = (TextView)view.findViewById(R.id.sugarRecommendAmount);
 
         String comment = "";// 코멘트 달 것. 임시
 
@@ -57,30 +73,30 @@ public class Recommend extends Fragment {// please change this Recommend
         {
             int r = (int)(Math.random()*12);
             int excessAmount = na - 2000;
-            String naComment="<나트륨>\n";
-            naComment += "현재 권장량 2000mg 중 "+excessAmount+" mg 초과했습니다.\n\n";
-            naComment += naRecommendFoodList[r]+"을(를) 섭취하는 것을 추천합니다.\n";
-            naComment += naRecommendFoodList[r]+"은(는) "+naRecommendAmountList[r]+" "+naUnitList[r]+" 당 "+naRecommendKaList[r]+" mg 만큼의 칼륨 함량을 가지고 있습니다.\n\n";
-            naComment +="WTO 에서는 나트륨과 칼륨을 1:1 비율로 섭취하는 것을 권장합니다.\n";
+
+            naExceed.setText( "현재 권장량 2000mg 중 "+excessAmount+" mg 초과했습니다.");
+            naRecommend.setText(naRecommendFoodList[r]+"을(를) 섭취하는 것을 추천합니다.\n");
+            naRecommend.append( naRecommendFoodList[r]+"은(는) "+naRecommendAmountList[r]+" "+naUnitList[r]+" 당 "+naRecommendKaList[r]+" mg 만큼의 칼륨 함량을 가지고 있습니다.\n\n");
+            naRecommend.append("WTO 에서는 나트륨과 칼륨을 1:1 비율로 섭취하는 것을 권장합니다.");
+
             double rate=1;
             if(excessAmount>naRecommendKaList[r])
             {
                 rate= excessAmount/naRecommendKaList[r];
             }
-            naComment +="초과한 "+excessAmount+" mg 만큼의 칼륨을 섭취하려면\n";
-            naComment +="약 "+rate*naRecommendAmountList[r]+" "+naUnitList[r]+"의 "+naRecommendFoodList[r]+"을(를) 섭취하는 것을 추천합니다.\n\n";
-            comment += naComment;
+            naAmount.setText("초과한 "+excessAmount+" mg 만큼의 칼륨을 섭취하려면 ");
+            naAmount.append("약 "+rate*naRecommendAmountList[r]+" "+naUnitList[r]+"의 "+naRecommendFoodList[r]+"을(를) 섭취하는 것을 추천합니다.");
         }
+
         if(chol>600)
         {
             int r = (int)(Math.random()*13);
 
             int excessAmount = chol - 600;
-            String cholComment="<콜레스테롤>\n";
-            cholComment += "현재 권장량 600mg 중 "+excessAmount+" mg 초과했습니다.\n\n";
-            cholComment += cholRecommendFoodList[r]+"을(를) 섭취하는 것을 추천합니다.\n\n";
 
-            comment += cholComment;
+            cholExceed.setText("현재 권장량 600mg 중 "+excessAmount+" mg 초과했습니다.");
+            cholRecommend.setText( cholRecommendFoodList[r]+"을(를) 섭취하는 것을 추천합니다.");
+
         }
         if(fat>50)
         {
@@ -92,16 +108,13 @@ public class Recommend extends Fragment {// please change this Recommend
 
             int excessAmount = fat - 50;
             int excessCalorie = excessAmount * fatCal;
-            String fatComment="<포화지방>\n";
-            fatComment += "현재 권장량 50g 중 "+excessAmount+" g 초과했습니다.\n\n";
-            fatComment += excessAmount+" g 을(를) 소모하기 위해서는\n\n";
-            fatComment += excessCalorie+" kcal 만큼 운동해야 합니다.\n";
-            fatComment += "걷기 (70kg 5km/h 기준): "+excessCalorie/walkingCal+" 분\n";
-            fatComment += "달리기 (70kg 10km/h 기준) : "+excessCalorie/runningCal+" 분\n";
-            fatComment += "자전거타기(70kg 18km/h 기준) : "+excessCalorie/cycleCal+" 분\n\n";
 
-            comment += fatComment;
-
+            fatExceed.setText( "현재 권장량 50g 중 "+excessAmount+" g 초과했습니다.");
+            fatRecommend.setText("\n"+excessAmount+" g 을(를) 소모하기 위해서는");
+            fatRecommend.append(excessCalorie+" kcal 만큼 운동해야 합니다.");
+            fatAmount.setText("걷기 (70kg 5km/h 기준): "+excessCalorie/walkingCal+" 분");
+            fatAmount.append("\n달리기 (70kg 10km/h 기준) : "+excessCalorie/runningCal+" 분");
+            fatAmount.append("\n자전거타기(70kg 18km/h 기준) : "+excessCalorie/cycleCal+" 분");
         }
         if(sugar>60)
         {
@@ -113,19 +126,15 @@ public class Recommend extends Fragment {// please change this Recommend
 
             int excessAmount = sugar - 60;
             int excessCalorie = excessAmount * sugarCal;
-            String sugarComment="<당>\n";
-            sugarComment += "현재 권장량 60g 중 "+excessAmount+" g 초과했습니다.\n\n";
-            sugarComment += excessAmount+" g 을(를) 소모하기 위해서는\n\n";
-            sugarComment += excessCalorie+" kcal 만큼 운동해야 합니다.\n\n";
-            sugarComment += "걷기 (70kg 5km/h 기준): "+excessCalorie/walkingCal+" 분\n";
-            sugarComment += "달리기 (70kg 10km/h 기준) : "+excessCalorie/runningCal+" 분\n";
-            sugarComment += "자전거타기(70kg 18km/h 기준) : "+excessCalorie/cycleCal+" 분\n";
 
-            comment += sugarComment;
+            sugarExceed.setText("현재 권장량 60g 중 "+excessAmount+" g 초과했습니다.");
+            sugarRecommend.setText("\n\n"+excessAmount+" g 을(를) 소모하기 위해서는 ");
+            sugarRecommend.append(excessCalorie+" kcal 만큼 운동해야 합니다.\n\n");
+            sugarAmount.setText("걷기 (70kg 5km/h 기준): "+excessCalorie/walkingCal+" 분");
+            sugarAmount.append("\n달리기 (70kg 10km/h 기준) : "+excessCalorie/runningCal+" 분");
+            sugarAmount.append("\n자전거타기(70kg 18km/h 기준) : "+excessCalorie/cycleCal+" 분\n\n\n\n");
 
         }
-        recommendContent.setText(comment);
-        comment="";
     }
 
 }
