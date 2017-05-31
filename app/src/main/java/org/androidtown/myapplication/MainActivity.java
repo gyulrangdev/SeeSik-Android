@@ -1,37 +1,41 @@
 package org.androidtown.myapplication;
 
-import android.content.Context;
+
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
-import static java.security.AccessController.getContext;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_MENU = 101;
+    FrameLayout character;
     ImageButton nurseBtn;
     ImageView nurseView;
     ImageButton evaBtn;
     ImageButton selectDietBtn;
     Handler mHandler = new Handler();
-    ImageThread thread;
+    ArmThread armThread;
+    EyeThread eyeThread;
     ImageSwitcher switcher;
+    ImageView leftArm;
     boolean running;
+    Animation armAnim;
+    Animation armDownAnim;
+    boolean isArmGoingDown = false;
 
     static DataBase db;
 
@@ -45,26 +49,29 @@ public class MainActivity extends AppCompatActivity {
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
         nurseBtn = (ImageButton) findViewById(R.id.nurse);
         nurseView = (ImageView) findViewById(R.id.nurseWear);
-        final Animation ani = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.click_animation);
-        final Animation ani2 =  AnimationUtils.loadAnimation(getApplicationContext(),R.anim.click_up_animation);
+        character = (FrameLayout) findViewById(R.id.character);
+        leftArm = (ImageView) findViewById(R.id.leftArm);
+        final Animation clickAni = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.click_animation);
+        final Animation clickUpAni = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.click_up_animation);
+        armAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.arm_rotate);
+        armDownAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.arm_down_rotate);
 
-        switcher.setOnClickListener(new View.OnClickListener(){
+        character.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.clearAnimation();
-              switcher.startAnimation(ani);
-                switcher.startAnimation(ani2);
-
+                character.startAnimation(clickAni);
+                character.startAnimation(clickUpAni);
             }
         });
 
-        nurseBtn.setOnClickListener(new View.OnClickListener(){
+        nurseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(nurseView.getVisibility()==View.INVISIBLE) {
+                if (nurseView.getVisibility() == View.INVISIBLE) {
                     nurseView.setVisibility(View.VISIBLE);
                 } else
-                 nurseView.setVisibility(View.INVISIBLE);
+                    nurseView.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -73,18 +80,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 v.clearAnimation();
-                evaBtn.startAnimation(ani);
+                evaBtn.startAnimation(clickAni);
                 Intent intent = new Intent(getApplicationContext(), Evaluation.class);
                 startActivityForResult(intent, REQUEST_CODE_MENU);
             }
         });
 
-        selectDietBtn.setOnClickListener(new View.OnClickListener(){
+        selectDietBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.clearAnimation();
-                selectDietBtn.startAnimation(ani);
-                Intent intent = new Intent(getApplicationContext(),SearchFood.class);
+                selectDietBtn.startAnimation(clickAni);
+                Intent intent = new Intent(getApplicationContext(), SearchFood.class);
                 startActivity(intent);
             }
         });
@@ -116,30 +123,88 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startAnimation() {
-
         switcher.setVisibility(View.VISIBLE);
-        thread = new ImageThread();
-        thread.start();
+        eyeThread = new EyeThread();
+        armThread = new ArmThread();
+        eyeThread.start();
+        armThread.start();
     }
 
     private void stopAnimation() {
         running = false;
         try {
-            thread.join();
+            eyeThread.join();
+            armThread.join();
         } catch (InterruptedException e) {
         }
         switcher.setVisibility(View.INVISIBLE);
     }
 
-    class ImageThread extends Thread {
-        int duration = 1000;
-        final int imageId[] = {R.drawable.close_eyes, R.drawable.open_mouth,R.drawable.open_eyes};
+    class EarThread extends Thread{
+
+        @Override
+        public void run() {
+            running = true;
+            while(running){
+                synchronized (this){
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                        }
+                    });
+
+
+
+                }
+
+
+            }
+        }
+    }
+
+
+    class ArmThread extends Thread {
+
+        @Override
+        public void run() {
+            running = true;
+            while (running) {
+                synchronized (this) {
+
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isArmGoingDown){
+                                leftArm.startAnimation(armDownAnim);
+                                isArmGoingDown = false;
+                            }else{
+                                leftArm.startAnimation(armAnim);
+                                isArmGoingDown = true;
+                            }
+                        }
+                    });
+                    try{
+                        Thread.sleep(1300);
+                    }catch (Exception e){
+
+                    }
+                }
+
+            }
+        }
+    }
+
+
+    class EyeThread extends Thread {
+        int duration = 100;
+        final int imageId[] = {R.drawable.eye_open, R.drawable.eye_close, R.drawable.eye_open, R.drawable.eye_close};
         int currentIndex = 0;
 
         @Override
         public void run() {
             running = true;
-
             while (running) {
                 synchronized (this) {
                     mHandler.post(new Runnable() {
@@ -151,17 +216,33 @@ public class MainActivity extends AppCompatActivity {
                     currentIndex++;
                     if (currentIndex == imageId.length) {
                         currentIndex = 0;
+                        try {
+                            int sleepTime = getRandomTime(4000, 6000);
+                            Thread.sleep(sleepTime);
+                        } catch (InterruptedException e) {
+                        }
                     }
                     try {
                         Thread.sleep(duration);
                     } catch (InterruptedException e) {
                     }
                 }
-            }
-        }
+            }   //while end
+
+        }   //run end
+    }
+
+    public int getRandomTime(int min, int max) {
+        return min + (int) (Math.random() * (max - min));
     }
 
     public static DataBase getDBInstance() {
         return db;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopAnimation();
     }
 }

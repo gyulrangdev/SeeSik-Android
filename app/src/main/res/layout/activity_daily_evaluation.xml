@@ -87,7 +87,7 @@
             android:maxHeight="20dp"
             android:minHeight="20dp"
             android:progressBackgroundTint="?android:attr/textColorHighlightInverse"
-            android:progressTint="@android:color/holo_green_light" />
+            android:progressTint="@android:color/holo_red_light" />
 
         <ProgressBar
             android:id="@+id/cholBar"

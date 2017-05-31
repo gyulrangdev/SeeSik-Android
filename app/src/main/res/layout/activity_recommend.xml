@@ -194,11 +194,4 @@
 
     </ScrollView>
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:src="@drawable/open_eyes"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 </RelativeLayout>

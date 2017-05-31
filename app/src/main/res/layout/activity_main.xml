@@ -19,11 +19,50 @@
         android:layout_marginBottom="10dp"
         android:text="Color info." />
 
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/character"
+    >
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/base_body" />
+
     <ImageSwitcher
         android:id="@+id/switcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"></ImageSwitcher>
+        android:layout_gravity="center">
+    </ImageSwitcher>
+
+    <ImageView
+        android:id="@+id/leftEar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/left_ear" />
+
+    <ImageView
+        android:id="@+id/rightEar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/right_ear" />
+
+    <ImageView
+        android:id="@+id/leftArm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/left_arm" />
+
+
+</FrameLayout>
+
 
     <TextView
         android:id="@+id/interactText"
@@ -66,6 +105,7 @@
         android:layout_gravity="center"
         android:src="@drawable/nurse_wear"
         android:visibility="invisible" />
+
 
 
     <!--<ImageView-->
