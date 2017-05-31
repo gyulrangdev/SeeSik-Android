@@ -24,23 +24,28 @@
                android:layout_width="50dp"
                android:layout_height="wrap_content"
                android:text="성분명"
-               android:gravity="center"/>
+               android:gravity="center"
+               android:textSize="18dp"/>
 
            <TextView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="초과량"
-            android:gravity="center"/>
+            android:gravity="center"
+               android:textSize="18dp"
+               />
         <TextView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="추천 음식/활동"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textSize="18dp"/>
         <TextView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="얼마나?"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textSize="18dp"/>
     </TableRow>
 
         <View
@@ -54,22 +59,26 @@
               android:layout_height="wrap_content"
               android:text="나트륨"
               android:gravity= "center"
-              android:layout_gravity="center_vertical"/>
+              android:layout_gravity="center_vertical"
+              android:textSize="18dp"/>
             <TextView
                 android:id="@+id/naExceedTxt"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
             <TextView
                 android:id="@+id/naRecommend"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
             <TextView
                 android:id="@+id/naRecommendAmount"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
         </TableRow>
 
         <View
@@ -83,22 +92,26 @@
                 android:layout_height="wrap_content"
                 android:text="콜레스테롤"
                 android:gravity= "center"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center"
+                android:textSize="18dp"/>
             <TextView
                 android:id="@+id/cholExceedTxt"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
             <TextView
                 android:id="@+id/cholRecommend"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
             <TextView
                 android:id="@+id/cholRecommendAmount"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
         </TableRow>
 
 
@@ -113,24 +126,28 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:gravity= "center"
-                android:text="포화\n지방"
-                android:layout_gravity="center_vertical"/>
+                android:text="포화지방"
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
 
             <TextView
                 android:id="@+id/fatExceedTxt"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
             <TextView
                 android:id="@+id/fatRecommend"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
             <TextView
                 android:id="@+id/fatRecommendAmount"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
         </TableRow>
 
 
@@ -147,26 +164,34 @@
                 android:layout_height="wrap_content"
                 android:gravity= "center"
                 android:layout_gravity="center_vertical"
-                android:text="당" />
+                android:text="당"
+                android:textSize="18dp"/>
 
             <TextView
                 android:id="@+id/sugarExceedTxt"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
             <TextView
                 android:id="@+id/sugarRecommend"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
             <TextView
                 android:id="@+id/sugarRecommendAmount"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
         </TableRow>
-
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+        </TableRow>
     </TableLayout>
+
     </ScrollView>
 
     <ImageView
