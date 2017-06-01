@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -17,25 +16,22 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_MENU = 101;
     FrameLayout character;
     ImageButton nurseBtn;
-    ImageView nurseView;
-    ImageButton evaBtn;
-    ImageButton selectDietBtn;
+    ImageView nurseView, leftArm, leftEar, rightEar;
+    ImageButton evaBtn, selectDietBtn;
     Handler mHandler = new Handler();
     ArmThread armThread;
     EyeThread eyeThread;
+    EarThread earThread;
     ImageSwitcher switcher;
-    ImageView leftArm;
     boolean running;
-    Animation armAnim;
-    Animation armDownAnim;
+    Animation armAnim, armDownAnim, lEarAnim, lEarDownAnim, rEarAnim, rEarDownAnim;
     boolean isArmGoingDown = false;
+    boolean isEarGoingDown = false;
 
     static DataBase db;
 
@@ -55,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
         final Animation clickUpAni = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.click_up_animation);
         armAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.arm_rotate);
         armDownAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.arm_down_rotate);
+        lEarAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.l_ear_rotate);
+        lEarDownAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.l_ear_down_rotate);
+        rEarAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.r_ear_rotate);
+        rEarDownAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.r_ear_down_rotate);
+
+        leftEar = (ImageView) findViewById(R.id.leftEar);
+        rightEar = (ImageView) findViewById(R.id.rightEar);
 
         character.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,8 +129,10 @@ public class MainActivity extends AppCompatActivity {
         switcher.setVisibility(View.VISIBLE);
         eyeThread = new EyeThread();
         armThread = new ArmThread();
+        earThread = new EarThread();
         eyeThread.start();
         armThread.start();
+        earThread.start();
     }
 
     private void stopAnimation() {
@@ -135,31 +140,38 @@ public class MainActivity extends AppCompatActivity {
         try {
             eyeThread.join();
             armThread.join();
+            earThread.join();
         } catch (InterruptedException e) {
         }
         switcher.setVisibility(View.INVISIBLE);
     }
 
-    class EarThread extends Thread{
+    class EarThread extends Thread {
 
         @Override
         public void run() {
             running = true;
-            while(running){
-                synchronized (this){
+            while (running) {
+                synchronized (this) {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-
-
+                            if (isEarGoingDown) {
+                                leftEar.startAnimation(lEarAnim);
+                                rightEar.startAnimation(rEarAnim);
+                                isEarGoingDown = false;
+                            } else {
+                                leftEar.startAnimation(lEarDownAnim);
+                                rightEar.startAnimation(rEarDownAnim);
+                                isEarGoingDown = true;
+                            }
                         }
                     });
-
-
-
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                    }
                 }
-
-
             }
         }
     }
@@ -176,18 +188,18 @@ public class MainActivity extends AppCompatActivity {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if (isArmGoingDown){
+                            if (isArmGoingDown) {
                                 leftArm.startAnimation(armDownAnim);
                                 isArmGoingDown = false;
-                            }else{
+                            } else {
                                 leftArm.startAnimation(armAnim);
                                 isArmGoingDown = true;
                             }
                         }
                     });
-                    try{
+                    try {
                         Thread.sleep(1300);
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
