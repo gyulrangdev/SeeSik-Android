@@ -26,6 +26,7 @@
 
         <activity
             android:name=".SearchFood"
+            android:windowSoftInputMode="stateHidden"
             android:label="음식 추가"></activity>
 
     </application>

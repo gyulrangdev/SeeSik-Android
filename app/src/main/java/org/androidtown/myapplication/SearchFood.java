@@ -1,15 +1,21 @@
 package org.androidtown.myapplication;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class SearchFood extends AppCompatActivity {
     static DataBase db;
@@ -43,15 +49,14 @@ public class SearchFood extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_food);
         db = MainActivity.getDBInstance();
-        intakeAdapter = new intakeListViewAdapter();
 
         intakeList = (ListView) findViewById(R.id.intakeList);
-
 
         if(db.checkDateChanged())
         {
             db.resetDailyList();
         }
+
         loadList();
         AboutFoodName(SearchFood.this);
         AboutFoodType();
@@ -61,12 +66,28 @@ public class SearchFood extends AppCompatActivity {
 
     public void loadList()
     {
-        int []times = db.getAlltimes();
-        String[] foodName = db.getAllFoodName();
-        intakeList.setAdapter(intakeAdapter);
-        for(int i=0;i<times.length;i++)
-        {
-            intakeAdapter.addItem(foodName[i],times[i]);
+        try {
+            db.userDB = openOrCreateDatabase(db.userDBName, MODE_PRIVATE, null);
+            String SQL = "SELECT foodName FROM dailyList ";
+            Cursor c = db.userDB.rawQuery(SQL, null);
+            c.moveToFirst();
+            int cnt = c.getCount();
+
+            if (cnt != 0) {
+                int[] times = db.getAlltimes();
+                String[] foodName = db.getAllFoodName();
+                intakeAdapter =new intakeListViewAdapter();
+                intakeList.setAdapter(intakeAdapter);
+
+                for (int i = 0; i < times.length; i++) {
+                    intakeAdapter.addItem(foodName[i], times[i]);
+                }
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            db.userDB.close();
         }
     }
 
@@ -88,11 +109,15 @@ public class SearchFood extends AppCompatActivity {
 
                 String str = textView.getText().toString();
 
-                db.SearchInDatabase("foodList",str);//오늘 먹은 음식 list에 삽입
+                db.searchInDatabaseAndInsert("foodList",str);//오늘 먹은 음식 list에 삽입
 
-                AboutDailyIntakeList(str);
+                loadList();
 
                 textView.setText("");
+
+                //입력 후 키보드 감추기
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
             }
         });
 
@@ -126,20 +151,10 @@ public class SearchFood extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String str = selectedFoodList[position];
 
-                db.SearchInDatabase("simpleFoodList",str);//오늘 먹은 음식 list에 삽입
-                AboutDailyIntakeList(str);
+                db.searchInDatabaseAndInsert("simpleFoodList",str);//오늘 먹은 음식 list에 삽입
+                loadList();
             }
         });
-    }
-
-    public void AboutDailyIntakeList(String name)
-    {
-        intakeList.setAdapter(intakeAdapter);
-        int times = db.getItemTimes(name);
-        Log.d("times","times : "+times);
-        if(times==1)
-            intakeAdapter.addItem(name,times);
-        else;//나중에 여기에 값 수정하는 걸 넣을 예정
     }
 
     public void changeRightList(int position)

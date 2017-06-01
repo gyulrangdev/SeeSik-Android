@@ -6,22 +6,21 @@ package org.androidtown.myapplication;
 
 public class intakeListViewItem {
     private String ItemNameStr;
-    private int ItemNumStr;
+    private int ItemNum;
 
-    public String getItemNameStr() {
-        return ItemNameStr;
+    public String getItemNameStr() { return ItemNameStr;
     }
 
     public void setItemNameStr(String itemNameStr) {
         ItemNameStr = itemNameStr;
     }
 
-    public int getItemNumStr() {
-        return ItemNumStr;
+    public int getItemNum() {
+        return ItemNum;
     }
 
-    public void setItemNumStr(int itemNum) {
-        ItemNumStr = itemNum;
+    public void setItemNum(int itemNum) {
+        ItemNum = itemNum;
     }
 
 }

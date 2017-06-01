@@ -1,6 +1,7 @@
 package org.androidtown.myapplication;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by sohyeon on 2017-05-17.
@@ -22,12 +24,12 @@ public class intakeListViewAdapter extends BaseAdapter {
     Button increBtn;
     Button decreBtn;
     Button deleteBtn;
-    TextView intakeNumTxt;
+    public TextView intakeNumTxt;
 
     public intakeListViewAdapter() {
         db = MainActivity.getDBInstance();
     }
-//TODO; 베베베베벱새삽이
+
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
     public int getCount() {
@@ -36,7 +38,7 @@ public class intakeListViewAdapter extends BaseAdapter {
 
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final int pos = position;
         final Context context = parent.getContext();
 
@@ -61,32 +63,37 @@ public class intakeListViewAdapter extends BaseAdapter {
 //            titleTextView.setText(listViewItem.getTitle());
 //            descTextView.setText(listViewItem.getDesc());
         intakeItemTxt.setText(intakelistViewItem.getItemNameStr());
-        intakeNumTxt.setText(intakelistViewItem.getItemNumStr()+"");
+        intakeNumTxt.setText(intakelistViewItem.getItemNum()+"");
 
         final String _foodName = intakelistViewItem.getItemNameStr();
         increBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 db.plusTimes(intakelistViewItem.getItemNameStr());
-                intakelistViewItem.setItemNumStr(db.getItemTimes(_foodName));
-                intakeNumTxt.setText(intakelistViewItem.getItemNumStr()+"");
+                intakelistViewItem.setItemNum(db.getItemTimes(_foodName));
+                intakeNumTxt.setText(intakelistViewItem.getItemNum()+"");
+
+                notifyDataSetChanged();
             }
         });
 
         decreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(intakelistViewItem.getItemNumStr()==1){
+                if(intakelistViewItem.getItemNum()==1){
                     db.deleteDailyList(intakelistViewItem.getItemNameStr());
+                    listViewItemList.remove(position);
+
+                    notifyDataSetChanged();
                 }
-                else if(intakelistViewItem.getItemNumStr()<1)
+                else
                 {
-                }
-                else {
                     db.minusTimes(intakelistViewItem.getItemNameStr());
-                    intakelistViewItem.setItemNumStr(db.getItemTimes(_foodName));
-                    intakeNumTxt.setText(intakelistViewItem.getItemNumStr() + "");
+                    intakelistViewItem.setItemNum(db.getItemTimes(_foodName));
+                    notifyDataSetChanged();
+                    intakeNumTxt.setText(intakelistViewItem.getItemNum() + "");
                 }
+
             }
         });
 
@@ -94,6 +101,8 @@ public class intakeListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 db.deleteDailyList(intakelistViewItem.getItemNameStr());
+                listViewItemList.remove(position);
+                notifyDataSetChanged();
             }
         });
 
@@ -117,9 +126,11 @@ public class intakeListViewAdapter extends BaseAdapter {
         intakeListViewItem item = new intakeListViewItem();
 
         item.setItemNameStr(name);
-        item.setItemNumStr(num);
+        item.setItemNum(num);
 
+        Collections.reverse(listViewItemList);
         listViewItemList.add(item);
+        Collections.reverse(listViewItemList);
     }
 }
 

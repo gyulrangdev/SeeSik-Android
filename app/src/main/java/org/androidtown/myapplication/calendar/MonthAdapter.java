@@ -90,14 +90,13 @@ public class MonthAdapter extends BaseAdapter {
         // get week day
         int dayOfWeek = mCalendar.get(Calendar.DAY_OF_WEEK);
         firstDay = getFirstDay(dayOfWeek);
-      //  Log.d(TAG, "firstDay : " + firstDay);
 
         mStartDay = mCalendar.getFirstDayOfWeek();
         curYear = mCalendar.get(Calendar.YEAR);
         curMonth = mCalendar.get(Calendar.MONTH);
         lastDay = getMonthLastDay(curYear, curMonth);
 
-        Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
+        //Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
 
        // int diff = mStartDay - Calendar.SUNDAY - 1;
         startDay = getFirstDayOfWeek();
@@ -177,8 +176,8 @@ public class MonthAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         MonthItemView itemView;
 
-        Log.d(TAG, "curYear : " + getCurYear() + ", curMonth : " + getCurMonth()+ " curDay: "+position+" curMonthLastDay: "+lastDay);
-        Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
+      //  Log.d(TAG, "curYear : " + getCurYear() + ", curMonth : " + getCurMonth()+ " curDay: "+position+" curMonthLastDay: "+lastDay);
+        //Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
 
         if (convertView == null) {
             itemView = new MonthItemView(mContext);
@@ -201,6 +200,7 @@ public class MonthAdapter extends BaseAdapter {
         itemView.setBackgroundColor(Color.WHITE);
         itemView.setTextColor(Color.BLACK);
 
+        Log.d("오늘 몇일: ",nowDay+""+" 지금 위치"+position);
          //set today's text color
         if (position == nowDay && getCurMonth()==nowMonth
                 && getCurYear() ==nowYear) {
@@ -212,8 +212,6 @@ public class MonthAdapter extends BaseAdapter {
             if(getCurYear()==nowYear && getCurMonth()==nowMonth && position<=nowDay)
                 setExceedColor(itemView, position);
             else if(getCurYear()==nowYear && getCurMonth()>nowMonth){}
-            else
-                setExceedColor(itemView, position);
         }
         return itemView;
     }
@@ -235,7 +233,6 @@ public class MonthAdapter extends BaseAdapter {
         int highValue = db.getHighestIngredient(date);
 
         itemView.setBackgroundColor(indiredient[highValue]);
-
 
     }
 
