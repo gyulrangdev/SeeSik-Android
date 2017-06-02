@@ -2,6 +2,7 @@ package org.androidtown.myapplication;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -58,6 +59,16 @@ public class MainActivity extends AppCompatActivity {
 
         leftEar = (ImageView) findViewById(R.id.leftEar);
         rightEar = (ImageView) findViewById(R.id.rightEar);
+
+        SharedPreferences preference = getSharedPreferences("a",MODE_PRIVATE);
+        int firstviewshow = preference.getInt("first", 0);
+        if (firstviewshow != 1) {
+            Intent intent = new Intent(MainActivity.this,Tutorial.class);
+            startActivity(intent);
+        }
+
+
+        출처: http://je2ct.tistory.com/27 [이또한 지나가리]
 
         character.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -87,40 +87,6 @@
             android:background="#accfc0" />
 
         <TableRow>
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="콜레스테롤"
-                android:gravity= "center"
-                android:layout_gravity="center"
-                android:textSize="18dp"/>
-            <TextView
-                android:id="@+id/cholExceedTxt"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="18dp"/>
-            <TextView
-                android:id="@+id/cholRecommend"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="18dp"/>
-            <TextView
-                android:id="@+id/cholRecommendAmount"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="18dp"/>
-        </TableRow>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="#e6baba" />
-
-        <TableRow>
 
             <TextView
                 android:layout_width="50dp"
@@ -150,6 +116,38 @@
                 android:textSize="18dp"/>
         </TableRow>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="#e6baba" />
+
+        <TableRow>
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="콜레스테롤"
+                android:gravity= "center"
+                android:layout_gravity="center"
+                android:textSize="18dp"/>
+            <TextView
+                android:id="@+id/cholExceedTxt"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
+            <TextView
+                android:id="@+id/cholRecommend"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
+            <TextView
+                android:id="@+id/cholRecommendAmount"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="18dp"/>
+        </TableRow>
 
         <View
             android:layout_width="match_parent"
