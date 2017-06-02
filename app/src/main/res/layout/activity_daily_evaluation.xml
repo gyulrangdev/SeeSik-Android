@@ -83,7 +83,7 @@
             android:layout_height="45dp"
             android:layout_below="@+id/naBar"
             android:indeterminateOnly="false"
-            android:max="50"
+            android:max="15"
             android:maxHeight="20dp"
             android:minHeight="20dp"
             android:progressBackgroundTint="?android:attr/textColorHighlightInverse"
@@ -96,7 +96,7 @@
             android:layout_height="45dp"
             android:layout_below="@+id/fatBar"
             android:indeterminateOnly="false"
-            android:max="300"
+            android:max="600"
             android:progressTint="@android:color/holo_blue_bright" />
 
         <ProgressBar
@@ -106,7 +106,7 @@
             android:layout_height="45dp"
             android:layout_below="@+id/cholBar"
             android:indeterminateOnly="false"
-            android:max="65"
+            android:max="50"
             android:progressTint="@android:color/holo_purple" />
     </LinearLayout>
 

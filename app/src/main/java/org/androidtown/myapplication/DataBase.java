@@ -137,10 +137,11 @@ public class DataBase extends AppCompatActivity {
             }
         }
 
+        insertIntakeList(sugar,na,chol,fat);
         calculateHighestIngredient();
 
         logDailyList("insert dailyList",foodName);
-        insertIntakeList(sugar,na,chol,fat);
+
     }
 
     public void deleteDailyList(String foodName) {
@@ -161,14 +162,16 @@ public class DataBase extends AppCompatActivity {
         int times = c1.getInt(4);
 
         String SQL1 = "DELETE FROM dailyList WHERE foodName = '"+ foodName + "';";
+
         logDailyList("After delete dailyList",foodName);
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         userDB.execSQL(SQL1);
         c1.close();
         userDB.close();
 
-        calculateHighestIngredient();
         deleteIntakeList(sugar, na, chol, fat,times);
+        calculateHighestIngredient();
+
     }
 
     /*
@@ -245,7 +248,7 @@ public class DataBase extends AppCompatActivity {
         userDB.execSQL(SQL1);
         userDB.close();
 
-        logIntakeList("Before Delete",today);
+       logIntakeList("Before Delete",today);
         logIntakeList("After Delete",today);
 
 
@@ -280,10 +283,11 @@ public class DataBase extends AppCompatActivity {
         userDB.execSQL(SQL2);
         userDB.close();
 
+        insertIntakeList(sugar,na,chol,fat);
         calculateHighestIngredient();
 
         logDailyList("plusTimes",foodName);
-        insertIntakeList(sugar,na,chol,fat);
+
     }
 
     /*
@@ -313,10 +317,11 @@ public class DataBase extends AppCompatActivity {
         userDB.execSQL(SQL2);
         userDB.close();
 
+        deleteIntakeList(sugar,na,chol,fat,1);
         calculateHighestIngredient();
 
         logDailyList("After minusTime",foodName);
-        deleteIntakeList(sugar,na,chol,fat,1);
+
     }
 
     public String[] getFoodName() {
@@ -466,7 +471,7 @@ public class DataBase extends AppCompatActivity {
             userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
             userDB.execSQL("update intakeList set highestIngredient =" + (highIndex + 1) + " where date = '" + strDate + "';");
             userDB.close();
-            logDailyList("하이밸류 바뀜?",strDate);
+            //logDailyList("하이밸류 바뀜?",strDate);
         }
         else{
             userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
@@ -474,7 +479,7 @@ public class DataBase extends AppCompatActivity {
             userDB.close();
         }
 
-       // logIntakeList("하이 밸류 설정 후: ",strDate);
+        logIntakeList("하이 밸류 설정 후: ",strDate);
     }
 
     public int getHighestIngredient(String strDate) {
@@ -490,7 +495,7 @@ public class DataBase extends AppCompatActivity {
             c1.moveToFirst();
             int ingredient = c1.getInt(0);
 
-          //  logDailyList("달력에 넘어가는 하이값: ",strDate);
+           logDailyList("달력에 넘어가는 하이값: ",strDate);
             userDB.close();
             return ingredient;
         }
@@ -576,7 +581,7 @@ public class DataBase extends AppCompatActivity {
         Cursor c3 = userDB.rawQuery(sql, null);
         int d = c3.getCount();
         c3.moveToFirst();
-       // Log.d( state, " 오늘날짜: "+c3.getString(0) + ", 횟수: " + c3.getInt(1) + " ,음식이름: " + c3.getString(2) + " ,당: " + c3.getInt(3) + " ,나트륨: " + c3.getInt(4) + " ,콜레스테롤: " + c3.getInt(5) + " ,포화지방: " + c3.getInt(6));
+        Log.d( state, " 오늘날짜: "+c3.getString(0) + ", 횟수: " + c3.getInt(1) + " ,음식이름: " + c3.getString(2) + " ,당: " + c3.getInt(3) + " ,나트륨: " + c3.getInt(4) + " ,콜레스테롤: " + c3.getInt(5) + " ,포화지방: " + c3.getInt(6));
         c3.close();
         userDB.close();
     }

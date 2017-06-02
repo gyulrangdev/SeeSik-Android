@@ -60,7 +60,7 @@ public class DailyEvaluation extends Fragment{
         fat=db.getFat();
         sugar=db.getSugar();
 
-        recommendText.setText("Na: "+(int)na+"/2000(mg)\nchol: "+(int)chol+"/600(mg)\nfat: "+(int)fat+"/50(g)\nsugar: "+(int)sugar+" /60(g)");
+        recommendText.setText("Na: "+(int)na+"/2000(mg)\nchol: "+(int)chol+"/600(mg)\nfat: "+(int)fat+"/15(g)\nsugar: "+(int)sugar+" /50(g)");
 
         ProgressBar naBar = (ProgressBar) view.findViewById(R.id.naBar);
         naBar.setIndeterminate(false);
