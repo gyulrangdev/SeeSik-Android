@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import static android.R.attr.duration;
+
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_MENU = 101;
@@ -28,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
     ArmThread armThread;
     EyeThread eyeThread;
     EarThread earThread;
-    ImageSwitcher switcher;
+    MouthThread mouthThread;
+    ImageSwitcher switcher, switcher_m;
     boolean running;
     Animation armAnim, armDownAnim, lEarAnim, lEarDownAnim, rEarAnim, rEarDownAnim;
     boolean isArmGoingDown = false;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         evaBtn = (ImageButton) findViewById(R.id.evaluationBtn);
         selectDietBtn = (ImageButton) findViewById(R.id.selectDietBtn);
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
+        switcher_m = (ImageSwitcher) findViewById(R.id.switcher_mouth);
         nurseBtn = (ImageButton) findViewById(R.id.nurse);
         nurseView = (ImageView) findViewById(R.id.nurseWear);
         character = (FrameLayout) findViewById(R.id.character);
@@ -66,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this,Tutorial.class);
             startActivity(intent);
         }
-
 
         character.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +121,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        switcher_m.setFactory(new ViewSwitcher.ViewFactory() {
+            public View makeView() {
+                ImageView imageView = new ImageView(getApplicationContext());
+                imageView.setBackgroundColor(0x00000000);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                return imageView;
+            }
+        });
+
         startAnimation();
     }
 
@@ -136,12 +149,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void startAnimation() {
         switcher.setVisibility(View.VISIBLE);
+        switcher_m.setVisibility(View.VISIBLE);
         eyeThread = new EyeThread();
         armThread = new ArmThread();
         earThread = new EarThread();
+        mouthThread = new MouthThread();
         eyeThread.start();
         armThread.start();
         earThread.start();
+        mouthThread.start();
     }
 
     private void stopAnimation() {
@@ -153,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
         }
         switcher.setVisibility(View.INVISIBLE);
+        switcher_m.setVisibility(View.INVISIBLE);
     }
 
     class EarThread extends Thread {
@@ -186,6 +203,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     class ArmThread extends Thread {
 
         @Override
@@ -217,7 +236,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    class MouthThread extends Thread{
 
+        int m_duration;
+        final int image_m_Id[] = {R.drawable.mouth_open,R.drawable.mouth_close};
+        int m_currentIndex = 0;
+        @Override
+        public void run() {
+            running = true;
+            while (running) {
+                synchronized (this) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            switcher_m.setImageResource(image_m_Id[m_currentIndex]);
+                        }
+                    });
+                    m_currentIndex++;
+                    if (m_currentIndex == image_m_Id.length) {
+                        m_currentIndex = 0;
+                    }
+                    try {
+                        m_duration=getRandomTime(3000,5000);
+                        Thread.sleep(m_duration);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }   //while end
+
+        }
+    }
     class EyeThread extends Thread {
         int duration = 100;
         final int imageId[] = {R.drawable.eye_open, R.drawable.eye_close, R.drawable.eye_open, R.drawable.eye_close};

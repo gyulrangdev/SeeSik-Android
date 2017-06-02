@@ -39,6 +39,13 @@
         android:layout_gravity="center">
     </ImageSwitcher>
 
+    <ImageSwitcher
+        android:id="@+id/switcher_mouth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+    </ImageSwitcher>
+
     <ImageView
         android:id="@+id/leftEar"
         android:layout_width="wrap_content"
