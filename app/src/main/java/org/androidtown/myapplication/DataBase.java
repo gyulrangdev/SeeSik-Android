@@ -63,10 +63,12 @@ public class DataBase extends AppCompatActivity {
             }
             foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
             first = false;
+            userDB.close();
+            foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
+            foodDB.close();
         }
-        userDB.close();
-        foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
-        foodDB.close();
+       else
+           return ;
     }
 
     /*
@@ -91,6 +93,7 @@ public class DataBase extends AppCompatActivity {
         chol = c1.getInt(5);
         fat = c1.getInt(6);
         Log.d("search in database"," "+c1.getString(2)+" "+c1.getInt(3)+" "+c1.getInt(4)+" "+c1.getInt(5)+" "+c1.getInt(6));
+
         c1.close();
         foodDB.close();
         insertDailyList(str, sugar, na, chol, fat);
@@ -135,12 +138,17 @@ public class DataBase extends AppCompatActivity {
                 String SQL2 = "INSERT INTO dailyList VALUES('" + today + "'," + 1 + ",'" + foodName + "'," + sugar + "," + na + "," + chol + "," + fat + ");";
                 userDB.execSQL(SQL2);
             }
+            c2.close();
         }
+
+        c1.close();
+        userDB.close();
 
         insertIntakeList(sugar,na,chol,fat);
         calculateHighestIngredient();
 
         logDailyList("insert dailyList",foodName);
+
 
     }
 
@@ -363,10 +371,11 @@ public class DataBase extends AppCompatActivity {
         } else {
             c1.moveToFirst();
             sugar = c1.getInt(0);
-            c1.close();
             Log.d("getSugar", "" + sugar);
-            userDB.close();
         }
+
+        c1.close();
+        userDB.close();
         return sugar;
     }
 
@@ -385,10 +394,10 @@ public class DataBase extends AppCompatActivity {
         } else {
             c1.moveToFirst();
             na = c1.getInt(0);
-            c1.close();
             Log.d("getNa", "" + na);
-            userDB.close();
         }
+        c1.close();
+        userDB.close();
         return na;
     }
 
@@ -407,10 +416,11 @@ public class DataBase extends AppCompatActivity {
         } else {
             c1.moveToFirst();
             chol = c1.getInt(0);
-            c1.close();
             Log.d("getChol", "" + chol);
-            userDB.close();
         }
+
+        c1.close();
+        userDB.close();
         return chol;
     }
 
@@ -429,10 +439,11 @@ public class DataBase extends AppCompatActivity {
         } else {
             c1.moveToFirst();
             fat = c1.getInt(0);
-            c1.close();
             Log.d("getFat", "" + fat);
-            userDB.close();
         }
+
+        c1.close();
+        userDB.close();
         return fat;
     }
 
@@ -495,7 +506,7 @@ public class DataBase extends AppCompatActivity {
             c1.moveToFirst();
             int ingredient = c1.getInt(0);
 
-           logDailyList("달력에 넘어가는 하이값: ",strDate);
+           logIntakeList("달력에 넘어가는 하이값: ",strDate);
             userDB.close();
             return ingredient;
         }
@@ -517,6 +528,7 @@ public class DataBase extends AppCompatActivity {
             cursor.moveToNext();
         }
 
+        cursor.close();
         return foodName;
     }
 

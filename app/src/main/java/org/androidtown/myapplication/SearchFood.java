@@ -84,6 +84,7 @@ public class SearchFood extends AppCompatActivity {
                 }
             }
 
+            c.close();
         }catch(Exception e){
             e.printStackTrace();
         }finally {

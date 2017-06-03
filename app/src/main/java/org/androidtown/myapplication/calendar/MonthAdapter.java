@@ -175,9 +175,9 @@ public class MonthAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         MonthItemView itemView;
-
-      //  Log.d(TAG, "curYear : " + getCurYear() + ", curMonth : " + getCurMonth()+ " curDay: "+position+" curMonthLastDay: "+lastDay);
-        //Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
+        int tmpDay = items[position].getDay();
+       // Log.d(TAG, "curYear : " + getCurYear() + ", curMonth : " + getCurMonth()+ " curDay(position): "+position+" curMonthLastDay: "+lastDay);
+       //Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
 
         if (convertView == null) {
             itemView = new MonthItemView(mContext);
@@ -200,17 +200,16 @@ public class MonthAdapter extends BaseAdapter {
         itemView.setBackgroundColor(Color.WHITE);
         itemView.setTextColor(Color.BLACK);
 
-        Log.d("오늘 몇일: ",nowDay+""+" 지금 위치"+position);
          //set today's text color
-        if (position == nowDay && getCurMonth()==nowMonth
+        if (tmpDay == nowDay && getCurMonth()==nowMonth
                 && getCurYear() ==nowYear) {
             itemView.setTextColor(Color.rgb(66, 134, 244));
         }
 
-        if(getCurYear()<=nowYear && position>0 && position<=lastDay) {
+        if(getCurYear()<=nowYear && tmpDay>0 && tmpDay<=lastDay) {
 
-            if(getCurYear()==nowYear && getCurMonth()==nowMonth && position<=nowDay)
-                setExceedColor(itemView, position);
+            if(getCurYear()==nowYear && getCurMonth()==nowMonth && tmpDay<=nowDay)
+                setExceedColor(itemView, tmpDay);
             else if(getCurYear()==nowYear && getCurMonth()>nowMonth){}
         }
         return itemView;

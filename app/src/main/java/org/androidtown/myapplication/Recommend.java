@@ -88,7 +88,7 @@ public class Recommend extends Fragment {// please change this Recommend
             cholRecommend.setText( cholRecommendFoodList[r]);
 
         }
-        if(fat>50)
+        if(fat>15)
         {
             int fatCal = 9;
 
@@ -96,7 +96,7 @@ public class Recommend extends Fragment {// please change this Recommend
             int runningCal = 10; // 70kg 10km/h 기준
             int cycleCal = 8;// 18km/h 기준 fatsecret참고
 
-            int excessAmount = fat - 50;
+            int excessAmount = fat - 15;
             int excessCalorie = excessAmount * fatCal;
 
             fatExceed.setText(excessAmount+" g\n"+excessCalorie+" kcal");
@@ -105,7 +105,7 @@ public class Recommend extends Fragment {// please change this Recommend
             fatAmount.append(excessCalorie/runningCal+" 분\n");
             fatAmount.append(excessCalorie/cycleCal+" 분");
         }
-        if(sugar>60)
+        if(sugar>50)
         {
             int sugarCal = 4;
 
@@ -113,7 +113,7 @@ public class Recommend extends Fragment {// please change this Recommend
             int runningCal = 10; // 70kg 10km/h 기준
             int cycleCal = 8;// 18km/h 기준 fatsecret참고
 
-            int excessAmount = sugar - 60;
+            int excessAmount = sugar - 50;
             int excessCalorie = excessAmount * sugarCal;
 
             sugarExceed.setText(excessAmount+" g\n"+excessCalorie+" kcal");

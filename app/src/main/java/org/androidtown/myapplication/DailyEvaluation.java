@@ -54,7 +54,6 @@ public class DailyEvaluation extends Fragment{
         db = MainActivity.getDBInstance();
         double na, chol, fat, sugar;
 
-
         na = db.getNa();
         chol=db.getChol();
         fat=db.getFat();

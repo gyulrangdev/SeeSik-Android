@@ -46,7 +46,7 @@ public class MonthItemView extends AppCompatTextView {
             setText(" "+String.valueOf(day));
             setTypeface(Typeface.DEFAULT_BOLD);
         } else {
-            setText("");
+            setText(" ");
         }
 
     }

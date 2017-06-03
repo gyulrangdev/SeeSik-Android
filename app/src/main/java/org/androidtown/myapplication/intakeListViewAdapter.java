@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,9 +22,9 @@ public class intakeListViewAdapter extends BaseAdapter {
 
     private static DataBase db;
     TextView intakeItemTxt;
-    Button increBtn;
-    Button decreBtn;
-    Button deleteBtn;
+    ImageButton increBtn;
+    ImageButton decreBtn;
+    ImageButton deleteBtn;
     public TextView intakeNumTxt;
 
     public intakeListViewAdapter() {
@@ -50,9 +51,9 @@ public class intakeListViewAdapter extends BaseAdapter {
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         intakeItemTxt = (TextView) convertView.findViewById(R.id.intakeItemText);
-        increBtn = (Button) convertView.findViewById(R.id.increaseBtn);
-        decreBtn = (Button) convertView.findViewById(R.id.decreaseBtn);
-        deleteBtn = (Button) convertView.findViewById(R.id.deleteBtn);
+        increBtn = (ImageButton) convertView.findViewById(R.id.increaseBtn);
+        decreBtn = (ImageButton) convertView.findViewById(R.id.decreaseBtn);
+        deleteBtn = (ImageButton) convertView.findViewById(R.id.deleteBtn);
         intakeNumTxt = (TextView) convertView.findViewById(R.id.numText);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
