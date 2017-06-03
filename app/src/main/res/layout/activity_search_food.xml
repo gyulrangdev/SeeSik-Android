@@ -13,26 +13,27 @@
 
     <AutoCompleteTextView
         android:id="@+id/searchBar"
-        android:layout_width="280dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="search"
         android:completionThreshold = "2"
+        app:theme="@style/EditTextStyle"
     />
 
     <ImageButton
+        android:background="#00000000"
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/searchBar"
         android:layout_alignParentTop="true"
-        app:srcCompat="@android:drawable/ic_menu_search" />
+        android:src="@drawable/search" />
 
     <LinearLayout
         android:id="@+id/table"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_below="@+id/imageButton"
+        android:layout_below="@+id/searchBar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
             <ListView

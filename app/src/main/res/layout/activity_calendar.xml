@@ -48,9 +48,9 @@
     </LinearLayout>
 
     <TableLayout
-        android:layout_gravity="center"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="5dp"
         android:stretchColumns="*">
 
@@ -111,14 +111,56 @@
 
     <GridView
         android:id="@+id/monthView"
-        android:padding="3dp"
-        android:layout_gravity="center"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#43885a"
         android:horizontalSpacing="3dp"
         android:numColumns="7"
+        android:padding="3dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="3dp"
-        android:background="#43885a"/>
+        android:verticalSpacing="3dp" />
+
+    <TextView
+        android:id="@+id/ratioTitle"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp">
+        >
+
+        <View
+            android:id="@+id/naRatio"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/border_na"></View>
+        <View
+            android:id="@+id/fatRatio"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_toRightOf="@+id/naRatio"
+            android:background="@drawable/border_fat"
+           ></View>
+        <View
+            android:id="@+id/cholRatio"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_toRightOf="@+id/fatRatio"
+            android:background="@drawable/border_chol"></View>
+
+        <View
+            android:id="@+id/sugarRatio"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_toRightOf="@+id/cholRatio"
+            android:background="@drawable/border_sugar"></View>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -36,7 +36,7 @@ public class MonthAdapter extends BaseAdapter {
     int[] indiredient = new int[] {
             Color.WHITE,
             Color.rgb(255, 213, 0),
-            Color.rgb(153, 204, 0),
+            Color.rgb(255, 68, 68),
             Color.rgb(0, 221, 255),
             Color.rgb(170, 102, 204)
     };

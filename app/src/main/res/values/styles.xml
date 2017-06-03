@@ -10,4 +10,9 @@
     <style name = "LoadingTheme" parent="@android:style/Theme.Black.NoTitleBar">
     <item name = "android:windowBackground">@drawable/loading</item>>
     </style>
+    <style name = "EditTextStyle" parent="Base.Widget.AppCompat.AutoCompleteTextView">
+        <item name="colorControlNormal">@color/SeSSapGreen</item>
+        <item name="colorControlActivated">@color/menuColor</item>
+    </style>
+
 </resources>

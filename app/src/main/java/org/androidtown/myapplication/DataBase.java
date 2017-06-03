@@ -19,7 +19,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DataBase extends AppCompatActivity {
     SQLiteDatabase foodDB;
-    SQLiteDatabase userDB;
+    public SQLiteDatabase userDB;
     final String userDBName = "seeSik";
     String TAG = "DATABASE";
     Context context;
