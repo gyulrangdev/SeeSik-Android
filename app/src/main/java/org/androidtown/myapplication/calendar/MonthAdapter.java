@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.format.Time;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -65,10 +66,12 @@ public class MonthAdapter extends BaseAdapter {
     int nowYear = Integer.parseInt(strDate[0]);
     int nowMonth = Integer.parseInt(strDate[1]);
     int nowDay = Integer.parseInt(strDate[2]);
+    DisplayMetrics displayMetrics;
 
     public MonthAdapter(Context context) {
         super();
         mContext = context;
+        displayMetrics = context.getResources().getDisplayMetrics();
         db = MainActivity.getDBInstance();
         init();
     }
@@ -188,7 +191,7 @@ public class MonthAdapter extends BaseAdapter {
         // create a params
         GridView.LayoutParams params = new GridView.LayoutParams(
                 GridView.LayoutParams.MATCH_PARENT,
-                120);
+                Math.round(43* (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)));
 
         // set item data and properties
         itemView.setItem(items[position]);

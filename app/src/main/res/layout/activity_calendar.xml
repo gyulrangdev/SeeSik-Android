@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:weightSum="5">
 
-
         <ImageButton
             android:id="@+id/monthPrevious"
             android:layout_width="50dp"
@@ -123,44 +122,54 @@
 
     <TextView
         android:id="@+id/ratioTitle"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginBottom="7dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="15dp" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp">
-        >
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
 
-        <View
+        <TextView
             android:id="@+id/naRatio"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/border_na"></View>
-        <View
+            android:background="#ffd500"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/fatRatio"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_toRightOf="@+id/naRatio"
-            android:background="@drawable/border_fat"
-           ></View>
-        <View
+            android:background="#ff4444"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"></TextView>
+
+        <TextView
             android:id="@+id/cholRatio"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_toRightOf="@+id/fatRatio"
-            android:background="@drawable/border_chol"></View>
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"></TextView>
 
-        <View
+        <TextView
             android:id="@+id/sugarRatio"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_toRightOf="@+id/cholRatio"
-            android:background="@drawable/border_sugar"></View>
-    </RelativeLayout>
+            android:background="@android:color/holo_purple"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
 
 </LinearLayout>

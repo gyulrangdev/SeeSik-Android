@@ -4,9 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.icu.text.DecimalFormat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,11 +38,12 @@ public class Calendar_main extends Fragment {
 
     GridView monthView;//월별 캘린더 뷰 객체
     MonthAdapter monthViewAdapter;//월별 캘린터 어댑터
+    TextView naR,cholR, fatR, sugarR;//성분 별 Ratio
     TextView monthText, ratioTitle;//월 표시하는 텍스트뷰
     int curYear;//현재 연도
     int curMonth;//현재 월
-    View naR,cholR, fatR, sugarR;//R - Ratio
     static DataBase db;
+    DisplayMetrics displayMetrics;
 
     private Context context;
 
@@ -56,6 +59,7 @@ public class Calendar_main extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         context = getActivity().getApplicationContext();
         db = MainActivity.getDBInstance();
+        displayMetrics = context.getResources().getDisplayMetrics();
 
         // 월별 캘린더 뷰 객체 참조
         monthView = (GridView) view.findViewById(R.id.monthView);
@@ -67,10 +71,10 @@ public class Calendar_main extends Fragment {
         setMonthText();
         setRatioText();
 
-        naR = (View) view.findViewById(R.id.naRatio);
-        fatR = (View) view.findViewById(R.id.fatRatio);
-        cholR = (View) view.findViewById(R.id.cholRatio);
-        sugarR = (View)view.findViewById(R.id.sugarRatio);
+        naR = (TextView) view.findViewById(R.id.naRatio);
+        fatR = (TextView) view.findViewById(R.id.fatRatio);
+        cholR = (TextView) view.findViewById(R.id.cholRatio);
+        sugarR = (TextView)view.findViewById(R.id.sugarRatio);
 
         setRatio();
         // 이전 월로 넘어가는 이벤트 처리
@@ -156,15 +160,22 @@ public class Calendar_main extends Fragment {
             db.userDB.close();
         }
 
-        if(na>0)
-            naR.setLayoutParams(new RelativeLayout.LayoutParams(900/cnt*na,80));
-        if(fat>0) {
-            fatR.setLayoutParams(new RelativeLayout.LayoutParams(900 / cnt * fat, 80));
+        if(na>0) {
+            naR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * na * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+            naR.setText(Double.parseDouble(String.format("%.1f",((double)na/(double)cnt)*100))+"%");
         }
-        if(chol>0)
-            cholR.setLayoutParams(new RelativeLayout.LayoutParams(900/cnt*chol,80));
-        if(sugar>0)
-            sugarR.setLayoutParams(new RelativeLayout.LayoutParams(900/cnt*sugar,80));
+        if(fat>0) {
+            fatR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * fat * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+            fatR.setText(Double.parseDouble(String.format("%.1f",((double)fat/(double)cnt)*100))+"%");
+        }
+        if(chol>0) {
+            cholR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * chol * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+            cholR.setText(Double.parseDouble(String.format("%.1f",((double)chol/(double)cnt)*100))+"%");
+        }
+        if(sugar>0) {
+            sugarR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * sugar * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+            sugarR.setText(Double.parseDouble(String.format("%.1f",((double)sugar/(double)cnt)*100))+"%");
+        }
 
     }
 }
