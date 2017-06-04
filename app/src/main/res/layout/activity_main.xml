@@ -32,6 +32,15 @@
         android:layout_gravity="center"
         app:srcCompat="@drawable/base_body" />
 
+
+    <ImageView
+        android:id="@+id/kkya"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/kkya" />
+
     <ImageSwitcher
         android:id="@+id/switcher"
         android:layout_width="wrap_content"
