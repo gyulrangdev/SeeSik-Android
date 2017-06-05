@@ -28,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.lang.String;
 
+import static java.lang.Integer.parseInt;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -50,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
     static DataBase db;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+    SimpleDateFormat hourFormat = new SimpleDateFormat("HH",java.util.Locale.getDefault());
     Date date = new Date();
     String strDate = dateFormat.format(date);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -384,7 +387,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setBackgroundImage() {
-        if(date.getHours()>=18 && date.getHours()<=6){
+        String hour = hourFormat.format(date);
+        int cHour = Integer.parseInt(hour);
+        if(cHour>=18 || cHour <=6){
             nightTimeBackground.setVisibility(View.VISIBLE);
             dayTimeBackground.setVisibility(View.INVISIBLE);
         }
