@@ -494,7 +494,7 @@ public class DataBase extends AppCompatActivity {
     }
 
     public int getHighestIngredient(String strDate) {
-        //return 1:Na  2:fat  3:chol  4:sugar
+        //return 0: None 1:Na  2:fat  3:chol  4:sugar
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
 
         String SQL = "select highestIngredient from IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인

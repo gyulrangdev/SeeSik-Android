@@ -7,12 +7,19 @@
     android:layout_height="match_parent"
     tools:context="org.androidtown.myapplication.MainActivity">
 
-
     <FrameLayout
+        android:id="@+id/dayTimeBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_night"
-        ></FrameLayout>
+        android:visibility="invisible"
+        android:background="@drawable/background"></FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/nightTimeBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:background="@drawable/background_night"></FrameLayout>
 
 
     <FrameLayout
@@ -24,7 +31,7 @@
         android:layout_alignParentTop="true">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/base_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -77,11 +84,11 @@
             android:id="@+id/nurseWear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:src="@drawable/nurse_wear"
-            android:visibility="invisible"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:visibility="invisible" />
 
     </FrameLayout>
 
@@ -95,74 +102,72 @@
             android:id="@+id/rightNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="visible"
-            app:srcCompat="@drawable/flower_right_normal"
-            android:layout_marginRight="37dp"
-            android:layout_marginEnd="37dp"
-            android:layout_marginBottom="192dp"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_gravity="center"
+            android:layout_marginBottom="192dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginRight="37dp"
+            android:visibility="visible"
+            app:srcCompat="@drawable/flower_right_normal" />
 
         <ImageView
             android:id="@+id/rightNa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/flower_right_na"
-            android:layout_marginRight="37dp"
-            android:layout_marginEnd="37dp"
-            android:layout_marginBottom="192dp"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_gravity="center"
+            android:layout_marginBottom="192dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginRight="37dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_right_na" />
 
         <ImageView
             android:id="@+id/rightFat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/flower_right_fat"
-            android:layout_marginRight="37dp"
-            android:layout_marginEnd="37dp"
-            android:layout_marginBottom="192dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            />
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="192dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginRight="37dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_right_fat" />
 
 
         <ImageView
             android:id="@+id/rightChol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/flower_right_chol"
-            android:layout_marginRight="37dp"
-            android:layout_marginEnd="37dp"
-            android:layout_marginBottom="192dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            />
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="192dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginRight="37dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_right_chol" />
 
         <ImageView
             android:id="@+id/rightSuger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/flower_right_sugar"
-            android:layout_marginRight="37dp"
-            android:layout_marginEnd="37dp"
-            android:layout_marginBottom="192dp"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_gravity="center"
+            android:layout_marginBottom="192dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginRight="37dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_right_sugar" />
 
     </RelativeLayout>
 
@@ -173,92 +178,89 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="100dp"
-        android:textColor="@color/SeSSapGreen"
-        android:text="안녕 나는 새쌉이" />
+        android:text="안녕 나는 새쌉이"
+        android:textColor="@color/SeSSapGreen" />
 
     <RelativeLayout
         android:id="@+id/flowerLayout_left"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/leftNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="visible"
-            app:srcCompat="@drawable/flower_left_normal"
-            android:layout_marginLeft="46dp"
-            android:layout_marginStart="46dp"
-            android:layout_marginBottom="193dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="193dp"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:visibility="visible"
+            app:srcCompat="@drawable/flower_left_normal" />
 
 
         <ImageView
             android:id="@+id/leftNa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/flower_left_na"
-            android:layout_marginLeft="46dp"
-            android:layout_marginStart="46dp"
-            android:layout_marginBottom="193dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            />
+            android:layout_gravity="center"
+            android:layout_marginBottom="193dp"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_left_na" />
 
         <ImageView
             android:id="@+id/leftFat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/leftNa"
-            android:layout_gravity="center_vertical"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/flower_left_fat"
-            android:layout_marginLeft="46dp"
-            android:layout_marginStart="46dp"
-            android:layout_marginBottom="193dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            />
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="193dp"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_left_fat" />
 
 
         <ImageView
             android:id="@+id/leftChol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/flower_left_chol"
-            android:layout_marginLeft="46dp"
-            android:layout_marginStart="46dp"
-            android:layout_marginBottom="193dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="193dp"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_left_chol" />
 
         <ImageView
             android:id="@+id/leftSuger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/flower_left_sugar"
-            android:layout_marginLeft="46dp"
-            android:layout_marginStart="46dp"
-            android:layout_marginBottom="193dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            />
+            android:layout_gravity="center"
+            android:layout_marginBottom="193dp"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_left_sugar" />
 
     </RelativeLayout>
 
@@ -267,38 +269,36 @@
         android:id="@+id/selectDietBtn"
         android:layout_width="150dp"
         android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/evaluationBtn"
         android:layout_gravity="bottom"
         android:layout_marginLeft="24dp"
-        app:srcCompat="@drawable/select_diet_s"
         android:layout_marginStart="24dp"
-        android:layout_alignTop="@+id/evaluationBtn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        app:srcCompat="@drawable/select_diet_s" />
 
     <ImageButton
         android:id="@+id/evaluationBtn"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_gravity="bottom|right"
-        app:srcCompat="@drawable/daily_evaluation_s"
-        android:layout_marginBottom="13dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        app:srcCompat="@drawable/daily_evaluation_s" />
 
     <ImageButton
-        android:id="@+id/nurse"
+        android:id="@+id/settingBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|right"
-
-        app:srcCompat="@drawable/nurse"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/setting_icon" />
 
 
 </RelativeLayout>

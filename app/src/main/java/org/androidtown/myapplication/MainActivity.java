@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -19,23 +20,22 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.tsengvn.typekit.TypekitContextWrapper;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.lang.String;
 
-import static android.R.attr.duration;
-
-import com.tsengvn.typekit.TypekitContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_MENU = 101;
-    FrameLayout character;
+    FrameLayout character, dayTimeBackground, nightTimeBackground;
     RelativeLayout flowerLeft, flowerRight;
-    ImageButton nurseBtn;
-    ImageView nurseView, leftArm, leftEar, rightEar;
-    ImageButton evaBtn, selectDietBtn;
+    ImageView leftArm, leftEar, rightEar;
+    ImageButton evaBtn, selectDietBtn, settingBtn;
     Handler mHandler = new Handler();
     ArmThread armThread;
     EyeThread eyeThread;
@@ -59,11 +59,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         evaBtn = (ImageButton) findViewById(R.id.evaluationBtn);
         selectDietBtn = (ImageButton) findViewById(R.id.selectDietBtn);
+        settingBtn = (ImageButton) findViewById(R.id.settingBtn);
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
         switcher_m = (ImageSwitcher) findViewById(R.id.switcher_mouth);
-        nurseBtn = (ImageButton) findViewById(R.id.nurse);
-        nurseView = (ImageView) findViewById(R.id.nurseWear);
         character = (FrameLayout) findViewById(R.id.character);
+        dayTimeBackground=(FrameLayout)findViewById(R.id.dayTimeBackground);
+        nightTimeBackground=(FrameLayout)findViewById(R.id.nightTimeBackground);
         flowerLeft = (RelativeLayout) findViewById(R.id.flowerLayout_left);
         flowerRight = (RelativeLayout) findViewById(R.id.flowerLayout_right);
         leftArm = (ImageView) findViewById(R.id.leftArm);
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         db = new DataBase(MainActivity.this);
         hightestIndex = db.getHighestIngredient(strDate);
         setHighestIndexImage();
+        setBackgroundImage();
 
         flowerLeft.getChildAt(hightestIndex).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,8 +108,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-        character.setOnClickListener(new View.OnClickListener()
+        character.getChildAt(0).setOnClickListener(new View.OnClickListener()
 
         {
             @Override
@@ -136,19 +137,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        nurseBtn.setOnClickListener(new View.OnClickListener()
-
-        {
-            @Override
-            public void onClick(View v) {
-                if (nurseView.getVisibility() == View.INVISIBLE) {
-                    nurseView.setVisibility(View.VISIBLE);
-                } else
-                    nurseView.setVisibility(View.INVISIBLE);
-            }
-        });
-
-
         evaBtn.setOnClickListener(new View.OnClickListener()
 
         {
@@ -172,6 +160,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+//        settingBtn.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         switcher.setFactory(new ViewSwitcher.ViewFactory()
 
@@ -376,20 +372,32 @@ public class MainActivity extends AppCompatActivity {
         return db;
     }
 
-    public void setHighestIndexImage(){
-        for(int i=0;i<flowerLeft.getChildCount();i++){
+    public void setHighestIndexImage() {
+        for (int i = 0; i < flowerLeft.getChildCount(); i++) {
             flowerLeft.getChildAt(i).setVisibility(View.INVISIBLE);
         }
-        for(int i=0;i<flowerRight.getChildCount();i++){
+        for (int i = 0; i < flowerRight.getChildCount(); i++) {
             flowerRight.getChildAt(i).setVisibility(View.INVISIBLE);
         }
         flowerLeft.getChildAt(hightestIndex).setVisibility(View.VISIBLE);
         flowerRight.getChildAt(hightestIndex).setVisibility(View.VISIBLE);
     }
 
+    public void setBackgroundImage() {
+        if(date.getHours()>=18 && date.getHours()<=6){
+            nightTimeBackground.setVisibility(View.VISIBLE);
+            dayTimeBackground.setVisibility(View.INVISIBLE);
+        }
+        else{
+            nightTimeBackground.setVisibility(View.INVISIBLE);
+            dayTimeBackground.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        setBackgroundImage();
         hightestIndex = db.getHighestIngredient(strDate);
         setHighestIndexImage();
     }
@@ -397,6 +405,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        setBackgroundImage();
         hightestIndex = db.getHighestIngredient(strDate);
         setHighestIndexImage();
     }
