@@ -196,7 +196,7 @@ public class DataBase extends AppCompatActivity {
         c1.moveToFirst();
 
         if (num == 0) {
-            String SQL1 = "INSERT INTO IntakeList VALUES('" + today + "'," + sugar + "," + na + "," + chol + "," + fat + "," + 5+");";
+            String SQL1 = "INSERT INTO IntakeList VALUES('" + today + "'," + sugar + "," + na + "," + chol + "," + fat + "," +0+");";
             userDB.execSQL(SQL1);
         } else {
             c1.moveToFirst();
@@ -481,7 +481,7 @@ public class DataBase extends AppCompatActivity {
         }
         else{
             userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-            userDB.execSQL("update intakeList set highestIngredient =" + 5 + " where date = '" + strDate + "';");
+            userDB.execSQL("update intakeList set highestIngredient =" + 0 + " where date = '" + strDate + "';");
             userDB.close();
         }
 
