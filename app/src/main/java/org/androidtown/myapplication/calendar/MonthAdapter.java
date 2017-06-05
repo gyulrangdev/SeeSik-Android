@@ -224,13 +224,10 @@ public class MonthAdapter extends BaseAdapter {
         if(day<10)
             curDay="0"+String.valueOf(day);
 
-
         String date =year+"-"+month+"-"+curDay;
 
         int highValue = db.getHighestIngredient(date);
-
         itemView.setBackgroundColor(indiredient[highValue]);
-
     }
 
 

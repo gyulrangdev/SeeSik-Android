@@ -64,8 +64,8 @@ public class DataBase extends AppCompatActivity {
             foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
             foodDB.close();
         }
-       else
-           return ;
+        else
+            return ;
     }
 
     /*
@@ -196,7 +196,7 @@ public class DataBase extends AppCompatActivity {
         c1.moveToFirst();
 
         if (num == 0) {
-            String SQL1 = "INSERT INTO IntakeList VALUES('" + today + "'," + sugar + "," + na + "," + chol + "," + fat + "," +0+");";
+            String SQL1 = "INSERT INTO IntakeList VALUES('" + today + "'," + sugar + "," + na + "," + chol + "," + fat + "," +5+");";
             userDB.execSQL(SQL1);
         } else {
             c1.moveToFirst();
@@ -253,7 +253,7 @@ public class DataBase extends AppCompatActivity {
         userDB.execSQL(SQL1);
         userDB.close();
 
-       logIntakeList("Before Delete",today);
+        logIntakeList("Before Delete",today);
         logIntakeList("After Delete",today);
     }
 
@@ -481,7 +481,7 @@ public class DataBase extends AppCompatActivity {
         }
         else{
             userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-            userDB.execSQL("update intakeList set highestIngredient =" + 0 + " where date = '" + strDate + "';");
+            userDB.execSQL("update intakeList set highestIngredient =" + 5 + " where date = '" + strDate + "';");
             userDB.close();
         }
 
@@ -501,7 +501,7 @@ public class DataBase extends AppCompatActivity {
             c1.moveToFirst();
             int ingredient = c1.getInt(0);
 
-           logIntakeList("달력에 넘어가는 하이값: ",strDate);
+            logIntakeList("달력에 넘어가는 하이값: ",strDate);
             userDB.close();
             return ingredient;
         }
@@ -739,4 +739,3 @@ public class DataBase extends AppCompatActivity {
         foodDB.close();
     }
 }
-

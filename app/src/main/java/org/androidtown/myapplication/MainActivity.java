@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -26,9 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.lang.String;
-
-import static java.lang.Integer.parseInt;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -90,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         }
         db = new DataBase(MainActivity.this);
         hightestIndex = db.getHighestIngredient(strDate);
+        if(hightestIndex==5)
+            hightestIndex=0;
         setHighestIndexImage();
         setBackgroundImage();
 
@@ -109,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
                 flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);
             }
         });
-
-
         character.getChildAt(0).setOnClickListener(new View.OnClickListener()
 
         {
@@ -404,6 +400,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         setBackgroundImage();
         hightestIndex = db.getHighestIngredient(strDate);
+        if(hightestIndex==5)
+            hightestIndex=0;
         setHighestIndexImage();
     }
 
@@ -412,6 +410,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         setBackgroundImage();
         hightestIndex = db.getHighestIngredient(strDate);
+        if(hightestIndex==5)
+            hightestIndex=0;
         setHighestIndexImage();
     }
 
