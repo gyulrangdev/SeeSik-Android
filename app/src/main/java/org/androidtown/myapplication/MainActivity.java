@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db = new DataBase(MainActivity.this);
-        hightestIndex = db.getHighestIngredient(strDate);
         evaBtn = (ImageButton) findViewById(R.id.evaluationBtn);
         selectDietBtn = (ImageButton) findViewById(R.id.selectDietBtn);
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
@@ -86,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Tutorial.class);
             startActivity(intent);
         }
-
+        db = new DataBase(MainActivity.this);
+        hightestIndex = db.getHighestIngredient(strDate);
         setHighestIndexImage();
 
         flowerLeft.getChildAt(hightestIndex).setOnClickListener(new View.OnClickListener() {
@@ -386,6 +385,20 @@ public class MainActivity extends AppCompatActivity {
         }
         flowerLeft.getChildAt(hightestIndex).setVisibility(View.VISIBLE);
         flowerRight.getChildAt(hightestIndex).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hightestIndex = db.getHighestIngredient(strDate);
+        setHighestIndexImage();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        hightestIndex = db.getHighestIngredient(strDate);
+        setHighestIndexImage();
     }
 
     @Override
