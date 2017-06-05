@@ -1,7 +1,6 @@
 package org.androidtown.myapplication.calendar;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
@@ -13,15 +12,13 @@ import android.util.AttributeSet;
 public class MonthItemView extends AppCompatTextView {
 
     private MonthItem item;
-    Typeface font;
+
     public MonthItemView(Context context) {
         super(context);
-       font = Typeface.createFromAsset(getContext().getAssets(), "NanumBarunpenB.ttf");
     }
 
     public MonthItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        font = Typeface.createFromAsset(getContext().getAssets(), "NanumBarunpenB.ttf");
     }
 
     public MonthItem getItem() {
@@ -35,7 +32,6 @@ public class MonthItemView extends AppCompatTextView {
         int day = item.getDay();
         if (day != 0) {
             setText(" "+String.valueOf(day));
-            setTypeface(font);
         } else {
             setText(" ");
         }

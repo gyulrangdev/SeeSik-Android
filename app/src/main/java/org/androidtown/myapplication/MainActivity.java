@@ -18,6 +18,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static android.R.attr.duration;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 
@@ -61,10 +65,8 @@ public class MainActivity extends AppCompatActivity {
         lEarDownAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.l_ear_down_rotate);
         rEarAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.r_ear_rotate);
         rEarDownAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.r_ear_down_rotate);
-
         leftEar = (ImageView) findViewById(R.id.leftEar);
         rightEar = (ImageView) findViewById(R.id.rightEar);
-
         SharedPreferences preference = getSharedPreferences("first",MODE_PRIVATE);
         int firstviewshow = preference.getInt("first", 0);
         if (firstviewshow != 1) {
@@ -75,9 +77,27 @@ public class MainActivity extends AppCompatActivity {
         character.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final ImageView kkya = (ImageView)findViewById(R.id.kkya);
                 v.clearAnimation();
                 character.startAnimation(clickAni);
                 character.startAnimation(clickUpAni);
+                kkya.setVisibility(View.VISIBLE);
+
+                TimerTask task = new TimerTask(){
+                    @Override
+                    public void run() {
+                        mHandler.post(new Runnable(){
+                            @Override
+                            public void run() {
+                                kkya.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    }
+                };
+
+                Timer mTimer = new Timer();
+                mTimer.schedule(task,2000);
+
             }
         });
 
@@ -160,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         earThread.start();
         mouthThread.start();
     }
+
 
     private void stopAnimation() {
         running = false;

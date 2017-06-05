@@ -1,14 +1,10 @@
 package org.androidtown.myapplication.calendar;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.format.Time;
-import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +13,10 @@ import android.widget.GridView;
 
 import org.androidtown.myapplication.DataBase;
 import org.androidtown.myapplication.MainActivity;
-import org.androidtown.myapplication.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.lang.String;
 
 /**
  * Created by sohyeon on 2017-05-15.
@@ -67,12 +61,14 @@ public class MonthAdapter extends BaseAdapter {
     int nowMonth = Integer.parseInt(strDate[1]);
     int nowDay = Integer.parseInt(strDate[2]);
     DisplayMetrics displayMetrics;
+    Typeface font;
 
     public MonthAdapter(Context context) {
         super();
         mContext = context;
         displayMetrics = context.getResources().getDisplayMetrics();
         db = MainActivity.getDBInstance();
+        font = Typeface.createFromAsset(context.getAssets(), "NanumBarunpenB.ttf");
         init();
     }
 
@@ -202,6 +198,7 @@ public class MonthAdapter extends BaseAdapter {
         itemView.setGravity(Gravity.LEFT);
         itemView.setBackgroundColor(Color.WHITE);
         itemView.setTextColor(Color.BLACK);
+        itemView.setTypeface(font);
 
          //set today's text color
         if (tmpDay == nowDay && getCurMonth()==nowMonth
