@@ -18,7 +18,7 @@ public class LoadingActivity extends Activity {
 
         try{
             SoundPool loadingSound = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
-            int soundbeep = loadingSound.load(this.getApplication(),R.raw.loading2,1);
+            int soundbeep = loadingSound.load(this.getApplication(),R.raw.loading3,1);
             Thread.sleep(600);
             loadingSound.play(soundbeep,1f,1f,0,0,1f);
             Thread.sleep(1000);

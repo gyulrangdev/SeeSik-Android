@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +24,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 
 public class Calendar_main extends Fragment {
 
     GridView monthView;//월별 캘린더 뷰 객체
     MonthAdapter monthViewAdapter;//월별 캘린터 어댑터
-    TextView naR,cholR, fatR, sugarR;//성분 별 Ratio
+    TextView naR, cholR, fatR, sugarR;//성분 별 Ratio
     TextView monthText, ratioTitle;//월 표시하는 텍스트뷰
     int curYear;//현재 연도
     int curMonth;//현재 월
@@ -61,15 +63,17 @@ public class Calendar_main extends Fragment {
 
         monthText = (TextView) view.findViewById(R.id.monthText);
         ratioTitle = (TextView) view.findViewById(R.id.ratioTitle);
-        setMonthText();
-        setRatioText();
 
         naR = (TextView) view.findViewById(R.id.naRatio);
         fatR = (TextView) view.findViewById(R.id.fatRatio);
         cholR = (TextView) view.findViewById(R.id.cholRatio);
-        sugarR = (TextView)view.findViewById(R.id.sugarRatio);
+        sugarR = (TextView) view.findViewById(R.id.sugarRatio);
 
+        setMonthText();
+        init();
+        setRatioText();
         setRatio();
+
         // 이전 월로 넘어가는 이벤트 처리
         ImageButton monthPrevious = (ImageButton) view.findViewById(R.id.monthPrevious);
         monthPrevious.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +82,9 @@ public class Calendar_main extends Fragment {
                 monthViewAdapter.notifyDataSetChanged();
 
                 setMonthText();
+                setRatioText();
+                init();
+                setRatio();
             }
         });
 
@@ -89,6 +96,9 @@ public class Calendar_main extends Fragment {
                 monthViewAdapter.notifyDataSetChanged();
 
                 setMonthText();
+                setRatioText();
+                init();
+                setRatio();
             }
         });
 
@@ -104,70 +114,87 @@ public class Calendar_main extends Fragment {
     }
 
     private void setRatioText() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM dd", java.util.Locale.getDefault());
-        Date date = new Date();
-        String[] strDate = dateFormat.format(date).split(" ");
-
         ratioTitle.setTypeface(font);
-        ratioTitle.setText(strDate[0] + "월 " + strDate[1] + "일 까지의 분석");
-   }
+        ratioTitle.setText(curMonth + "월의 분석");
+    }
 
-    private void setRatio(){
-        int na=0, chol=0, fat=0, sugar=0;
-        int cnt=0;
+    private void init(){
+        naR.setLayoutParams(new LinearLayout.LayoutParams(0,0));
+        naR.setText("");
+        fatR.setLayoutParams(new LinearLayout.LayoutParams(0,0));
+        fatR.setText("");
+        cholR.setLayoutParams(new LinearLayout.LayoutParams(0,0));
+        cholR.setText("");
+        sugarR.setLayoutParams(new LinearLayout.LayoutParams(0,0));
+        sugarR.setText("");
+    }
+    private void setRatio() {
+        Log.d("지금 몇 월", curMonth+"");
+        int na = 0, chol = 0, fat = 0, sugar = 0;
+        int cnt = 0, tmpCnt=0;//tmpCnt는 전체 intake, cnt는 지금 포커스되는 달의 intake
 
         try {
             db.userDB = getActivity().openOrCreateDatabase("seeSik", MODE_PRIVATE, null);
-            String SQL = "SELECT highestIngredient FROM intakeList ";
+            String SQL = "SELECT date, highestIngredient FROM intakeList ";
             Cursor c = db.userDB.rawQuery(SQL, null);
             c.moveToFirst();
 
-            cnt = c.getCount();
+            tmpCnt = c.getCount();
 
-            if (cnt != 0) {
-                for(int i=0;i<cnt;i++)
-                {
-                    switch (c.getInt(0)){
-                        case 1:
-                            na +=1;
-                            break;
-                        case 2:
-                            fat +=1;
-                            break;
-                        case 3:
-                            chol +=1;
-                            break;
-                        case 4:
-                            sugar +=1;
-                            break;
-                        default:
-                            break;
+            if (tmpCnt != 0)
+            {
+                for (int i = 0; i < tmpCnt; i++) {
+
+                    String tmpStr[] = c.getString(0).split("-");
+                    int ptrMonth = Integer.parseInt(tmpStr[1]);
+
+                    if (ptrMonth == curMonth)
+                    {
+                        cnt++;
+                        switch (c.getInt(1)) {
+                            case 1:
+                                na += 1;
+                                break;
+                            case 2:
+                                fat += 1;
+                                break;
+                            case 3:
+                                chol += 1;
+                                break;
+                            case 4:
+                                sugar += 1;
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                    else if(ptrMonth==curMonth+1)
+                        break;
                     c.moveToNext();
                 }
             }
             c.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             db.userDB.close();
         }
 
-        if(na>0) {
+        if (na > 0) {
             naR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * na * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
-            naR.setText(Double.parseDouble(String.format("%.1f",((double)na/(double)cnt)*100))+"%");
+            naR.setText(Double.parseDouble(String.format("%.1f", ((double) na / (double) cnt) * 100)) + "%");
         }
-        if(fat>0) {
+        if (fat > 0) {
             fatR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * fat * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
-            fatR.setText(Double.parseDouble(String.format("%.1f",((double)fat/(double)cnt)*100))+"%");
+            fatR.setText(Double.parseDouble(String.format("%.1f", ((double) fat / (double) cnt) * 100)) + "%");
         }
-        if(chol>0) {
+        if (chol > 0) {
             cholR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * chol * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
-            cholR.setText(Double.parseDouble(String.format("%.1f",((double)chol/(double)cnt)*100))+"%");
+            cholR.setText(Double.parseDouble(String.format("%.1f", ((double) chol / (double) cnt) * 100)) + "%");
         }
-        if(sugar>0) {
-            sugarR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * sugar * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
-            sugarR.setText(Double.parseDouble(String.format("%.1f",((double)sugar/(double)cnt)*100))+"%");
+        if (sugar > 0) {
+           sugarR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * sugar * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+           sugarR.setText(Double.parseDouble(String.format("%.1f", ((double) sugar / (double) cnt) * 100)) + "%");
         }
 
     }
