@@ -1,86 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.androidtown.myapplication.MainActivity">
 
-    <TextView
-        android:id="@+id/colorInfoText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginBottom="10dp"
-        android:text="Color info." />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_night"
+        ></FrameLayout>
 
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/character"
-    >
+    <FrameLayout
+        android:id="@+id/character"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/base_body" />
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/base_body" />
+
+        <ImageSwitcher
+            android:id="@+id/switcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"></ImageSwitcher>
+
+        <ImageSwitcher
+            android:id="@+id/switcher_mouth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+        </ImageSwitcher>
+
+        <ImageView
+            android:id="@+id/leftEar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/left_ear" />
+
+        <ImageView
+            android:id="@+id/rightEar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/right_ear" />
+
+        <ImageView
+            android:id="@+id/leftArm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/left_arm" />
+
+        <ImageView
+            android:id="@+id/kkya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/kkya" />
+
+        <ImageView
+            android:id="@+id/nurseWear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/nurse_wear"
+            android:visibility="invisible"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </FrameLayout>
 
 
+    <RelativeLayout
+        android:id="@+id/flowerLayout_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageSwitcher
-        android:id="@+id/switcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-    </ImageSwitcher>
+        <ImageView
+            android:id="@+id/rightNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:srcCompat="@drawable/flower_right_normal"
+            android:layout_marginRight="37dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="192dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-    <ImageSwitcher
-        android:id="@+id/switcher_mouth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-    </ImageSwitcher>
+        <ImageView
+            android:id="@+id/rightNa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_right_na"
+            android:layout_marginRight="37dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="192dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-    <ImageView
-        android:id="@+id/leftEar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/left_ear" />
-
-    <ImageView
-        android:id="@+id/rightEar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/right_ear" />
-
-    <ImageView
-        android:id="@+id/leftArm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/left_arm" />
+        <ImageView
+            android:id="@+id/rightFat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_right_fat"
+            android:layout_marginRight="37dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="192dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
 
 
+        <ImageView
+            android:id="@+id/rightChol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_right_chol"
+            android:layout_marginRight="37dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="192dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
 
-    <ImageView
-        android:id="@+id/kkya"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        app:srcCompat="@drawable/kkya" />
+        <ImageView
+            android:id="@+id/rightSuger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_right_sugar"
+            android:layout_marginRight="37dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="192dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-</FrameLayout>
+    </RelativeLayout>
 
 
     <TextView
@@ -89,7 +173,118 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="100dp"
+        android:textColor="@color/SeSSapGreen"
         android:text="안녕 나는 새쌉이" />
+
+    <RelativeLayout
+        android:id="@+id/flowerLayout_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/leftNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:srcCompat="@drawable/flower_left_normal"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:layout_marginBottom="193dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:id="@+id/leftChol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_left_chol"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:layout_marginBottom="193dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:id="@+id/leftNa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_left_na"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:layout_marginBottom="193dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            />
+
+        <ImageView
+            android:id="@+id/leftFat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/leftNa"
+            android:layout_gravity="center_vertical"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_left_fat"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:layout_marginBottom="193dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            />
+
+        <ImageView
+            android:id="@+id/leftSuger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_left_sugar"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:layout_marginBottom="193dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            />
+
+    </RelativeLayout>
+
+
+    <ImageButton
+        android:id="@+id/selectDietBtn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="24dp"
+        app:srcCompat="@drawable/select_diet_s"
+        android:layout_marginStart="24dp"
+        android:layout_alignTop="@+id/evaluationBtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:id="@+id/evaluationBtn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|right"
+        app:srcCompat="@drawable/daily_evaluation_s"
+        android:layout_marginBottom="13dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:id="@+id/nurse"
@@ -97,42 +292,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
 
-        app:srcCompat="@drawable/nurse" />
-
-    <ImageButton
-        android:id="@+id/selectDietBtn"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        app:srcCompat="@drawable/select_diet_s" />
-
-    <ImageButton
-        android:id="@+id/evaluationBtn"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="5dp"
-        app:srcCompat="@drawable/daily_evaluation_s" />
-
-    <ImageView
-        android:id="@+id/nurseWear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/nurse_wear"
-        android:visibility="invisible" />
+        app:srcCompat="@drawable/nurse"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 
-    <!--<ImageView-->
-    <!--android:id="@+id/mainImage"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginBottom="15dp"-->
-    <!--android:src="@drawable/main_image" />-->
-
-
-</FrameLayout>
+</RelativeLayout>
