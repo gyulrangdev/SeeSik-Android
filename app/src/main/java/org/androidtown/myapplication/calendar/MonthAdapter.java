@@ -173,7 +173,7 @@ public class MonthAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         MonthItemView itemView;
         int tmpDay = items[position].getDay();
-       // Log.d(TAG, "curYear : " + getCurYear() + ", curMonth : " + getCurMonth()+ " curDay(position): "+position+" curMonthLastDay: "+lastDay);
+       //Log.d(TAG, "curYear : " + getCurYear() + ", curMonth : " + getCurMonth()+ " curDay(position): "+position+" curMonthLastDay: "+lastDay);
        //Log.d(TAG, "nowYear : " + nowYear + ", nowMonth : " + nowMonth + ", nowDay : " + nowDay);
 
         if (convertView == null) {
@@ -205,9 +205,10 @@ public class MonthAdapter extends BaseAdapter {
 
         if(getCurYear()<=nowYear && tmpDay>0 && tmpDay<=lastDay) {
 
-            if(getCurYear()==nowYear && getCurMonth()==nowMonth && tmpDay<=nowDay)
+            if(getCurYear()==nowYear && getCurMonth()>nowMonth){}
+            else{
                 setExceedColor(itemView, tmpDay);
-            else if(getCurYear()==nowYear && getCurMonth()>nowMonth){}
+            }
         }
         return itemView;
     }

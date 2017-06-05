@@ -18,6 +18,7 @@ public class LoadingActivity extends Activity {
 
         try{
             SoundPool loadingSound = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+
             int r = (int)(Math.random()*2)+1;
             int soundbeep;
             if(r==1)
