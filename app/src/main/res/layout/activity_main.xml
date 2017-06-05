@@ -25,6 +25,7 @@
     android:layout_height="match_parent"
     android:id="@+id/character"
     >
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
@@ -33,13 +34,6 @@
         app:srcCompat="@drawable/base_body" />
 
 
-    <ImageView
-        android:id="@+id/kkya"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        app:srcCompat="@drawable/kkya" />
 
     <ImageSwitcher
         android:id="@+id/switcher"
@@ -76,6 +70,15 @@
         android:layout_gravity="center"
         app:srcCompat="@drawable/left_arm" />
 
+
+
+    <ImageView
+        android:id="@+id/kkya"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/kkya" />
 
 </FrameLayout>
 
