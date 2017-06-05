@@ -1,5 +1,6 @@
 package org.androidtown.myapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -8,6 +9,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.androidtown.myapplication.calendar.Calendar_main;
 
@@ -77,6 +80,9 @@ public class Evaluation extends AppCompatActivity {
 
 
         });
-
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

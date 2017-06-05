@@ -1,19 +1,9 @@
 package org.androidtown.myapplication.calendar;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import org.androidtown.myapplication.R;
-
-import static org.androidtown.myapplication.R.id.textView;
 
 /**
  * Created by sohyeon on 2017-05-15.
@@ -23,15 +13,15 @@ import static org.androidtown.myapplication.R.id.textView;
 public class MonthItemView extends AppCompatTextView {
 
     private MonthItem item;
-
+    Typeface font;
     public MonthItemView(Context context) {
         super(context);
-
+       font = Typeface.createFromAsset(getContext().getAssets(), "NanumBarunpenB.ttf");
     }
 
     public MonthItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        font = Typeface.createFromAsset(getContext().getAssets(), "NanumBarunpenB.ttf");
     }
 
     public MonthItem getItem() {
@@ -39,12 +29,13 @@ public class MonthItemView extends AppCompatTextView {
     }
 
     public void setItem(MonthItem item) {
+
         this.item = item;
 
         int day = item.getDay();
         if (day != 0) {
             setText(" "+String.valueOf(day));
-            setTypeface(Typeface.DEFAULT_BOLD);
+            setTypeface(font);
         } else {
             setText(" ");
         }
