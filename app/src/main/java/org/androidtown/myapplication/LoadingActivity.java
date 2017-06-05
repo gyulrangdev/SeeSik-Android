@@ -24,7 +24,7 @@ public class LoadingActivity extends Activity {
                 soundbeep = loadingSound.load(this.getApplication(),R.raw.loading1,1);
             else
                 soundbeep = loadingSound.load(this.getApplication(),R.raw.loading2,1);
-            Thread.sleep(600);
+            Thread.sleep(200);
             loadingSound.play(soundbeep,1f,1f,0,0,1f);
             Thread.sleep(1000);
         } catch (InterruptedException e) {

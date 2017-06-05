@@ -1,18 +1,20 @@
 package org.androidtown.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.util.Log;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.like.LikeButton;
+import com.like.OnLikeListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
-
 /**
  * Created by sohyeon on 2017-05-17.
  */
@@ -25,10 +27,13 @@ public class intakeListViewAdapter extends BaseAdapter {
     ImageButton increBtn;
     ImageButton decreBtn;
     ImageButton deleteBtn;
+    LikeButton starButton;
     public TextView intakeNumTxt;
+    AlertDialog.Builder builder;
 
-    public intakeListViewAdapter() {
+    public intakeListViewAdapter(Context c) {
         db = MainActivity.getDBInstance();
+         builder= new AlertDialog.Builder(c);
     }
 
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
@@ -40,7 +45,6 @@ public class intakeListViewAdapter extends BaseAdapter {
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final int pos = position;
         final Context context = parent.getContext();
 
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
@@ -55,7 +59,7 @@ public class intakeListViewAdapter extends BaseAdapter {
         decreBtn = (ImageButton) convertView.findViewById(R.id.decreaseBtn);
         deleteBtn = (ImageButton) convertView.findViewById(R.id.deleteBtn);
         intakeNumTxt = (TextView) convertView.findViewById(R.id.numText);
-
+        starButton = (LikeButton) convertView.findViewById(R.id.star_button);
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final intakeListViewItem intakelistViewItem = listViewItemList.get(position);
 
@@ -65,6 +69,7 @@ public class intakeListViewAdapter extends BaseAdapter {
 //            descTextView.setText(listViewItem.getDesc());
         intakeItemTxt.setText(intakelistViewItem.getItemNameStr());
         intakeNumTxt.setText(intakelistViewItem.getItemNum()+"");
+        starButton.setLiked(false);
 
         final String _foodName = intakelistViewItem.getItemNameStr();
         increBtn.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +78,6 @@ public class intakeListViewAdapter extends BaseAdapter {
                 db.plusTimes(intakelistViewItem.getItemNameStr());
                 intakelistViewItem.setItemNum(db.getItemTimes(_foodName));
                 intakeNumTxt.setText(intakelistViewItem.getItemNum()+"");
-
                 notifyDataSetChanged();
             }
         });
@@ -82,10 +86,26 @@ public class intakeListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if(intakelistViewItem.getItemNum()==1){
-                    db.deleteDailyList(intakelistViewItem.getItemNameStr());
-                    listViewItemList.remove(position);
+                    builder.setTitle("삭제 확인 대화 상자")        // 제목 설정
+                            .setMessage("삭제 하시겠습니까?")        // 메세지 설정
+                            .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                                // 확인 버튼 클릭시 설정
+                                public void onClick(DialogInterface dialog, int whichButton){
+                                    db.deleteDailyList(intakelistViewItem.getItemNameStr());
+                                    listViewItemList.remove(position);
+                                    notifyDataSetChanged();
+                                }
+                            })
+                            .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                                // 취소 버튼 클릭시 설정
+                                public void onClick(DialogInterface dialog, int whichButton){
+                                    dialog.cancel();
+                                }
+                            });
 
-                    notifyDataSetChanged();
+                    AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                    dialog.show();
                 }
                 else
                 {
@@ -101,12 +121,40 @@ public class intakeListViewAdapter extends BaseAdapter {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.deleteDailyList(intakelistViewItem.getItemNameStr());
-                listViewItemList.remove(position);
-                notifyDataSetChanged();
+                builder.setTitle("삭제 확인 대화 상자")        // 제목 설정
+                        .setMessage("삭제 하시겠습니까?")        // 메세지 설정
+                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                            // 확인 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                db.deleteDailyList(intakelistViewItem.getItemNameStr());
+                                listViewItemList.remove(position);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                            // 취소 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                dialog.show();
             }
         });
 
+        starButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                db.insertFavoriteList(intakelistViewItem.getItemNameStr());
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                db.deleteFavoriteList(intakelistViewItem.getItemNameStr());
+            }
+        });
         return convertView;
     }
 
@@ -125,10 +173,8 @@ public class intakeListViewAdapter extends BaseAdapter {
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
     public void addItem(String name, int num) {
         intakeListViewItem item = new intakeListViewItem();
-
         item.setItemNameStr(name);
         item.setItemNum(num);
-
         Collections.reverse(listViewItemList);
         listViewItemList.add(item);
         Collections.reverse(listViewItemList);

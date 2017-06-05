@@ -1,6 +1,7 @@
 package org.androidtown.myapplication.calendar;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
@@ -32,6 +33,7 @@ public class MonthItemView extends AppCompatTextView {
         int day = item.getDay();
         if (day != 0) {
             setText(" "+String.valueOf(day));
+            setTypeface(Typeface.DEFAULT_BOLD);
         } else {
             setText(" ");
         }

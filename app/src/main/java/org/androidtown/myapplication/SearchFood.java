@@ -1,6 +1,8 @@
 package org.androidtown.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,24 +29,19 @@ public class SearchFood extends AppCompatActivity {
     AutoCompleteTextView textView;
 
     String foodName[]={""};// AutoCompleteTextView 안에 들어갈 String list
-    String [] foodTypeList = {"패스트푸드", "국", "튀김", "디저트","면","고기(족발, 보쌈 등)"};
-    String []foodList= {};
+    String [] foodTypeList = {"즐겨찾기","패스트푸드", "국", "튀김", "디저트","면","고기(족발, 보쌈 등)"};
 
-    String [] selectedFoodList;
-    String [] fastFoodList= {"패스트푸드","피자","햄버거","핫도그","핫바","즉석짜장,카레","삼각김밥","만두"};
-    String [] soupList= {"국","된장국,찌개","김치찌개","국밥"};
-    String [] noodleList= {"면","국수","라면","냉면","우동","자장면","짬뽕"};
-    String [] dessertList = {"디저트","과자","빵","아이스크림","요거트","초콜릿","젤리","주스","커피"};
-    String [] friedList = {"튀김류","치킨","탕수육","돈까스","강정"};
-    String [] meatList = {"고기류","족발","보쌈","햄소시지"};
+    String [] selectedFoodList = {"즐겨찾기에 들어간 것이 없습니다."};
 
     boolean searchFoodFirst = true;// searchfood에 처음으로 들어갈 때 구분 변수
 
-
+    int foodTypeNum=0;
+    AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_food);
+        builder = new AlertDialog.Builder(this);
         db = MainActivity.getDBInstance();
 
         intakeList = (ListView) findViewById(R.id.intakeList);
@@ -55,6 +52,7 @@ public class SearchFood extends AppCompatActivity {
         }
 
         loadList();
+        loadFavoriteList();
         AboutFoodName(SearchFood.this);
         AboutFoodType();
         AboutFoodList();
@@ -65,27 +63,45 @@ public class SearchFood extends AppCompatActivity {
     {
         try {
             db.userDB = openOrCreateDatabase(db.userDBName, MODE_PRIVATE, null);
-            String SQL = "SELECT foodName FROM dailyList ";
+            String SQL = "SELECT foodName FROM dailyList";
             Cursor c = db.userDB.rawQuery(SQL, null);
             c.moveToFirst();
             int cnt = c.getCount();
-
             if (cnt != 0) {
                 int[] times = db.getAlltimes();
                 String[] foodName = db.getAllFoodName();
-                intakeAdapter =new intakeListViewAdapter();
+                intakeAdapter =new intakeListViewAdapter(this);
                 intakeList.setAdapter(intakeAdapter);
-
                 for (int i = 0; i < times.length; i++) {
                     intakeAdapter.addItem(foodName[i], times[i]);
                 }
             }
-
             c.close();
         }catch(Exception e){
             e.printStackTrace();
         }finally {
             db.userDB.close();
+        }
+    }
+
+    public void loadFavoriteList()
+    {
+        try {
+            db.foodDB = openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
+            String SQL = "SELECT foodName FROM simpleFoodList WHERE foodType="+0+"";
+            Cursor c = db.foodDB.rawQuery(SQL, null);
+            c.moveToFirst();
+            int cnt = c.getCount();
+            if (cnt != 0) {
+                selectedFoodList = db.getRightList(0);
+                ArrayAdapter<String> FoodListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,selectedFoodList);
+                foodsearchedList.setAdapter(FoodListAdapter);
+            }
+            c.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            db.foodDB.close();
         }
     }
 
@@ -118,7 +134,6 @@ public class SearchFood extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
             }
         });
-
     }
 
     public void AboutFoodType()
@@ -126,10 +141,10 @@ public class SearchFood extends AppCompatActivity {
         foodType = (ListView)findViewById(R.id.foodType);
         ArrayAdapter<String> foodTypeAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,foodTypeList);
         foodType.setAdapter(foodTypeAdapter);
-        selectedFoodList = fastFoodList;
         foodType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                foodTypeNum = position;
                 changeRightList(position);
             }
         });
@@ -148,56 +163,51 @@ public class SearchFood extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String str = selectedFoodList[position];
-
                 db.searchInDatabaseAndInsert("simpleFoodList",str);//오늘 먹은 음식 list에 삽입
                 loadList();
+                if (foodTypeNum==0)
+                    loadFavoriteList();
+            }
+
+        });
+
+        foodsearchedList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final String str = selectedFoodList[position];
+                builder.setTitle("즐겨찾기 삭제 확인 대화 상자")        // 제목 설정
+                        .setMessage("삭제 하시겠습니까?")        // 메세지 설정
+                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                            // 확인 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                db.deleteFavoriteList(str);
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                            // 취소 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                dialog.show();
+                return false;
             }
         });
     }
 
     public void changeRightList(int position)
     {
-        ArrayAdapter<String> fastFoodListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,fastFoodList);
-        ArrayAdapter<String> soupListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,soupList);
-        ArrayAdapter<String> noodleListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,noodleList);
-        ArrayAdapter<String> dessertListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,dessertList);
-        ArrayAdapter<String> friedListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,friedList);
-        ArrayAdapter<String> meatListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,meatList);
-        switch (position)
-        {
-            case 0:
-                selectedFoodList = fastFoodList;
-                foodsearchedList.setAdapter(fastFoodListAdapter);
-                break;
-            case 1:
-                selectedFoodList = soupList;
-                foodsearchedList.setAdapter(soupListAdapter);
-                break;
-            case 2:
-                selectedFoodList = friedList;
-                foodsearchedList.setAdapter(friedListAdapter);
-                break;
-            case 3:
-                selectedFoodList = dessertList;
-                foodsearchedList.setAdapter(dessertListAdapter);
-                break;
-            case 4:
-                selectedFoodList = noodleList;
-                foodsearchedList.setAdapter(noodleListAdapter);
-                break;
-            case 5:
-                selectedFoodList = meatList;
-                foodsearchedList.setAdapter(meatListAdapter);
-                break;
-            default:
-                foodsearchedList.setAdapter(fastFoodListAdapter);
-                break;
-        }
+        selectedFoodList = db.getRightList(position);
+        ArrayAdapter<String> FoodListAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,selectedFoodList);
+        foodsearchedList.setAdapter(FoodListAdapter);
     }
     public void showAllThingDB()
     {
         imageButton = (ImageButton) findViewById(R.id.imageButton);
-
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

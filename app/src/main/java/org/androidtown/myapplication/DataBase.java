@@ -14,8 +14,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static android.content.Context.MODE_PRIVATE;
-
 
 public class DataBase extends AppCompatActivity {
     SQLiteDatabase foodDB;
@@ -35,7 +33,6 @@ public class DataBase extends AppCompatActivity {
     public void createTable() {
         //To create userInfo, intakeList in database
         if (first) {
-            userDB.execSQL("create table if not exists userInfo (age integer, gender integer);");// Create userInfo table
             userDB.execSQL("create table if not exists dailyList(date text,times integer,foodName text ,sugar int,na int,chol int,fat int );");// Create intakeList table
             userDB.execSQL("create table if not exists intakeList(date text, sugar int, na int, chol int, fat int, highestIngredient int);");
             File folder = new File("data/data/org.androidtown.myapplication/databases/");
@@ -88,11 +85,11 @@ public class DataBase extends AppCompatActivity {
         int fat = 0;
         // 어차피 name value로 같은 값을 찾기 때문에 따로 복사는 안함
         c1.moveToFirst();
-        sugar = c1.getInt(3);
-        na = c1.getInt(4);
-        chol = c1.getInt(5);
-        fat = c1.getInt(6);
-        Log.d("search in database"," "+c1.getString(2)+" "+c1.getInt(3)+" "+c1.getInt(4)+" "+c1.getInt(5)+" "+c1.getInt(6));
+        sugar = c1.getInt(2);
+        na = c1.getInt(3);
+        chol = c1.getInt(4);
+        fat = c1.getInt(5);
+        Log.d("search in database"," "+c1.getString(1)+" "+c1.getInt(2)+" "+c1.getInt(3)+" "+c1.getInt(4)+" "+c1.getInt(5));
 
         c1.close();
         foodDB.close();
@@ -199,7 +196,7 @@ public class DataBase extends AppCompatActivity {
         c1.moveToFirst();
 
         if (num == 0) {
-            String SQL1 = "INSERT INTO IntakeList VALUES('" + today + "'," + sugar + "," + na + "," + chol + "," + fat + "," + 0+");";
+            String SQL1 = "INSERT INTO IntakeList VALUES('" + today + "'," + sugar + "," + na + "," + chol + "," + fat + "," + 5+");";
             userDB.execSQL(SQL1);
         } else {
             c1.moveToFirst();
@@ -258,8 +255,6 @@ public class DataBase extends AppCompatActivity {
 
        logIntakeList("Before Delete",today);
         logIntakeList("After Delete",today);
-
-
     }
 
 
@@ -486,7 +481,7 @@ public class DataBase extends AppCompatActivity {
         }
         else{
             userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
-            userDB.execSQL("update intakeList set highestIngredient =" + 0 + " where date = '" + strDate + "';");
+            userDB.execSQL("update intakeList set highestIngredient =" + 5 + " where date = '" + strDate + "';");
             userDB.close();
         }
 
@@ -529,6 +524,7 @@ public class DataBase extends AppCompatActivity {
         }
 
         cursor.close();
+        userDB.close();
         return foodName;
     }
 
@@ -545,7 +541,7 @@ public class DataBase extends AppCompatActivity {
             times[i]= cursor.getInt(0);
             cursor.moveToNext();
         }
-
+        userDB.close();
         return times;
     }
 
@@ -567,8 +563,9 @@ public class DataBase extends AppCompatActivity {
             userDB.close();
             if(num==0)
                 return false;
-            else
+            else {
                 return true;
+            }
         }
         else {
             userDB.close();
@@ -638,6 +635,108 @@ public class DataBase extends AppCompatActivity {
         }
         c2.close();
         userDB.close();
+    }
+
+    public void insertFavoriteList(String foodName)
+    {
+        foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
+        String sql1 = "SELECT sugar,na,chol,fat FROM simpleFoodList where foodType !="+0+" and foodName = '"+foodName+"';";
+        String sql2 = "SELECT sugar,na,chol,fat FROM foodList where foodName = '"+foodName+"';";
+        Cursor c1 = foodDB.rawQuery(sql1,null);
+        Cursor c2 = foodDB.rawQuery(sql2,null);
+        int num1 = c1.getCount();
+        int num2 = c2.getCount();
+        c1.moveToFirst();
+        c2.moveToFirst();
+        int sugar = 0;
+        int na = 0;
+        int chol = 0;
+        int fat = 0;
+
+        if(num1==0);
+        else if(num1!=0)
+        {
+            String SQL1 = "SELECT sugar FROM simpleFoodList where foodType ="+0+" and foodName = '"+foodName+"';";
+            Cursor c3 = foodDB.rawQuery(SQL1,null);
+            int num = c3.getCount();
+            if(num!=1) {
+                sugar = c1.getInt(0);
+                na = c1.getInt(1);
+                chol = c1.getInt(2);
+                fat = c1.getInt(3);
+                String SQL2 = "INSERT INTO simpleFoodList VALUES(" + 0 + ",'" + foodName + "'," + sugar + "," + na + "," + chol + "," + fat + ");";
+                foodDB.execSQL(SQL2);
+                foodDB.close();
+            }
+            logSimpleList();
+            return;
+        }
+        if(num2==0);
+        else
+        {
+            String SQL1 = "SELECT sugar FROM simpleFoodList where foodType ="+0+" and foodName = '"+foodName+"';";
+            Cursor c3 = foodDB.rawQuery(SQL1,null);
+            int num = c3.getCount();
+            if(num!=1) {
+                sugar = c2.getInt(0);
+                na = c2.getInt(1);
+                chol = c2.getInt(2);
+                fat = c2.getInt(3);
+                String SQL2 = "INSERT INTO simpleFoodList VALUES(" + 0 + ",'" + foodName + "'," + sugar + "," + na + "," + chol + "," + fat + ");";
+                foodDB.execSQL(SQL2);
+                foodDB.close();
+            }
+            logSimpleList();
+            return;
+        }
+    }
+
+    public void deleteFavoriteList(String foodName)
+    {
+        foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
+        String sql1 = "SELECT sugar FROM simpleFoodList where foodType=" + 0 + " and foodName = '"+foodName+"';";
+        Cursor c1 = foodDB.rawQuery(sql1,null);
+        int num=c1.getCount();
+        if(num!=0) {
+            String SQL1 = "DELETE FROM simpleFoodList WHERE foodType=" + 0 + " and foodName = '" + foodName + "';";
+            foodDB.execSQL(SQL1);
+        }
+        foodDB.close();
+    }
+
+    public String[] getRightList(int foodType)
+    {
+        foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
+        String SQL = "select distinct foodName from simpleFoodList WHERE foodType = "+foodType+";";
+        Cursor c1 = foodDB.rawQuery(SQL, null);
+        int num = c1.getCount();
+        c1.moveToFirst();
+        String RightList[] = new String[num];
+        for (int i = 0; i < num; i++) {
+            RightList[i] = c1.getString(0);
+            c1.moveToNext();
+        }
+        c1.close();
+        foodDB.close();
+        return RightList;
+    }
+
+    public void logSimpleList()
+    {
+        foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
+        String sql2 = "select * from simpleFoodList;";
+        Cursor c1 = foodDB.rawQuery(sql2,null);
+
+        int num1 = c1.getCount();
+
+        c1.moveToFirst();
+
+        for(int i=0;i<num1;i++)
+        {
+            Log.d( "SimpleFoodListAll" ,"종류: " + c1.getInt(0) + ",음식 이름: "+c1.getString(1) + ",당: " + c1.getInt(2) + " ,나트륨: " + c1.getInt(3) + " ,콜레스테롤: " + c1.getInt(4) + " ,포화지방: " + c1.getInt(5));
+            c1.moveToNext();
+        }
+        foodDB.close();
     }
 }
 

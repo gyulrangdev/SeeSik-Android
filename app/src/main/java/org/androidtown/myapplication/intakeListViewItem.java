@@ -7,12 +7,17 @@ package org.androidtown.myapplication;
 public class intakeListViewItem {
     private String ItemNameStr;
     private int ItemNum;
+    private boolean starLiked;
 
     public String getItemNameStr() { return ItemNameStr;
     }
 
     public void setItemNameStr(String itemNameStr) {
         ItemNameStr = itemNameStr;
+    }
+
+    public void setStarLiked(boolean starliked) {
+        starLiked= starliked;
     }
 
     public int getItemNum() {
@@ -22,5 +27,7 @@ public class intakeListViewItem {
     public void setItemNum(int itemNum) {
         ItemNum = itemNum;
     }
+
+    public boolean getStarLiked() {return starLiked;}
 
 }

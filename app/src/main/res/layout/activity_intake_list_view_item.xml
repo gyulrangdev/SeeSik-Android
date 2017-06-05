@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
@@ -48,4 +49,18 @@
         android:layout_weight="1"
         />
 
+    <com.like.LikeButton
+        android:id="@+id/star_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:icon_size="25dp"
+        app:icon_type="star"
+        app:is_enabled="true"
+        android:layout_marginTop="12dp"
+        app:circle_start_color="@color/colorPrimary"
+        app:dots_primary_color="@color/colorAccent"
+        app:dots_secondary_color="@color/colorPrimary"
+        app:circle_end_color="@color/colorAccent"
+        app:liked="false"
+        app:anim_scale_factor="1.5" />
 </LinearLayout>

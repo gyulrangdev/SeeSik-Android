@@ -2,7 +2,6 @@ package org.androidtown.myapplication.calendar;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -33,7 +32,8 @@ public class MonthAdapter extends BaseAdapter {
             Color.rgb(255, 213, 0),
             Color.rgb(255, 68, 68),
             Color.rgb(0, 221, 255),
-            Color.rgb(170, 102, 204)
+            Color.rgb(170, 102, 204),
+            Color.rgb(114,191,141)
     };
 
     public static final String TAG = "MonthAdapter";
@@ -61,14 +61,12 @@ public class MonthAdapter extends BaseAdapter {
     int nowMonth = Integer.parseInt(strDate[1]);
     int nowDay = Integer.parseInt(strDate[2]);
     DisplayMetrics displayMetrics;
-    Typeface font;
 
     public MonthAdapter(Context context) {
         super();
         mContext = context;
         displayMetrics = context.getResources().getDisplayMetrics();
         db = MainActivity.getDBInstance();
-        font = Typeface.createFromAsset(context.getAssets(), "NanumBarunpenB.ttf");
         init();
     }
 
@@ -198,7 +196,6 @@ public class MonthAdapter extends BaseAdapter {
         itemView.setGravity(Gravity.LEFT);
         itemView.setBackgroundColor(Color.WHITE);
         itemView.setTextColor(Color.BLACK);
-        itemView.setTypeface(font);
 
          //set today's text color
         if (tmpDay == nowDay && getCurMonth()==nowMonth

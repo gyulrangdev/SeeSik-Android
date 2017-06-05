@@ -28,6 +28,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.tsengvn:Typekit:1.0.0'
+    compile 'com.github.jd-alexander:LikeButton:0.2.1'
 }
 
 dependencies {
