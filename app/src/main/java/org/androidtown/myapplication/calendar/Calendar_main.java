@@ -2,36 +2,27 @@ package org.androidtown.myapplication.calendar;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
-import android.icu.text.DecimalFormat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.androidtown.myapplication.DataBase;
 import org.androidtown.myapplication.MainActivity;
 import org.androidtown.myapplication.R;
-import org.androidtown.myapplication.intakeListViewAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static org.androidtown.myapplication.R.id.intakeList;
-import static org.androidtown.myapplication.R.id.monthPrevious;
 
 
 public class Calendar_main extends Fragment {
@@ -44,7 +35,7 @@ public class Calendar_main extends Fragment {
     int curMonth;//현재 월
     static DataBase db;
     DisplayMetrics displayMetrics;
-
+    Typeface font;
     private Context context;
 
     @Nullable
@@ -56,7 +47,9 @@ public class Calendar_main extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
+        font = Typeface.createFromAsset(getContext().getAssets(), "NanumBarunpenB.ttf");
         context = getActivity().getApplicationContext();
         db = MainActivity.getDBInstance();
         displayMetrics = context.getResources().getDisplayMetrics();
@@ -115,7 +108,7 @@ public class Calendar_main extends Fragment {
         Date date = new Date();
         String[] strDate = dateFormat.format(date).split(" ");
 
-        ratioTitle.setTypeface(Typeface.DEFAULT_BOLD);
+        ratioTitle.setTypeface(font);
         ratioTitle.setText(strDate[0] + "월 " + strDate[1] + "일 까지의 분석");
    }
 
@@ -161,19 +154,19 @@ public class Calendar_main extends Fragment {
         }
 
         if(na>0) {
-            naR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * na * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+            naR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * na * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
             naR.setText(Double.parseDouble(String.format("%.1f",((double)na/(double)cnt)*100))+"%");
         }
         if(fat>0) {
-            fatR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * fat * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+            fatR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * fat * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
             fatR.setText(Double.parseDouble(String.format("%.1f",((double)fat/(double)cnt)*100))+"%");
         }
         if(chol>0) {
-            cholR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * chol * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+            cholR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * chol * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
             cholR.setText(Double.parseDouble(String.format("%.1f",((double)chol/(double)cnt)*100))+"%");
         }
         if(sugar>0) {
-            sugarR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * sugar * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+            sugarR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * sugar * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
             sugarR.setText(Double.parseDouble(String.format("%.1f",((double)sugar/(double)cnt)*100))+"%");
         }
 

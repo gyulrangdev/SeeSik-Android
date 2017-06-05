@@ -2,30 +2,18 @@ package org.androidtown.myapplication;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.view.View.OnClickListener;
-import org.androidtown.myapplication.calendar.Calendar_main;
-
-import static android.R.attr.name;
-import static android.R.attr.onClick;
-import static org.androidtown.myapplication.R.id.naBar;
-import static org.androidtown.myapplication.SearchFood.db;
 
 public class DailyEvaluation extends Fragment{
     LinearLayout mainLayout;
@@ -59,7 +47,7 @@ public class DailyEvaluation extends Fragment{
         fat=db.getFat();
         sugar=db.getSugar();
 
-        recommendText.setText("Na: "+(int)na+"/2000(mg)\nchol: "+(int)chol+"/600(mg)\nfat: "+(int)fat+"/15(g)\nsugar: "+(int)sugar+" /50(g)");
+        recommendText.setText("나트륨: "+(int)na+"/2000(mg)\n콜레스테롤: "+(int)chol+"/600(mg)\n포화지방: "+(int)fat+"/15(g)\n당: "+(int)sugar+" /50(g)");
 
         ProgressBar naBar = (ProgressBar) view.findViewById(R.id.naBar);
         naBar.setIndeterminate(false);

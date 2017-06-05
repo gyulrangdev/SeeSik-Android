@@ -1,6 +1,7 @@
 package org.androidtown.myapplication;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static android.R.attr.duration;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -333,5 +335,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopAnimation();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }
