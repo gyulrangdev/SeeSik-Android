@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -28,6 +29,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_MENU = 101;
     FrameLayout character;
+    RelativeLayout flowerLeft, flowerRight;
     ImageButton nurseBtn;
     ImageView nurseView, leftArm, leftEar, rightEar;
     ImageButton evaBtn, selectDietBtn;
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     MouthThread mouthThread;
     ImageSwitcher switcher, switcher_m;
     boolean running;
-    Animation armAnim, armDownAnim, lEarAnim, lEarDownAnim, rEarAnim, rEarDownAnim;
+    Animation armAnim, armDownAnim, lEarAnim, lEarDownAnim, rEarAnim, rEarDownAnim, flowerAnim;
     boolean isArmGoingDown = false;
     boolean isEarGoingDown = false;
 
@@ -56,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
         nurseBtn = (ImageButton) findViewById(R.id.nurse);
         nurseView = (ImageView) findViewById(R.id.nurseWear);
         character = (FrameLayout) findViewById(R.id.character);
+
+        flowerLeft = (RelativeLayout)findViewById(R.id.flowerLayout_left);
+        flowerRight=(RelativeLayout)findViewById(R.id.flowerLayout_right);
+
         leftArm = (ImageView) findViewById(R.id.leftArm);
         final Animation clickAni = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.click_animation);
         final Animation clickUpAni = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.click_up_animation);
@@ -65,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         lEarDownAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.l_ear_down_rotate);
         rEarAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.r_ear_rotate);
         rEarDownAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.r_ear_down_rotate);
+        flowerAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.flower_rotate);
         leftEar = (ImageView) findViewById(R.id.leftEar);
         rightEar = (ImageView) findViewById(R.id.rightEar);
         SharedPreferences preference = getSharedPreferences("first",MODE_PRIVATE);
@@ -73,6 +80,34 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this,Tutorial.class);
             startActivity(intent);
         }
+
+        flowerLeft.getChildAt(0).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                v.clearAnimation();
+                for(int i=0;i<flowerLeft.getChildCount();i++){
+                    if(flowerLeft.getChildAt(i).getVisibility()==View.VISIBLE){
+                        flowerLeft.getChildAt(i).startAnimation(flowerAnim);
+                        break;
+                    }
+                }
+            }
+        });
+
+        flowerRight.getChildAt(0).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                v.clearAnimation();
+                for(int i=0;i<flowerRight.getChildCount();i++){
+                    if(flowerRight.getChildAt(i).getVisibility()==View.VISIBLE){
+                        flowerRight.getChildAt(i).startAnimation(flowerAnim);
+                        break;
+                    }
+                }
+            }
+        });
+
+
 
         character.setOnClickListener(new View.OnClickListener() {
             @Override
