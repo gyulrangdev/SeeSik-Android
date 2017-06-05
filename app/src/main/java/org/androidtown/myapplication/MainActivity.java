@@ -19,10 +19,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static android.R.attr.duration;
+
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 
@@ -43,14 +46,19 @@ public class MainActivity extends AppCompatActivity {
     Animation armAnim, armDownAnim, lEarAnim, lEarDownAnim, rEarAnim, rEarDownAnim, flowerAnim;
     boolean isArmGoingDown = false;
     boolean isEarGoingDown = false;
-
+    int hightestIndex = 0;
     static DataBase db;
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+    Date date = new Date();
+    String strDate = dateFormat.format(date);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = new DataBase(MainActivity.this);
+        hightestIndex = db.getHighestIngredient(strDate);
         evaBtn = (ImageButton) findViewById(R.id.evaluationBtn);
         selectDietBtn = (ImageButton) findViewById(R.id.selectDietBtn);
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
@@ -58,70 +66,63 @@ public class MainActivity extends AppCompatActivity {
         nurseBtn = (ImageButton) findViewById(R.id.nurse);
         nurseView = (ImageView) findViewById(R.id.nurseWear);
         character = (FrameLayout) findViewById(R.id.character);
-
-        flowerLeft = (RelativeLayout)findViewById(R.id.flowerLayout_left);
-        flowerRight=(RelativeLayout)findViewById(R.id.flowerLayout_right);
-
+        flowerLeft = (RelativeLayout) findViewById(R.id.flowerLayout_left);
+        flowerRight = (RelativeLayout) findViewById(R.id.flowerLayout_right);
         leftArm = (ImageView) findViewById(R.id.leftArm);
         final Animation clickAni = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.click_animation);
         final Animation clickUpAni = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.click_up_animation);
         armAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.arm_rotate);
         armDownAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.arm_down_rotate);
-        lEarAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.l_ear_rotate);
-        lEarDownAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.l_ear_down_rotate);
+        lEarAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.l_ear_rotate);
+        lEarDownAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.l_ear_down_rotate);
         rEarAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.r_ear_rotate);
-        rEarDownAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.r_ear_down_rotate);
-        flowerAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.flower_rotate);
+        rEarDownAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.r_ear_down_rotate);
+        flowerAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.flower_rotate);
         leftEar = (ImageView) findViewById(R.id.leftEar);
         rightEar = (ImageView) findViewById(R.id.rightEar);
-        SharedPreferences preference = getSharedPreferences("first",MODE_PRIVATE);
+        SharedPreferences preference = getSharedPreferences("first", MODE_PRIVATE);
         int firstviewshow = preference.getInt("first", 0);
         if (firstviewshow != 1) {
-            Intent intent = new Intent(MainActivity.this,Tutorial.class);
+            Intent intent = new Intent(MainActivity.this, Tutorial.class);
             startActivity(intent);
         }
 
-        flowerLeft.getChildAt(0).setOnClickListener(new View.OnClickListener(){
+        setHighestIndexImage();
+
+        flowerLeft.getChildAt(hightestIndex).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.clearAnimation();
-                for(int i=0;i<flowerLeft.getChildCount();i++){
-                    if(flowerLeft.getChildAt(i).getVisibility()==View.VISIBLE){
-                        flowerLeft.getChildAt(i).startAnimation(flowerAnim);
-                        break;
-                    }
-                }
+                flowerLeft.getChildAt(hightestIndex).startAnimation(flowerAnim);
             }
         });
 
-        flowerRight.getChildAt(0).setOnClickListener(new View.OnClickListener(){
+
+        flowerRight.getChildAt(hightestIndex).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.clearAnimation();
-                for(int i=0;i<flowerRight.getChildCount();i++){
-                    if(flowerRight.getChildAt(i).getVisibility()==View.VISIBLE){
-                        flowerRight.getChildAt(i).startAnimation(flowerAnim);
-                        break;
-                    }
-                }
+                flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);
             }
         });
 
 
 
-        character.setOnClickListener(new View.OnClickListener() {
+        character.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
-                final ImageView kkya = (ImageView)findViewById(R.id.kkya);
+                final ImageView kkya = (ImageView) findViewById(R.id.kkya);
                 v.clearAnimation();
                 character.startAnimation(clickAni);
                 character.startAnimation(clickUpAni);
                 kkya.setVisibility(View.VISIBLE);
 
-                TimerTask task = new TimerTask(){
+                TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
-                        mHandler.post(new Runnable(){
+                        mHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 kkya.setVisibility(View.INVISIBLE);
@@ -131,12 +132,14 @@ public class MainActivity extends AppCompatActivity {
                 };
 
                 Timer mTimer = new Timer();
-                mTimer.schedule(task,2000);
+                mTimer.schedule(task, 2000);
 
             }
         });
 
-        nurseBtn.setOnClickListener(new View.OnClickListener() {
+        nurseBtn.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 if (nurseView.getVisibility() == View.INVISIBLE) {
@@ -147,7 +150,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        evaBtn.setOnClickListener(new View.OnClickListener() {
+        evaBtn.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 v.clearAnimation();
@@ -157,7 +162,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        selectDietBtn.setOnClickListener(new View.OnClickListener() {
+        selectDietBtn.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 v.clearAnimation();
@@ -167,7 +174,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+        switcher.setFactory(new ViewSwitcher.ViewFactory()
+
+        {
             public View makeView() {
                 ImageView imageView = new ImageView(getApplicationContext());
                 imageView.setBackgroundColor(0x00000000);
@@ -177,7 +186,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        switcher_m.setFactory(new ViewSwitcher.ViewFactory() {
+        switcher_m.setFactory(new ViewSwitcher.ViewFactory()
+
+        {
             public View makeView() {
                 ImageView imageView = new ImageView(getApplicationContext());
                 imageView.setBackgroundColor(0x00000000);
@@ -260,8 +271,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
     class ArmThread extends Thread {
 
         @Override
@@ -293,11 +302,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class MouthThread extends Thread{
+    class MouthThread extends Thread {
 
         int m_duration;
-        final int image_m_Id[] = {R.drawable.mouth_open,R.drawable.mouth_close};
+        final int image_m_Id[] = {R.drawable.mouth_open, R.drawable.mouth_close};
         int m_currentIndex = 0;
+
         @Override
         public void run() {
             running = true;
@@ -314,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
                         m_currentIndex = 0;
                     }
                     try {
-                        m_duration=getRandomTime(3000,5000);
+                        m_duration = getRandomTime(3000, 5000);
                         Thread.sleep(m_duration);
                     } catch (InterruptedException e) {
                     }
@@ -323,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
     class EyeThread extends Thread {
         int duration = 100;
         final int imageId[] = {R.drawable.eye_open, R.drawable.eye_close, R.drawable.eye_open, R.drawable.eye_close};
@@ -364,6 +375,17 @@ public class MainActivity extends AppCompatActivity {
 
     public static DataBase getDBInstance() {
         return db;
+    }
+
+    public void setHighestIndexImage(){
+        for(int i=0;i<flowerLeft.getChildCount();i++){
+            flowerLeft.getChildAt(i).setVisibility(View.INVISIBLE);
+        }
+        for(int i=0;i<flowerRight.getChildCount();i++){
+            flowerRight.getChildAt(i).setVisibility(View.INVISIBLE);
+        }
+        flowerLeft.getChildAt(hightestIndex).setVisibility(View.VISIBLE);
+        flowerRight.getChildAt(hightestIndex).setVisibility(View.VISIBLE);
     }
 
     @Override

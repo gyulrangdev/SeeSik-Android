@@ -198,19 +198,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <ImageView
-            android:id="@+id/leftChol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/flower_left_chol"
-            android:layout_marginLeft="46dp"
-            android:layout_marginStart="46dp"
-            android:layout_marginBottom="193dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
         <ImageView
             android:id="@+id/leftNa"
@@ -242,6 +229,21 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             />
+
+
+        <ImageView
+            android:id="@+id/leftChol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/flower_left_chol"
+            android:layout_marginLeft="46dp"
+            android:layout_marginStart="46dp"
+            android:layout_marginBottom="193dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <ImageView
             android:id="@+id/leftSuger"
