@@ -7,12 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,10 +21,10 @@ public class intakeListViewAdapter extends BaseAdapter {
 
     private static DataBase db;
     TextView intakeItemTxt;
-    ImageButton increBtn;
-    ImageButton decreBtn;
-    ImageButton deleteBtn;
-    LikeButton starButton;
+    ImageView increBtn;
+    ImageView decreBtn;
+    ImageView deleteBtn;
+
     public TextView intakeNumTxt;
     AlertDialog.Builder builder;
 
@@ -56,11 +52,10 @@ public class intakeListViewAdapter extends BaseAdapter {
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         intakeItemTxt = (TextView) convertView.findViewById(R.id.intakeItemText);
-        increBtn = (ImageButton) convertView.findViewById(R.id.increaseBtn);
-        decreBtn = (ImageButton) convertView.findViewById(R.id.decreaseBtn);
-        deleteBtn = (ImageButton) convertView.findViewById(R.id.deleteBtn);
+        increBtn = (ImageView) convertView.findViewById(R.id.increaseBtn);
+        decreBtn = (ImageView) convertView.findViewById(R.id.decreaseBtn);
+        deleteBtn = (ImageView) convertView.findViewById(R.id.deleteBtn);
         intakeNumTxt = (TextView) convertView.findViewById(R.id.numText);
-        starButton = (LikeButton) convertView.findViewById(R.id.star_button);
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final intakeListViewItem intakelistViewItem = listViewItemList.get(position);
 
@@ -70,7 +65,6 @@ public class intakeListViewAdapter extends BaseAdapter {
 //            descTextView.setText(listViewItem.getDesc());
         intakeItemTxt.setText(intakelistViewItem.getItemNameStr());
         intakeNumTxt.setText(intakelistViewItem.getItemNum()+"");
-        starButton.setLiked(false);
 
         final String _foodName = intakelistViewItem.getItemNameStr();
         increBtn.setOnClickListener(new View.OnClickListener() {
@@ -143,34 +137,6 @@ public class intakeListViewAdapter extends BaseAdapter {
                 dialog.show();
             }
         });
-
-        convertView.setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                builder.setTitle("즐겨찾기")        // 제목 설정
-                        .setMessage(intakelistViewItem.getItemNameStr()+" 을/를 즐겨찾기에 추가 하시겠습니까?")// 메세지 설정
-                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
-                            // 확인 버튼 클릭시 설정
-                            public void onClick(DialogInterface dialog, int whichButton){
-                                db.insertFavoriteList(intakelistViewItem.getItemNameStr());
-                            }
-                        })
-                        .setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                            // 취소 버튼 클릭시 설정
-                            public void onClick(DialogInterface dialog, int whichButton){
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog dialog = builder.create();    // 알림창 객체 생성
-                dialog.show();
-                return true;
-            }
-        });
-
-
         return convertView;
     }
 

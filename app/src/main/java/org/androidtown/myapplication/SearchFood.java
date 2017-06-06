@@ -28,7 +28,7 @@ public class SearchFood extends AppCompatActivity {
     AutoCompleteTextView textView;
 
     String foodName[] = {""};// AutoCompleteTextView 안에 들어갈 String list
-    String[] foodTypeList = {"즐겨찾기", "패스트푸드", "국", "튀김", "디저트", "면", "고기(족발, 보쌈 등)"};
+    String[] foodTypeList = {"즐겨찾기", "패스트푸드", "국","면", "디저트", "튀김", "고기(족발, 보쌈 등)"};
 
     String[] selectedFoodList = {"즐겨찾기에 들어간 것이 없습니다."};
 
@@ -56,8 +56,36 @@ public class SearchFood extends AppCompatActivity {
         AboutFoodType();
         AboutFoodList();
         showAllThingDB();
-    }
 
+        intakeList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final intakeListViewItem item = (intakeListViewItem) intakeAdapter.getItem(position);
+                builder.setTitle("즐겨찾기")        // 제목 설정
+                        .setMessage(item.getItemNameStr() +" 을/를 즐겨찾기에 추가 하시겠습니까?")// 메세지 설정
+                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                            // 확인 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                db.insertFavoriteList(item.getItemNameStr());
+                                loadFavoriteList();
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                            // 취소 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                dialog.show();
+
+                return false;
+            }
+        });
+    }
     public void loadList() {
         try {
             db.userDB = openOrCreateDatabase(db.userDBName, MODE_PRIVATE, null);
@@ -158,8 +186,6 @@ public class SearchFood extends AppCompatActivity {
                 String str = selectedFoodList[position];
                 db.searchInDatabaseAndInsert("simpleFoodList", str);//오늘 먹은 음식 list에 삽입
                 loadList();
-                if (foodTypeNum == 0)
-                    loadFavoriteList();
             }
 
         });
@@ -178,7 +204,6 @@ public class SearchFood extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     db.deleteFavoriteList(str);
                                     loadFavoriteList();
-
                                 }
                             })
                             .setNegativeButton("취소", new DialogInterface.OnClickListener() {
