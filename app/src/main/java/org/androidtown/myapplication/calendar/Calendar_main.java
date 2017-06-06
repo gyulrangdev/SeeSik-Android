@@ -150,19 +150,22 @@ public class Calendar_main extends Fragment {
 
                     if (ptrMonth == curMonth)
                     {
-                        cnt++;
                         switch (c.getInt(1)) {
                             case 1:
                                 na += 1;
+                                cnt++;
                                 break;
                             case 2:
                                 fat += 1;
+                                cnt++;
                                 break;
                             case 3:
                                 chol += 1;
+                                cnt++;
                                 break;
                             case 4:
                                 sugar += 1;
+                                cnt++;
                                 break;
                             default:
                                 break;

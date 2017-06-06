@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         setHighestIndexImage();
         setBackgroundImage();
 
-
         settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,22 +102,107 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        flowerLeft.getChildAt(hightestIndex).setOnClickListener(new View.OnClickListener() {
+        flowerLeft.getChildAt(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(hightestIndex==0){
                 v.clearAnimation();
-                flowerLeft.getChildAt(hightestIndex).startAnimation(flowerAnim);
+                setHighestIndexImage();
+                flowerLeft.getChildAt(0).startAnimation(flowerAnim);}
             }
         });
 
-
-        flowerRight.getChildAt(hightestIndex).setOnClickListener(new View.OnClickListener() {
+        flowerLeft.getChildAt(1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(hightestIndex==1){
                 v.clearAnimation();
-                flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);
+                setHighestIndexImage();
+                flowerLeft.getChildAt(1).startAnimation(flowerAnim);}
             }
         });
+
+        flowerLeft.getChildAt(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hightestIndex==2){
+                v.clearAnimation();
+                setHighestIndexImage();
+                flowerLeft.getChildAt(2).startAnimation(flowerAnim);
+            }
+            }
+        });
+
+        flowerLeft.getChildAt(3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hightestIndex==3){
+                v.clearAnimation();
+                setHighestIndexImage();
+                flowerLeft.getChildAt(3).startAnimation(flowerAnim);}
+            }
+        });
+
+        flowerLeft.getChildAt(4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hightestIndex==4){
+                v.clearAnimation();
+                setHighestIndexImage();
+                flowerLeft.getChildAt(4).startAnimation(flowerAnim);}
+            }
+        });
+
+        flowerRight.getChildAt(0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hightestIndex==0){
+                v.clearAnimation();
+                setHighestIndexImage();
+                flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);}
+            }
+        });
+
+        flowerRight.getChildAt(1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hightestIndex==1){
+                    v.clearAnimation();
+                    setHighestIndexImage();
+                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);}
+            }
+        });
+
+        flowerRight.getChildAt(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hightestIndex==2){
+                    v.clearAnimation();
+                    setHighestIndexImage();
+                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);}
+            }
+        });
+
+        flowerRight.getChildAt(3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hightestIndex==3){
+                    v.clearAnimation();
+                    setHighestIndexImage();
+                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);}
+            }
+        });
+
+        flowerRight.getChildAt(4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hightestIndex==4){
+                    v.clearAnimation();
+                    setHighestIndexImage();
+                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);}
+            }
+        });
+
         character.getChildAt(0).setOnClickListener(new View.OnClickListener()
 
         {
@@ -171,14 +255,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        settingBtn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
 
         switcher.setFactory(new ViewSwitcher.ViewFactory()
 
@@ -408,13 +484,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+
         setBackgroundImage();
+        Log.i("INDEX","onResume : "+hightestIndex);
         hightestIndex = db.getHighestIngredient(strDate);
+        Log.i("INDEX","onResume : "+hightestIndex);
         if(hightestIndex==5)
             hightestIndex=0;
+        Log.i("INDEX","onResume : "+hightestIndex);
         setHighestIndexImage();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
