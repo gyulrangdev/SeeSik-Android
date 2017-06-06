@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.androidtown.myapplication.R.id.foodType;
+
 
 public class DataBase extends AppCompatActivity {
     SQLiteDatabase foodDB;
@@ -190,7 +192,7 @@ public class DataBase extends AppCompatActivity {
         c1.moveToFirst();
 
         if (num == 0) {
-            String SQL1 = "INSERT INTO IntakeList VALUES('" + today + "'," + sugar + "," + na + "," + chol + "," + fat + "," +5+");";
+            String SQL1 = "INSERT INTO IntakeList VALUES('" + today + "'," + sugar + "," + na + "," + chol + "," + fat + "," +0+");";
             userDB.execSQL(SQL1);
         } else {
             c1.moveToFirst();
@@ -473,6 +475,12 @@ public class DataBase extends AppCompatActivity {
             userDB.close();
             //logDailyList("하이밸류 바뀜?",strDate);
         }
+        else if(highValue==0)
+        {
+            userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
+            userDB.execSQL("update intakeList set highestIngredient =" + 0 + " where date = '" + strDate + "';");
+            userDB.close();
+        }
         else{
             userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
             userDB.execSQL("update intakeList set highestIngredient =" + 5 + " where date = '" + strDate + "';");
@@ -483,7 +491,7 @@ public class DataBase extends AppCompatActivity {
     }
 
     public int getHighestIngredient(String strDate) {
-        //return 0: None 1:Na  2:fat  3:chol  4:sugar
+        //return 0:None 1:Na  2:fat  3:chol  4:sugar    5:no exceed
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
 
         String SQL = "select highestIngredient from IntakeList where date = '" + strDate + "';"; // 같은 날의 value가 있는지 확인
@@ -567,7 +575,6 @@ public class DataBase extends AppCompatActivity {
         }
     }
 
-    //TODO: 이 부분 왜 한건지 알려줘!
     public void resetDailyList()//Search Food에 들어갈 때마다 비교해 봐야 할 것 같당
     {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
@@ -732,4 +739,5 @@ public class DataBase extends AppCompatActivity {
         }
         foodDB.close();
     }
+
 }

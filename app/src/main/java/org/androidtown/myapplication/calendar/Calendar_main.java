@@ -31,7 +31,7 @@ public class Calendar_main extends Fragment {
 
     GridView monthView;//월별 캘린더 뷰 객체
     MonthAdapter monthViewAdapter;//월별 캘린터 어댑터
-    TextView naR, cholR, fatR, sugarR;//성분 별 Ratio
+    TextView naR, cholR, fatR, sugarR, normalR;//성분 별 Ratio
     TextView monthText, ratioTitle;//월 표시하는 텍스트뷰
     int curYear;//현재 연도
     int curMonth;//현재 월
@@ -64,6 +64,7 @@ public class Calendar_main extends Fragment {
         monthText = (TextView) view.findViewById(R.id.monthText);
         ratioTitle = (TextView) view.findViewById(R.id.ratioTitle);
 
+        normalR = (TextView) view.findViewById(R.id.normalRatio);
         naR = (TextView) view.findViewById(R.id.naRatio);
         fatR = (TextView) view.findViewById(R.id.fatRatio);
         cholR = (TextView) view.findViewById(R.id.cholRatio);
@@ -130,7 +131,7 @@ public class Calendar_main extends Fragment {
     }
     private void setRatio() {
         Log.d("지금 몇 월", curMonth+"");
-        int na = 0, chol = 0, fat = 0, sugar = 0;
+        int na = 0, chol = 0, fat = 0, sugar = 0, normal=0;
         int cnt = 0, tmpCnt=0;//tmpCnt는 전체 intake, cnt는 지금 포커스되는 달의 intake
 
         try {
@@ -167,6 +168,9 @@ public class Calendar_main extends Fragment {
                                 sugar += 1;
                                 cnt++;
                                 break;
+                            case 5:
+                                normal +=1;
+                                cnt++;
                             default:
                                 break;
                         }
@@ -183,6 +187,10 @@ public class Calendar_main extends Fragment {
             db.userDB.close();
         }
 
+        if(normal >0){
+            normalR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * na * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+            normalR.setText(Double.parseDouble(String.format("%.1f", ((double) na / (double) cnt) * 100)) + "%");
+        }
         if (na > 0) {
             naR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * na * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
             naR.setText(Double.parseDouble(String.format("%.1f", ((double) na / (double) cnt) * 100)) + "%");

@@ -136,6 +136,15 @@
         android:paddingRight="30dp">
 
         <TextView
+            android:id="@+id/normalRatio"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#72bf8d"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/naRatio"
             android:layout_width="0dp"
             android:layout_height="0dp"

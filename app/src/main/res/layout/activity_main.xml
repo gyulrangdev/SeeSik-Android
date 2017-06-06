@@ -294,11 +294,19 @@
         android:id="@+id/settingBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/setting_icon" />
+        app:srcCompat="@drawable/setting_icon"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/evaluationBtn"
+        android:layout_alignEnd="@+id/evaluationBtn"
+        android:layout_marginTop="20dp" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/color_info"
+        android:layout_above="@+id/selectDietBtn"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
