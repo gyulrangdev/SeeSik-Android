@@ -78,11 +78,11 @@ public class Recommend extends Fragment {// please change this Recommend
             naAmount.setText("약 "+rate*naRecommendAmountList[r]+" "+naUnitList[r]);
         }
 
-        if(chol>600)
+        if(chol>300)
         {
             int r = (int)(Math.random()*13);
 
-            int excessAmount = chol - 600;
+            int excessAmount = chol - 300;
 
             cholExceed.setText(excessAmount+" mg");
             cholRecommend.setText( cholRecommendFoodList[r]);

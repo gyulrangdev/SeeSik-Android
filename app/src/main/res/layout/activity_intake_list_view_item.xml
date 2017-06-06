@@ -15,40 +15,38 @@
             android:gravity="center_vertical"
             android:layout_weight="2" />
 
-        <ImageView
-            android:background="#00000000"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/plus_btn"
-            android:id="@+id/increaseBtn"
-            android:layout_weight="1"
-            android:clickable="true"
-            />
+    <ImageView
+        android:id="@+id/increaseBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_weight="1.12"
+        android:background="#00000000"
+        android:clickable="true"
+        android:src="@drawable/plus_btn" />
 
     <TextView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
         android:id="@+id/numText"
-        android:textColor="#000000"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:gravity="center"
-        android:layout_weight="2" />
+        android:textColor="#000000" />
 
     <ImageView
-        android:background="#00000000"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/minus_btn"
         android:id="@+id/decreaseBtn"
-        android:layout_weight="1"
-        android:clickable="true"
-        />
-    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:background="#00000000"
-        android:src="@drawable/trash_btn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/deleteBtn"
-        android:layout_weight="1"
         android:clickable="true"
-        />
+        android:src="@drawable/minus_btn"
+        android:layout_weight="0.79" />
+
+    <ImageView
+        android:id="@+id/deleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:paddingLeft="5dp"
+        android:layout_weight="1"
+        android:background="#00000000"
+        android:clickable="true"
+        android:src="@drawable/trash_btn" />
 </LinearLayout>
