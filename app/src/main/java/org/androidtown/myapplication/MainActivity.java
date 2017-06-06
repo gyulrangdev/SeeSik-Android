@@ -543,43 +543,73 @@ public class MainActivity extends AppCompatActivity {
     public void showSetting()
     {
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
+        final AlertDialog.Builder muteDialog = new AlertDialog.Builder(this);
+        final AlertDialog.Builder volumeDialog = new AlertDialog.Builder(this);
         final SeekBar seek = new SeekBar(this);
-        seek.setMax(20);
+        seek.setMax(10);
+        final CharSequence[] NormalItem = {"튜토리얼","음소거","볼륨 조절","크레딧","개발자 정보"};
+        final CharSequence[] MuteItem = {"음소거 X","음소거 O"};
+
+        SharedPreferences preference = getSharedPreferences("mute", MODE_PRIVATE);
+        int mute = preference.getInt("mute", 0);
         popDialog.setIcon(android.R.drawable.btn_star_big_on);
-        final CharSequence[] SelectItem = {"음소거"};
-        final CharSequence[] NormalItem = {"튜토리얼","크레딧","개발자 정보"};
         popDialog.setTitle("설정");
         popDialog.setItems(NormalItem, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(which==0) {
-                    startActivity(new Intent(MainActivity.this,Tutorial.class));
+                switch(which)
+                {
+                    case 0:
+                        startActivity(new Intent(MainActivity.this,Tutorial.class));
+                        break;
+                    case 1://음소거
+                        muteDialog.setTitle("음소거");
+                        muteDialog.create();
+                        muteDialog.show();
+                        break;
+                    case 2://볼륨 조절
+                        SharedPreferences preference = getSharedPreferences("mute", MODE_PRIVATE);
+                        int mute = preference.getInt("mute", 0);
+                        if(mute==0){
+                            volumeDialog.setTitle("볼륨 조절");
+                            volumeDialog.setView(seek);
+                            volumeDialog.create();
+                            volumeDialog.show();}
+                        else{
+                            volumeDialog.setTitle("볼륨 조절");
+                            volumeDialog.setMessage("음소거 중에는 볼륨 조절이 불가능 합니다.");
+                            volumeDialog.create();
+                            volumeDialog.show();
+                        }
+                        break;
+                    case 3:// 크레딧 (미구현)
+                        break;
+                    case 4:// 개발자 정보 (미구현)
+                        break;
                 }
-                else if(which==1)//아직 안함 크레딧
-                {}
-                else//아직 안함 개발자 정보
-                {}
          }
         });
-        popDialog.setMessage("음소거 선택");
 
-        popDialog.setSingleChoiceItems(SelectItem,-1, new DialogInterface.OnClickListener() {
+        muteDialog.setSingleChoiceItems(MuteItem,mute, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(which==0)
-                {
-                    SharedPreferences a = getSharedPreferences("mute",MODE_PRIVATE);
-                    SharedPreferences.Editor editor = a.edit();
-                    int mute=1;
-                    editor.putInt("mute",mute);
-                    Log.d("mute 1: 음소거 0: 음소거 아님",""+mute);
-                    editor.commit();
+                switch(which) {
+                    case 0://음소거 X
+                        SharedPreferences a = getSharedPreferences("mute", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = a.edit();
+                        editor.putInt("mute", 0);
+                        editor.commit();
+                        break;
+                    case 1://음소거 O
+                        SharedPreferences b = getSharedPreferences("mute", MODE_PRIVATE);
+                        SharedPreferences.Editor editor2 = b.edit();
+                        editor2.putInt("mute", 1);
+                        editor2.commit();
+                        break;
                 }
             }
         });
 
-        popDialog.setMessage("볼륨 조절");
-        popDialog.setView(seek);
         popDialog.create();
         popDialog.show();
 
@@ -594,8 +624,8 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     SharedPreferences a = getSharedPreferences("volume", MODE_PRIVATE);
                     SharedPreferences.Editor editor = a.edit();
-                    editor.putFloat("volume", (progress * 0.05f));
-                    Log.d("volume setting", "" + progress * 0.05f);
+                    editor.putFloat("volume", (float)(progress * 0.1));
+                    Log.d("volume setting", "" + progress * 0.1);
                     editor.commit();
                 }
             }
@@ -604,7 +634,17 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        popDialog.setPositiveButton("종료", new DialogInterface.OnClickListener() {
+        popDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        muteDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        volumeDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }

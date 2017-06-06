@@ -20,32 +20,26 @@ public class LoadingActivity extends Activity {
 
         try{
             SoundPool loadingSound = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
-
-            int r = (int)(Math.random()*2)+1;
             int soundbeep;
-            if(r==1)
-                soundbeep = loadingSound.load(this.getApplication(),R.raw.loading1,1);
-            else
-                soundbeep = loadingSound.load(this.getApplication(),R.raw.loading2,1);
+            soundbeep = loadingSound.load(this.getApplication(),R.raw.loading2,1);
             SharedPreferences preference = getSharedPreferences("volume", MODE_PRIVATE);
             SharedPreferences mutePreference = getSharedPreferences("mute", MODE_PRIVATE);
-            int mute = preference.getInt("mute", 0);
+            int mute = mutePreference.getInt("mute", 0);
             float volume;
             if(mute!=1) {
-                volume = preference.getFloat("volume", 1);
+                volume = preference.getFloat("volume", 1f);
                 Log.d("volume", "" + volume);
             }
             else
             {
-                volume=0;
+                volume=0f;
             }
-            Thread.sleep(500);
-            loadingSound.play(soundbeep,volume,volume,0,0,1);
             Thread.sleep(1000);
+            loadingSound.play(soundbeep,volume,volume,0,0,1);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
