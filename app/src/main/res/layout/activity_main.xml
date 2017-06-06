@@ -307,6 +307,7 @@
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/color_info"
         android:layout_above="@+id/selectDietBtn"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="19dp" />
 
 </RelativeLayout>
