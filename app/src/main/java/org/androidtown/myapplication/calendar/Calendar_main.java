@@ -188,8 +188,8 @@ public class Calendar_main extends Fragment {
         }
 
         if(normal >0){
-            normalR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * na * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
-            normalR.setText(Double.parseDouble(String.format("%.1f", ((double) na / (double) cnt) * 100)) + "%");
+            normalR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * normal * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+            normalR.setText(Double.parseDouble(String.format("%.1f", ((double) normal / (double) cnt) * 100)) + "%");
         }
         if (na > 0) {
             naR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * na * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));

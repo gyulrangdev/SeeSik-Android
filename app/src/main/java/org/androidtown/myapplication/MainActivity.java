@@ -20,6 +20,7 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout flowerLeft, flowerRight;
     ImageView leftArm, leftEar, rightEar;
     ImageButton evaBtn, selectDietBtn, settingBtn;
+    TextView interactTxt;
     Handler mHandler = new Handler();
     ArmThread armThread;
     EyeThread eyeThread;
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         character = (FrameLayout) findViewById(R.id.character);
         dayTimeBackground=(FrameLayout)findViewById(R.id.dayTimeBackground);
         nightTimeBackground=(FrameLayout)findViewById(R.id.nightTimeBackground);
+        interactTxt = (TextView)findViewById(R.id.interactText);
         flowerLeft = (RelativeLayout) findViewById(R.id.flowerLayout_left);
         flowerRight = (RelativeLayout) findViewById(R.id.flowerLayout_right);
         leftArm = (ImageView) findViewById(R.id.leftArm);
@@ -292,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        interactTxt.setText(db.getSaessabScript());
         startAnimation();
     }
 
@@ -512,6 +516,8 @@ public class MainActivity extends AppCompatActivity {
             hightestIndex=0;
         Log.i("INDEX","onResume : "+hightestIndex);
         setHighestIndexImage();
+
+        interactTxt.setText(db.getSaessabScript());
     }
 
     @Override
