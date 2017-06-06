@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -114,7 +115,6 @@ public class intakeListViewAdapter extends BaseAdapter {
                     notifyDataSetChanged();
                     intakeNumTxt.setText(intakelistViewItem.getItemNum() + "");
                 }
-
             }
         });
 
@@ -144,17 +144,33 @@ public class intakeListViewAdapter extends BaseAdapter {
             }
         });
 
-        starButton.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-                db.insertFavoriteList(intakelistViewItem.getItemNameStr());
-            }
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
-            public void unLiked(LikeButton likeButton) {
-                db.deleteFavoriteList(intakelistViewItem.getItemNameStr());
+            public boolean onLongClick(View v) {
+                builder.setTitle("즐겨찾기")        // 제목 설정
+                        .setMessage(intakelistViewItem.getItemNameStr()+" 을/를 즐겨찾기에 추가 하시겠습니까?")// 메세지 설정
+                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                            // 확인 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                db.insertFavoriteList(intakelistViewItem.getItemNameStr());
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                            // 취소 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                dialog.show();
+                return true;
             }
         });
+
+
         return convertView;
     }
 
