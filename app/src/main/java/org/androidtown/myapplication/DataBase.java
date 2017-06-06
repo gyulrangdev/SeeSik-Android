@@ -21,18 +21,17 @@ public class DataBase extends AppCompatActivity {
     final String userDBName = "seeSik";
     String TAG = "DATABASE";
     Context context;
-    boolean first = true;
 
-    public DataBase(Context c) {
+    public DataBase(Context c, int i) {
         context = c;// 디비를 열고 닫을 때, context가 필요하므로
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);//openOrCreateDatabase는 context가 필요해 오류가 났었음!
-        createTable();
+        if(i!=1)
+            createTable();
     }
 
     //테이블 생성(user info, dailyList, intakeList)
     public void createTable() {
-        //To create userInfo, intakeList in database
-        if (first) {
+        //To create intakeList in database
             userDB.execSQL("create table if not exists dailyList(date text,times integer,foodName text ,sugar int,na int,chol int,fat int );");// Create intakeList table
             userDB.execSQL("create table if not exists intakeList(date text, sugar int, na int, chol int, fat int, highestIngredient int);");
             File folder = new File("data/data/org.androidtown.myapplication/databases/");
@@ -54,18 +53,13 @@ public class DataBase extends AppCompatActivity {
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(tempdata);
                 fos.close();
-                first = false;
             } catch (Exception e) {
                 Toast.makeText(context, "오류가 났어....", Toast.LENGTH_LONG).show();
             }
             foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
-            first = false;
             userDB.close();
             foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
             foodDB.close();
-        }
-        else
-            return ;
     }
 
     /*

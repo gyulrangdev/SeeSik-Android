@@ -88,8 +88,20 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Tutorial.class);
             startActivity(intent);
         }
-        db = new DataBase(MainActivity.this);
-        hightestIndex = db.getHighestIngredient(strDate);
+        SharedPreferences DBpreference = getSharedPreferences("DBfirst", MODE_PRIVATE);
+        int firstDB = DBpreference.getInt("DBfirst", 0);
+        if(firstDB==0) {
+            db = new DataBase(MainActivity.this,0);
+            SharedPreferences a = getSharedPreferences("DBfirst",MODE_PRIVATE);
+            SharedPreferences.Editor editor = a.edit();
+            editor.putInt("DBfirst",1);
+            editor.commit();
+        }
+        else
+        {
+            db = new DataBase(MainActivity.this,1);
+        }
+            hightestIndex = db.getHighestIngredient(strDate);
         if(hightestIndex==5)
             hightestIndex=0;
         setHighestIndexImage();
