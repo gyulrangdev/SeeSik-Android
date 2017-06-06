@@ -77,8 +77,10 @@
             android:max="2000"
             android:maxHeight="20dp"
             android:minHeight="20dp"
+            android:progressBackgroundTint="#fff799"
             android:progressTint="#ffd500" />
-            <TextView
+
+        <TextView
                 android:id="@+id/naText"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -112,6 +114,7 @@
             android:layout_below="@+id/fatBar"
             android:indeterminateOnly="false"
             android:max="300"
+            android:progressBackgroundTint="#b0deed"
             android:progressTint="@android:color/holo_blue_bright" />
         <TextView
             android:id="@+id/cholText"
@@ -128,6 +131,7 @@
             android:layout_below="@+id/cholBar"
             android:indeterminateOnly="false"
             android:max="50"
+            android:progressBackgroundTint="#debee8"
             android:progressTint="@android:color/holo_purple" />
         <TextView
             android:id="@+id/sugarText"

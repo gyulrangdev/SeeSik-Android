@@ -11,15 +11,43 @@
         android:id="@+id/dayTimeBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:background="@drawable/background"></FrameLayout>
+        android:background="@drawable/background"
+        android:visibility="invisible"></FrameLayout>
 
     <FrameLayout
         android:id="@+id/nightTimeBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        android:background="@drawable/background_night"></FrameLayout>
+        android:background="@drawable/background_night"
+        android:visibility="visible"></FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingTop="80dp">
+
+        <TextView
+            android:id="@+id/interactText"
+            android:layout_width="79dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/leftNormal"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/leftNormal"
+            android:layout_gravity="center|end"
+            android:text="안녕 나는 새쌉이"
+            android:textColor="@color/SeSSapGreen" />
+
+        <ImageView
+            android:id="@+id/blabla"
+            android:layout_width="107dp"
+            android:layout_height="134dp"
+            android:layout_alignLeft="@+id/selectDietBtn"
+            android:layout_alignStart="@+id/selectDietBtn"
+            android:layout_below="@+id/settingBtn"
+            app:srcCompat="@drawable/blabla" />
+
+    </FrameLayout>
 
 
     <FrameLayout
@@ -172,15 +200,6 @@
     </RelativeLayout>
 
 
-    <TextView
-        android:id="@+id/interactText"
-        android:layout_width="79dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="100dp"
-        android:text="안녕 나는 새쌉이"
-        android:textColor="@color/SeSSapGreen" />
-
     <RelativeLayout
         android:id="@+id/flowerLayout_left"
         android:layout_width="match_parent"
@@ -262,6 +281,7 @@
             android:visibility="invisible"
             app:srcCompat="@drawable/flower_left_sugar" />
 
+
     </RelativeLayout>
 
 
@@ -294,12 +314,12 @@
         android:id="@+id/settingBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:srcCompat="@drawable/setting_icon"
+        android:layout_alignEnd="@+id/evaluationBtn"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/evaluationBtn"
-        android:layout_alignEnd="@+id/evaluationBtn"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/setting_icon" />
 
 
 
