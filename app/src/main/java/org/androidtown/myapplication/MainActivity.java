@@ -1,12 +1,15 @@
 package org.androidtown.myapplication;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -16,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -90,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
             hightestIndex=0;
         setHighestIndexImage();
         setBackgroundImage();
+
+
+        settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               showSetting();
+            }
+        });
 
         flowerLeft.getChildAt(hightestIndex).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -424,5 +436,76 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
+
+    public void showSetting()
+    {
+        final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
+        final SeekBar seek = new SeekBar(this);
+        seek.setMax(20);
+        popDialog.setIcon(android.R.drawable.btn_star_big_on);
+        final CharSequence[] SelectItem = {"음소거"};
+        final CharSequence[] NormalItem = {"튜토리얼","크레딧","개발자 정보"};
+        popDialog.setTitle("설정");
+        popDialog.setItems(NormalItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which==0) {
+                    startActivity(new Intent(MainActivity.this,Tutorial.class));
+                }
+                else if(which==1)//아직 안함 크레딧
+                {}
+                else//아직 안함 개발자 정보
+                {}
+         }
+        });
+        popDialog.setMessage("음소거 선택");
+
+        popDialog.setSingleChoiceItems(SelectItem,-1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which==0)
+                {
+                    SharedPreferences a = getSharedPreferences("mute",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = a.edit();
+                    int mute=1;
+                    editor.putInt("mute",mute);
+                    Log.d("mute 1: 음소거 0: 음소거 아님",""+mute);
+                    editor.commit();
+                }
+            }
+        });
+
+        popDialog.setMessage("볼륨 조절");
+        popDialog.setView(seek);
+        popDialog.create();
+        popDialog.show();
+
+        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+                SharedPreferences preference = getSharedPreferences("mute", MODE_PRIVATE);
+                int mute = preference.getInt("mute", 0);
+                if(mute==1)
+                {
+                 Toast.makeText(getApplicationContext(),"음소거 중에는 볼륨을 바꿀 수 없습니다.",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    SharedPreferences a = getSharedPreferences("volume", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = a.edit();
+                    editor.putFloat("volume", (progress * 0.05f));
+                    Log.d("volume setting", "" + progress * 0.05f);
+                    editor.commit();
+                }
+            }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        popDialog.setPositiveButton("종료", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
     }
 }

@@ -7,12 +7,18 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name = "LoadingTheme" parent="@android:style/Theme.Black.NoTitleBar">
-    <item name = "android:windowBackground">@drawable/loading</item>>
+
+    <style name="LoadingTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@drawable/loading</item>>
     </style>
-    <style name = "EditTextStyle" parent="Base.Widget.AppCompat.AutoCompleteTextView">
+
+    <style name="EditTextStyle" parent="Base.Widget.AppCompat.AutoCompleteTextView">
         <item name="colorControlNormal">@color/SeSSapGreen</item>
         <item name="colorControlActivated">@color/menuColor</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
