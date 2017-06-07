@@ -56,7 +56,7 @@ public class Tutorial extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 6;//나중에 튜토리얼 화면 수 바꾸면.... 하하하핳
+            return 7;//나중에 튜토리얼 화면 수 바꾸면.... 하하하핳
         }
 
 
@@ -90,6 +90,10 @@ public class Tutorial extends AppCompatActivity {
                 case 5:
                     view = mInflater.inflate(R.layout.tutorial6,null);
                     view.findViewById(R.id.tutorial6);
+                    break;
+                case 6:
+                    view = mInflater.inflate(R.layout.tutorial7,null);
+                    view.findViewById(R.id.tutorial7);
                     view.findViewById(R.id.close1).setOnClickListener(mCloseButtonClick);
                     break;
             }

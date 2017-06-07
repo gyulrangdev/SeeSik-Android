@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <ImageView
-    android:id="@+id/tutorial6"
+    android:id="@+id/tutorial7"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:src ="@drawable/tutorial7"/>

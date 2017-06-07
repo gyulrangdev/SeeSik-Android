@@ -4,22 +4,27 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
-import android.media.SoundPool;
+
+import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -37,7 +42,7 @@ public class DailyEvaluation extends Fragment{
     TextView recommendText;
     static DataBase db;
     private Context context;
-
+    FrameLayout ludalf;
     TextView naText;
     TextView fatText;
     TextView cholText;
@@ -72,7 +77,7 @@ public class DailyEvaluation extends Fragment{
         sugarText = (TextView) view.findViewById(R.id.sugarText);
         s_ludarfEye = (ImageSwitcher) view.findViewById(R.id.switcher_ludarf_eye);
         s_ludarfMouth = (ImageSwitcher) view.findViewById(R.id.switcher_ludarf_mouth);
-
+        ludalf = (FrameLayout) view.findViewById(R.id.character_ludarf);
         typeWriter = new TypeWriter();
 
         db = MainActivity.getDBInstance();
@@ -108,8 +113,28 @@ public class DailyEvaluation extends Fragment{
         sugarBar.setIndeterminate(false);
         sugarBar.setProgress((int)sugar);
         sugarBar.setAnimation(growAnim);
+        soundPrepare();
 
         showEvaluationText();
+
+        ludalf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences preference = context.getSharedPreferences("volume", MODE_PRIVATE);
+                SharedPreferences mutePreference = context.getSharedPreferences("mute", MODE_PRIVATE);
+                int mute = mutePreference.getInt("mute", 0);
+                final float volume;
+                if (mute != 1) {
+                    volume = preference.getFloat("volume", 1f);
+                    Log.d("volume", "" + volume);
+                } else {
+                    volume = 0f;
+                }
+                Random random = new Random();
+                int ran = random.nextInt(2);
+                sound.play(soundbeep[ran], volume, volume, 0, 0, 1);
+            }
+        });
 
         s_ludarfEye.setFactory(new ViewSwitcher.ViewFactory()
         {
@@ -312,5 +337,16 @@ public class DailyEvaluation extends Fragment{
     public int getRandomTime(int min, int max) {
         return min + (int) (Math.random() * (max - min));
     }
+    private SoundPool sound;
+    private int[] soundbeep;
+    public void soundPrepare()
+    {
+        sound = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        soundbeep = new int[3];
 
+        soundbeep[0] = sound.load(context, R.raw.leuheum, 1);
+        soundbeep[1] = sound.load(context, R.raw.lheueum, 1);
+        soundbeep[2] = sound.load(context, R.raw.lbbbb, 1);
+
+    }
 }
