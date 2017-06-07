@@ -185,6 +185,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/ludarf_base_body"
+                    android:layout_width="157dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|end"
+                    app:srcCompat="@drawable/ludarf_base_body" />
+
                 <ImageSwitcher
                     android:id="@+id/switcher_ludarf_mouth"
                     android:layout_width="wrap_content"
@@ -197,12 +204,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|end"></ImageSwitcher>
 
-                <ImageView
-                    android:id="@+id/ludarf_base_body"
-                    android:layout_width="157dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right|end"
-                    app:srcCompat="@drawable/ludarf_base_body" />
 
             </FrameLayout>
 
