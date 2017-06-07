@@ -28,8 +28,9 @@ public class DataBase extends AppCompatActivity {
     public DataBase(Context c, int i) {
         context = c;// 디비를 열고 닫을 때, context가 필요하므로
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);//openOrCreateDatabase는 context가 필요해 오류가 났었음!
-        if (i != 1)
+        if (i != 1) {
             createTable();
+        }
     }
 
     //테이블 생성(user info, dailyList, intakeList)
@@ -59,10 +60,10 @@ public class DataBase extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(context, "오류가 났어....", Toast.LENGTH_LONG).show();
         }
-        foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
-        userDB.close();
-        foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
-        foodDB.close();
+//        foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
+//       userDB.close();
+//       foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
+//        foodDB.close();
     }
 
     /*
@@ -347,10 +348,13 @@ public class DataBase extends AppCompatActivity {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);
         String SQL = "SELECT times FROM dailyList WHERE foodName = '" + foodName + "';";
         Cursor c = userDB.rawQuery(SQL, null);
+        int times=0;
         c.moveToFirst();
+        times=c.getInt(0);
+
         c.close();
         userDB.close();
-        return c.getInt(0);
+        return times;
     }
 
     public int getSugar() {
