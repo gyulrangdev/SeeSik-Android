@@ -522,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             nightTimeBackground.setVisibility(View.INVISIBLE);
             dayTimeBackground.setVisibility(View.VISIBLE);
-            interactTxt.setTextColor(Color.parseColor("#00000000"));
+            interactTxt.setTextColor(Color.parseColor("#ff000000"));
         }
     }
 
