@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             hightestIndex=0;
         setHighestIndexImage();
         setBackgroundImage();
-
+        SoundPrepare();
         settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,7 +230,19 @@ public class MainActivity extends AppCompatActivity {
                 character.startAnimation(clickAni);
                 character.startAnimation(clickUpAni);
                 kkya.setVisibility(View.VISIBLE);
-
+                SharedPreferences preference = getSharedPreferences("volume", MODE_PRIVATE);
+                SharedPreferences mutePreference = getSharedPreferences("mute", MODE_PRIVATE);
+                int mute = mutePreference.getInt("mute", 0);
+                final float volume;
+                if(mute!=1) {
+                    volume = preference.getFloat("volume", 1f);
+                    Log.d("volume", "" + volume);
+                }
+                else
+                {
+                    volume=0f;
+                }
+                kkyaSound.play(kkyaSoundbeep,volume,volume,0,0,1);
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
@@ -545,18 +559,26 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 
+    private AlertDialog.Builder popDialog;
+    private AlertDialog.Builder muteDialog;
+    private AlertDialog.Builder volumeDialog;
+    private AlertDialog.Builder evEffectDialog;
+    private SeekBar seek;
+
     public void showSetting()
     {
-        final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
-        final AlertDialog.Builder muteDialog = new AlertDialog.Builder(this);
-        final AlertDialog.Builder volumeDialog = new AlertDialog.Builder(this);
-        final SeekBar seek = new SeekBar(this);
-        seek.setMax(10);
-        final CharSequence[] NormalItem = {"튜토리얼","음소거","볼륨 조절","크레딧","개발자 정보"};
-        final CharSequence[] MuteItem = {"음소거 X","음소거 O"};
+        popDialog = new AlertDialog.Builder(this);
+        muteDialog = new AlertDialog.Builder(this);
+        volumeDialog = new AlertDialog.Builder(this);
+        evEffectDialog = new AlertDialog.Builder(this);
+        seek = new SeekBar(this);
 
-        SharedPreferences preference = getSharedPreferences("mute", MODE_PRIVATE);
-        int mute = preference.getInt("mute", 0);
+        final CharSequence[] NormalItem = {"튜토리얼","음소거","볼륨 조절","일일평가 말풍선 효과","개발자 정보"};
+
+        muteSetting();
+        volumeSetting();
+        effectSetting();
+
         popDialog.setIcon(android.R.drawable.btn_star_big_on);
         popDialog.setTitle("설정");
         popDialog.setItems(NormalItem, new DialogInterface.OnClickListener() {
@@ -566,6 +588,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case 0:
                         startActivity(new Intent(MainActivity.this,Tutorial.class));
+                        popDialog.show();//TODO: 여기 이게 먼저 보이고 액티비티가 시작 됨... 어떡하징... case 4,5도 같은 문제
                         break;
                     case 1://음소거
                         muteDialog.setTitle("음소거");
@@ -577,6 +600,8 @@ public class MainActivity extends AppCompatActivity {
                         int mute = preference.getInt("mute", 0);
                         if(mute==0){
                             volumeDialog.setTitle("볼륨 조절");
+                            seek.setMax(10);
+                            volumeDialog.setMessage("");
                             volumeDialog.setView(seek);
                             volumeDialog.create();
                             volumeDialog.show();}
@@ -587,14 +612,36 @@ public class MainActivity extends AppCompatActivity {
                             volumeDialog.show();
                         }
                         break;
-                    case 3:// 크레딧 (미구현)
+                    case 3://일일평가 말풍선 효과
+                        evEffectDialog.setTitle("일일평가 말풍선 효과");
+                        evEffectDialog.create();
+                        evEffectDialog.show();
                         break;
-                    case 4:// 개발자 정보 (미구현)
+                    case 4://크레딧
+                        startActivity(new Intent(MainActivity.this,DevInfo.class));
+                        popDialog.show();
                         break;
                 }
          }
         });
 
+        popDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        popDialog.create();
+        popDialog.show();
+
+
+    }
+
+    private void muteSetting()
+    {
+        final CharSequence[] MuteItem = {"음소거 X","음소거 O"};
+        SharedPreferences preference = getSharedPreferences("mute", MODE_PRIVATE);
+        int mute = preference.getInt("mute", 0);
         muteDialog.setSingleChoiceItems(MuteItem,mute, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -614,17 +661,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        popDialog.create();
-        popDialog.show();
-
+        muteDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                popDialog.show();
+            }
+        });
+    }
+    private void volumeSetting()
+    {
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
                 SharedPreferences preference = getSharedPreferences("mute", MODE_PRIVATE);
                 int mute = preference.getInt("mute", 0);
                 if(mute==1)
                 {
-                 Toast.makeText(getApplicationContext(),"음소거 중에는 볼륨을 바꿀 수 없습니다.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"음소거 중에는 볼륨을 바꿀 수 없습니다.",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     SharedPreferences a = getSharedPreferences("volume", MODE_PRIVATE);
@@ -639,20 +691,51 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        popDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        muteDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
         volumeDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                popDialog.show();
             }
         });
+    }
+    private void effectSetting()
+    {
+        final CharSequence[] EffectItem = {"효과 O","효과 X"};
+        SharedPreferences preference = getSharedPreferences("effect", MODE_PRIVATE);
+        int evEffect = preference.getInt("effect", 0);
+        evEffectDialog.setSingleChoiceItems(EffectItem,evEffect, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch(which) {
+                    case 0://효과 O
+                        SharedPreferences a = getSharedPreferences("effect", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = a.edit();
+                        editor.putInt("effect", 0);
+                        editor.commit();
+                        break;
+                    case 1://효과 X
+                        SharedPreferences b = getSharedPreferences("effect", MODE_PRIVATE);
+                        SharedPreferences.Editor editor2 = b.edit();
+                        editor2.putInt("effect", 1);
+                        editor2.commit();
+                        break;
+                }
+            }
+        });
+        evEffectDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                popDialog.show();
+            }
+        });
+    }
+
+    private SoundPool kkyaSound;
+    private int kkyaSoundbeep;
+
+    public void SoundPrepare()
+    {
+        kkyaSound = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+        kkyaSoundbeep = kkyaSound.load(getApplicationContext(),R.raw.skkya,1);
     }
 }

@@ -19,7 +19,7 @@ public class TypeWriter {
         public void run() {
             t.setText(mText.subSequence(0, mIndex++));
             if(mIndex <= mText.length()) {
-                mHandler.postDelayed(characterAdder, 150);
+                mHandler.postDelayed(characterAdder, 130);
             }
         }
     };
@@ -32,6 +32,6 @@ public class TypeWriter {
         t.setText("");
 
         mHandler.removeCallbacks(characterAdder);
-        mHandler.postDelayed(characterAdder,150);
+        mHandler.postDelayed(characterAdder,130);
     }
 }

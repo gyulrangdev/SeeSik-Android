@@ -2,6 +2,7 @@ package org.androidtown.myapplication;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class DailyEvaluation extends Fragment{
     LinearLayout mainLayout;
@@ -97,6 +100,7 @@ public class DailyEvaluation extends Fragment{
 
     }
 
+    SharedPreferences preference;
     public void showEvaluationText()
     {
         String str = "나트륨 "+score[0]+"/25\n";
@@ -105,7 +109,10 @@ public class DailyEvaluation extends Fragment{
         str+="당 " + score[3] + "/25 으로\n";
         str +="총 "+score[4]+" / 100 점이야.";
         recommendText.setText(str);
-        typeWriter.TextAnimation(recommendText);
+        preference = context.getSharedPreferences("effect", MODE_PRIVATE);
+        int evEffect = preference.getInt("effect", 0);
+        if(evEffect==0)
+            typeWriter.TextAnimation(recommendText);
 
     }
     public void calEvaluationScore()
