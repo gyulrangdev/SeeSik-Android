@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
                 Random random = new Random();
                 int ran = random.nextInt(4);
                 sound.play(soundbeep[ran],volume,volume,0,0,1);
-                interactTxt.setText(db.getSaessabClickScript(0));
+                interactTxt.setText(db.getSaessabClickScript(ran));
 
                 TimerTask task = new TimerTask() {
                     @Override
@@ -258,8 +258,9 @@ public class MainActivity extends AppCompatActivity {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                kkya.setVisibility(View.INVISIBLE);
                                 interactTxt.setText(db.getSaessabScript());
+                                kkya.setVisibility(View.INVISIBLE);
+
 
                             }
                         });
