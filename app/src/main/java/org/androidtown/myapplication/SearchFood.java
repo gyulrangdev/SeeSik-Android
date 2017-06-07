@@ -29,7 +29,7 @@ public class SearchFood extends AppCompatActivity {
     AutoCompleteTextView textView;
 
     String foodName[] = {""};// AutoCompleteTextView 안에 들어갈 String list
-    String[] foodTypeList = {"즐겨찾기", "패스트푸드", "국","면", "디저트", "튀김", "고기(족발, 보쌈 등)"};
+    String[] foodTypeList = {"즐겨찾기", "패스트푸드", "국","면", "디저트", "튀김", "고기류","밥"};
 
     String[] selectedFoodList = {"즐겨찾기에 들어간 것이 없습니다."};
 

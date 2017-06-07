@@ -122,13 +122,13 @@ public class DailyEvaluation extends Fragment{
         int recommendAmount[] = new int[4];
         recommendAmount[0] = 2000;
         recommendAmount[1] = 15;
-        recommendAmount[2] = 600;
+        recommendAmount[2] = 300;
         recommendAmount[3] = 50;
 
         int scoreStandard[] = new int[4];
         scoreStandard[0] = 200;
         scoreStandard[1] = 1;
-        scoreStandard[2] = 60;
+        scoreStandard[2] = 30;
         scoreStandard[3] = 5;
 
         if(na<=recommendAmount[0])

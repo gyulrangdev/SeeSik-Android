@@ -454,7 +454,7 @@ public class DataBase extends AppCompatActivity {
         double recommendAmount[] = new double[4];
         recommendAmount[0] = 2000;
         recommendAmount[1] = 15;
-        recommendAmount[2] = 600;
+        recommendAmount[2] = 300;
         recommendAmount[3] = 50;
 
         double highValue = ingredient[0] / recommendAmount[0];
@@ -741,18 +741,16 @@ public class DataBase extends AppCompatActivity {
             c.close();
 
         } else if (highValue == 0) {
-//           Random random = new Random();
-//           String SQL = "SELECT noData FROM ssaessabScript;";
-//           Cursor c = foodDB.rawQuery(SQL,null);
-//           c.moveToFirst();
-//           int num = c.getCount();
-//           int selectNum = random.nextInt(num);
-//           Log.d("랜덤 잘 되나",selectNum+"");
-//
-//           c.moveToPosition(selectNum);
-//           script=c.getString(0);
-//
-//           c.close();
+           Random random = new Random();
+           String SQL = "SELECT noData FROM ssaessabScript;";
+           Cursor c = foodDB.rawQuery(SQL,null);
+           c.moveToFirst();
+           int num = c.getCount();
+           int selectNum = random.nextInt(num);
+           c.moveToPosition(selectNum);
+           script=c.getString(0);
+
+           c.close();
 
         } else {
             Random random = new Random();

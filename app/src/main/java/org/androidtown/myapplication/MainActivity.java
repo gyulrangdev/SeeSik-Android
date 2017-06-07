@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -221,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         character.getChildAt(0).setOnClickListener(new View.OnClickListener()
-
         {
             @Override
             public void onClick(View v) {
@@ -229,7 +230,9 @@ public class MainActivity extends AppCompatActivity {
                 v.clearAnimation();
                 character.startAnimation(clickAni);
                 character.startAnimation(clickUpAni);
+
                 kkya.setVisibility(View.VISIBLE);
+                interactTxt.setText(db.getSaessabClickScript());
                 SharedPreferences preference = getSharedPreferences("volume", MODE_PRIVATE);
                 SharedPreferences mutePreference = getSharedPreferences("mute", MODE_PRIVATE);
                 int mute = mutePreference.getInt("mute", 0);
@@ -242,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
                 {
                     volume=0f;
                 }
+
+
                 kkyaSound.play(kkyaSoundbeep,volume,volume,0,0,1);
                 TimerTask task = new TimerTask() {
                     @Override
@@ -250,6 +255,8 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 kkya.setVisibility(View.INVISIBLE);
+                                interactTxt.setText(db.getSaessabScript());
+
                             }
                         });
                     }
@@ -260,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
         evaBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -336,11 +344,13 @@ public class MainActivity extends AppCompatActivity {
         armThread.start();
         earThread.start();
         mouthThread.start();
+
     }
 
 
     private void stopAnimation() {
         running = false;
+        interactTxt.setText(db.getSaessabScript());
         try {
             eyeThread.join();
             armThread.join();
@@ -349,6 +359,7 @@ public class MainActivity extends AppCompatActivity {
         }
         switcher.setVisibility(View.INVISIBLE);
         switcher_m.setVisibility(View.INVISIBLE);
+
     }
 
     class EarThread extends Thread {
