@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="org.androidtown.myapplication.calendar.Calendar_main">
+    tools:context="org.androidtown.seesik.calendar.Calendar_main">
 
     <LinearLayout
         android:layout_width="match_parent"

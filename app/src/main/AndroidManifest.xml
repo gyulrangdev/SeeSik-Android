@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.androidtown.myapplication">
+    package="org.androidtown.seesik">
 
     <application
-        android:name=".CustomStartApp"
+        android:name="org.androidtown.seesik.CustomStartApp"
         android:allowBackup="true"
         android:icon="@drawable/seesik_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoadingActivity"
+            android:name="org.androidtown.seesik.LoadingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LoadingTheme">
             <intent-filter>
@@ -19,16 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name="org.androidtown.seesik.MainActivity" />
         <activity
-            android:name=".Evaluation"
+            android:name="org.androidtown.seesik.Evaluation"
             android:label="평가" />
         <activity
-            android:name=".SearchFood"
+            android:name="org.androidtown.seesik.SearchFood"
             android:label="음식 추가"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".Tutorial" />
-        <activity android:name=".DevInfo"></activity>
+        <activity android:name="org.androidtown.seesik.Tutorial" />
+        <activity android:name="org.androidtown.seesik.DevInfo"></activity>
     </application>
 
 </manifest>
