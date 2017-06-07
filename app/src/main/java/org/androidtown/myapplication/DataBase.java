@@ -777,20 +777,17 @@ public class DataBase extends AppCompatActivity {
         return script;
     }
 
-    public String getSaessabClickScript() {
+    public String getSaessabClickScript(int selectNum) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
         Date date = new Date();
-        String today = dateFormat.format(date);
 
         foodDB = context.openOrCreateDatabase("foodList.db", MODE_PRIVATE, null);
         String script = "";
 
-        Random random = new Random();
         String SQL = "SELECT click FROM ssaessabScript;";
         Cursor c = foodDB.rawQuery(SQL, null);
         c.moveToFirst();
         int num = c.getCount();
-        int selectNum = random.nextInt(num);
 
         c.moveToPosition(selectNum);
         script = c.getString(0);

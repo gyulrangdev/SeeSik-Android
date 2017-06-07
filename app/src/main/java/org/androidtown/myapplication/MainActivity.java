@@ -32,6 +32,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -232,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                 character.startAnimation(clickUpAni);
 
                 kkya.setVisibility(View.VISIBLE);
-                interactTxt.setText(db.getSaessabClickScript());
+
                 SharedPreferences preference = getSharedPreferences("volume", MODE_PRIVATE);
                 SharedPreferences mutePreference = getSharedPreferences("mute", MODE_PRIVATE);
                 int mute = mutePreference.getInt("mute", 0);
@@ -246,8 +247,11 @@ public class MainActivity extends AppCompatActivity {
                     volume=0f;
                 }
 
+                Random random = new Random();
+                int ran = random.nextInt(4);
+                sound.play(soundbeep[ran],volume,volume,0,0,1);
+                interactTxt.setText(db.getSaessabClickScript(0));
 
-                kkyaSound.play(kkyaSoundbeep,volume,volume,0,0,1);
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
@@ -741,12 +745,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private SoundPool kkyaSound;
-    private int kkyaSoundbeep;
+    private SoundPool sound;
+    private int[] soundbeep;
 
     public void SoundPrepare()
     {
-        kkyaSound = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
-        kkyaSoundbeep = kkyaSound.load(getApplicationContext(),R.raw.skkya,1);
+        sound = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+        soundbeep = new int[4];
+
+        soundbeep[0] = sound.load(getApplicationContext(),R.raw.ssaessap,1);
+        soundbeep[1] = sound.load(getApplicationContext(),R.raw.ssae,1);
+        soundbeep[2] = sound.load(getApplicationContext(),R.raw.ssaessap__,1);
+        soundbeep[3] = sound.load(getApplicationContext(),R.raw.skkya,1);
+
+
     }
 }
