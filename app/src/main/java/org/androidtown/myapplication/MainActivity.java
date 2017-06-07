@@ -590,7 +590,6 @@ public class MainActivity extends AppCompatActivity {
 
         final CharSequence[] NormalItem = {"튜토리얼","음소거","볼륨 조절","일일평가 말풍선 효과","개발자 정보"};
 
-        muteSetting();
         volumeSetting();
         effectSetting();
 
@@ -607,13 +606,14 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 1://음소거
                         muteDialog.setTitle("음소거");
+                        muteSetting();
                         muteDialog.create();
                         muteDialog.show();
                         break;
                     case 2://볼륨 조절
-                        SharedPreferences preference = getSharedPreferences("mute", MODE_PRIVATE);
-                        int mute = preference.getInt("mute", 0);
-                        if(mute==0){
+                        SharedPreferences preferenceM2 = getSharedPreferences("mute", MODE_PRIVATE);
+                        int mute2 = preferenceM2.getInt("mute", 0);
+                        if(mute2==0){
                             volumeDialog.setTitle("볼륨 조절");
                             seek.setMax(10);
                             volumeDialog.setMessage("");
@@ -629,6 +629,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 3://일일평가 말풍선 효과
                         evEffectDialog.setTitle("일일평가 말풍선 효과");
+                        effectSetting();
                         evEffectDialog.create();
                         evEffectDialog.show();
                         break;
@@ -655,8 +656,8 @@ public class MainActivity extends AppCompatActivity {
     private void muteSetting()
     {
         final CharSequence[] MuteItem = {"음소거 X","음소거 O"};
-        SharedPreferences preference = getSharedPreferences("mute", MODE_PRIVATE);
-        int mute = preference.getInt("mute", 0);
+        SharedPreferences preferenceM = getSharedPreferences("mute", MODE_PRIVATE);
+        int mute = preferenceM.getInt("mute", 0);
         muteDialog.setSingleChoiceItems(MuteItem,mute, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -679,7 +680,6 @@ public class MainActivity extends AppCompatActivity {
         muteDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                popDialog.show();
             }
         });
     }
@@ -709,15 +709,14 @@ public class MainActivity extends AppCompatActivity {
         volumeDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                popDialog.show();
             }
         });
     }
     private void effectSetting()
     {
         final CharSequence[] EffectItem = {"효과 O","효과 X"};
-        SharedPreferences preference = getSharedPreferences("effect", MODE_PRIVATE);
-        int evEffect = preference.getInt("effect", 0);
+        SharedPreferences preferenceE = getSharedPreferences("effect", MODE_PRIVATE);
+        int evEffect = preferenceE.getInt("effect", 0);
         evEffectDialog.setSingleChoiceItems(EffectItem,evEffect, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -740,7 +739,6 @@ public class MainActivity extends AppCompatActivity {
         evEffectDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                popDialog.show();
             }
         });
     }
