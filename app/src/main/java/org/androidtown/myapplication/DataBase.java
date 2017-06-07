@@ -8,14 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.Random;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static org.androidtown.myapplication.R.id.foodType;
+import java.util.Random;
 
 
 public class DataBase extends AppCompatActivity {
@@ -26,14 +24,14 @@ public class DataBase extends AppCompatActivity {
     Context context;
 
     public DataBase(Context c, int i) {
-        context = c;// 디비를 열고 닫을 때, context가 필요하므로
-        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);//openOrCreateDatabase는 context가 필요해 오류가 났었음!
+        context = c;
         if (i != 1)
             createTable();
     }
 
     //테이블 생성(user info, dailyList, intakeList)
     public void createTable() {
+        userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);//openOrCreateDatabase는 context가 필요해 오류가 났었음!
         //To create intakeList in database
         userDB.execSQL("create table if not exists dailyList(date text,times integer,foodName text ,sugar int,na int,chol int,fat int );");// Create intakeList table
         userDB.execSQL("create table if not exists intakeList(date text, sugar int, na int, chol int, fat int, highestIngredient int);");
