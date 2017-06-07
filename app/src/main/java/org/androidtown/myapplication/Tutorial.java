@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.tsengvn.typekit.TypekitContextWrapper;
+
 
 /**
  * Created by jaena on 2017-05-31.
@@ -118,7 +120,10 @@ public class Tutorial extends AppCompatActivity {
         @Override public void finishUpdate(View arg0) {}
 
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 }
 
 

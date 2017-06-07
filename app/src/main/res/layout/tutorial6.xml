@@ -18,6 +18,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp"
-        android:background="@color/menuColor"/>
+        android:background="@color/menuColor"
+        android:textColor="#FFFFFFFF"/>
 
 </RelativeLayout>

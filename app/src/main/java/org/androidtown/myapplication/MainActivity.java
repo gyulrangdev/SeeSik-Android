@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -602,7 +600,6 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case 0:
                         startActivity(new Intent(MainActivity.this,Tutorial.class));
-                        popDialog.show();//TODO: 여기 이게 먼저 보이고 액티비티가 시작 됨... 어떡하징... case 4,5도 같은 문제
                         break;
                     case 1://음소거
                         muteDialog.setTitle("음소거");
@@ -633,9 +630,8 @@ public class MainActivity extends AppCompatActivity {
                         evEffectDialog.create();
                         evEffectDialog.show();
                         break;
-                    case 4://크레딧
+                    case 4://개발자 정보 및 크레딧
                         startActivity(new Intent(MainActivity.this,DevInfo.class));
-                        popDialog.show();
                         break;
                 }
          }
