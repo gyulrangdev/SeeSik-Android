@@ -19,8 +19,8 @@ public class Recommend extends Fragment {// please change this Recommend
     String[] naRecommendFoodList = {"배","바나나", "키위", "검은콩", "감자", "브로콜리", "양파", "고구마", "옥수수", "오이", "시금치", "호두"};
     int[] naRecommendKaList = {170, 358, 290, 1860, 396, 316, 146, 337, 287, 147, 558, 441,};
     double [] naRecommendAmountList = { 0.25, 0.5, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 10};
-    String[] naUnitList={"개", "개", "개", "컵", "개", "개", "개", "개", "개", "개", "단", "알"}; //디비가 너무 귀찮았음... 흡 안귀찮을 때 디비로 바꿀게
-    String[] cholRecommendFoodList = {"사과", "포도", "옥수수", "우유", "마늘", "부추", "양파", "표고버섯", "당근", "다시마", "아몬드", "굴", "감귤"};
+    String[] naUnitList={"개", "개", "개", "컵", "개", "개", "개", "개", "개", "개", "단", "알"};
+    String[] cholRecommendFoodList = {"사과", "포도", "옥수수", "우유", "마늘", "부추", "양파", "표고버섯", "당근", "다시마", "아몬드", "굴", "감귤", "다크초콜릿"};
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class Recommend extends Fragment {// please change this Recommend
 
         if(chol>300)
         {
-            int r = (int)(Math.random()*13);
+            int r = (int)(Math.random()*14);
 
             int excessAmount = chol - 300;
 

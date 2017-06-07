@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,13 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class DailyEvaluation extends Fragment{
+
+    ImageSwitcher s_ludarfEye, s_ludarfMouth;
+    EyeThread eyeThread;
+    MouthThread mouthThread;
+    boolean running = false;
+    Handler mHandler = new Handler();
     LinearLayout mainLayout;
     ProgressDialog dialog;
     Resources res;
@@ -59,6 +69,8 @@ public class DailyEvaluation extends Fragment{
         fatText = (TextView) view.findViewById(R.id.fatText);
         cholText = (TextView) view.findViewById(R.id.cholText);
         sugarText = (TextView) view.findViewById(R.id.sugarText);
+        s_ludarfEye = (ImageSwitcher) view.findViewById(R.id.switcher_ludarf_eye);
+        s_ludarfMouth = (ImageSwitcher) view.findViewById(R.id.switcher_ludarf_mouth);
 
         typeWriter = new TypeWriter();
 
@@ -98,9 +110,34 @@ public class DailyEvaluation extends Fragment{
 
         showEvaluationText();
 
+        s_ludarfEye.setFactory(new ViewSwitcher.ViewFactory()
+        {
+            public View makeView() {
+                ImageView imageView = new ImageView(context);
+                imageView.setBackgroundColor(0x00000000);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                return imageView;
+            }
+        });
+
+        s_ludarfMouth.setFactory(new ViewSwitcher.ViewFactory()
+
+        {
+            public View makeView() {
+                ImageView imageView = new ImageView(context);
+                imageView.setBackgroundColor(0x00000000);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                return imageView;
+            }
+        });
+
+        startAnimation();
     }
 
     SharedPreferences preference;
+
     public void showEvaluationText()
     {
         String str = "나트륨 "+score[0]+"/25\n";
@@ -165,4 +202,114 @@ public class DailyEvaluation extends Fragment{
         }
         score[4]=score[0]+score[1]+score[2]+score[3];
     }
+
+
+    private void startAnimation() {
+        s_ludarfEye.setVisibility(View.VISIBLE);
+        s_ludarfMouth.setVisibility(View.VISIBLE);
+        eyeThread=new EyeThread();
+        mouthThread = new MouthThread();
+        eyeThread.start();
+        mouthThread.start();
+    }
+
+    private void stopAnimation() {
+        running = false;
+        try {
+            eyeThread.join();
+            mouthThread.join();
+        } catch (InterruptedException e) {
+        }
+        s_ludarfEye.setVisibility(View.INVISIBLE);
+        s_ludarfMouth.setVisibility(View.INVISIBLE);
+    }
+
+    class EyeThread extends Thread {
+        int duration = 500;
+        final int imageId[] = {R.drawable.ludarf_open_eye, R.drawable.ludarf_close_eye};
+        int currentIndex = 0;
+
+        @Override
+        public void run() {
+            running = true;
+            while (running) {
+                synchronized (this) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            s_ludarfEye.setImageResource(imageId[currentIndex]);
+                        }
+                    });
+                    currentIndex++;
+                    if (currentIndex == imageId.length) {
+                        currentIndex = 0;
+                        try {
+                            int sleepTime = getRandomTime(3000, 5000);
+                            Thread.sleep(sleepTime);
+                        } catch (InterruptedException e) {
+                        }
+                    }
+                    try {
+                        duration=getRandomTime(3000, 5000);
+                        Thread.sleep(duration);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }   //while end
+
+        }   //run end
+    }
+
+    class MouthThread extends Thread {
+
+        int m_duration=500;
+        final int image_m_Id[] = {R.drawable.ludarf_close_mouth, R.drawable.ludarf_open_mouth, R.drawable.ludarf_close_mouth, R.drawable.ludarf_open_mouth,R.drawable.ludarf_close_mouth, R.drawable.ludarf_open_mouth, R.drawable.ludarf_close_mouth, R.drawable.ludarf_open_mouth};
+        int m_currentIndex = 0;
+
+        @Override
+        public void run() {
+            running = true;
+            while (running) {
+                synchronized (this) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            s_ludarfMouth.setImageResource(image_m_Id[m_currentIndex]);
+                        }
+                    });
+                    m_currentIndex++;
+                    if (m_currentIndex == image_m_Id.length) {
+                        m_currentIndex = 0;
+                        try {
+                            int sleepTime = getRandomTime(10000, 12000);
+                            Thread.sleep(sleepTime);
+                        } catch (InterruptedException e) {
+                        }
+                    }
+                    try {
+                        Thread.sleep(m_duration);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }   //while end
+
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        stopAnimation();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopAnimation();
+    }
+
+    public int getRandomTime(int min, int max) {
+        return min + (int) (Math.random() * (max - min));
+    }
+
 }

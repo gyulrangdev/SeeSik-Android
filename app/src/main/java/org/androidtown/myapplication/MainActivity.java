@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     static DataBase db;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
-    SimpleDateFormat hourFormat = new SimpleDateFormat("HH",java.util.Locale.getDefault());
+    SimpleDateFormat hourFormat = new SimpleDateFormat("HH", java.util.Locale.getDefault());
     Date date = new Date();
     String strDate = dateFormat.format(date);
 
@@ -71,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
         switcher = (ImageSwitcher) findViewById(R.id.switcher);
         switcher_m = (ImageSwitcher) findViewById(R.id.switcher_mouth);
         character = (FrameLayout) findViewById(R.id.character);
-        dayTimeBackground=(FrameLayout)findViewById(R.id.dayTimeBackground);
-        nightTimeBackground=(FrameLayout)findViewById(R.id.nightTimeBackground);
-        interactTxt = (TextView)findViewById(R.id.interactText);
+        dayTimeBackground = (FrameLayout) findViewById(R.id.dayTimeBackground);
+        nightTimeBackground = (FrameLayout) findViewById(R.id.nightTimeBackground);
+        interactTxt = (TextView) findViewById(R.id.interactText);
         flowerLeft = (RelativeLayout) findViewById(R.id.flowerLayout_left);
         flowerRight = (RelativeLayout) findViewById(R.id.flowerLayout_right);
         leftArm = (ImageView) findViewById(R.id.leftArm);
@@ -96,133 +96,139 @@ public class MainActivity extends AppCompatActivity {
         }
         SharedPreferences DBpreference = getSharedPreferences("DBfirst", MODE_PRIVATE);
         int firstDB = DBpreference.getInt("DBfirst", 0);
-        if(firstDB==0) {
-            db = new DataBase(MainActivity.this,0);
-            SharedPreferences a = getSharedPreferences("DBfirst",MODE_PRIVATE);
+        if (firstDB == 0) {
+            db = new DataBase(MainActivity.this, 0);
+            SharedPreferences a = getSharedPreferences("DBfirst", MODE_PRIVATE);
             SharedPreferences.Editor editor = a.edit();
-            editor.putInt("DBfirst",1);
+            editor.putInt("DBfirst", 1);
             editor.commit();
+        } else {
+            db = new DataBase(MainActivity.this, 1);
         }
-        else
-        {
-            db = new DataBase(MainActivity.this,1);
-        }
-            hightestIndex = db.getHighestIngredient(strDate);
-        if(hightestIndex==5)
-            hightestIndex=0;
+        hightestIndex = db.getHighestIngredient(strDate);
+        if (hightestIndex == 5)
+            hightestIndex = 0;
         setHighestIndexImage();
         setBackgroundImage();
         SoundPrepare();
         settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               showSetting();
+                showSetting();
             }
         });
 
         flowerLeft.getChildAt(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hightestIndex==0){
-                v.clearAnimation();
-                setHighestIndexImage();
-                flowerLeft.getChildAt(0).startAnimation(flowerAnim);}
+                if (hightestIndex == 0) {
+                    v.clearAnimation();
+                    setHighestIndexImage();
+                    flowerLeft.getChildAt(0).startAnimation(flowerAnim);
+                }
             }
         });
 
         flowerLeft.getChildAt(1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hightestIndex==1){
-                v.clearAnimation();
-                setHighestIndexImage();
-                flowerLeft.getChildAt(1).startAnimation(flowerAnim);}
+                if (hightestIndex == 1) {
+                    v.clearAnimation();
+                    setHighestIndexImage();
+                    flowerLeft.getChildAt(1).startAnimation(flowerAnim);
+                }
             }
         });
 
         flowerLeft.getChildAt(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hightestIndex==2){
-                v.clearAnimation();
-                setHighestIndexImage();
-                flowerLeft.getChildAt(2).startAnimation(flowerAnim);
-            }
+                if (hightestIndex == 2) {
+                    v.clearAnimation();
+                    setHighestIndexImage();
+                    flowerLeft.getChildAt(2).startAnimation(flowerAnim);
+                }
             }
         });
 
         flowerLeft.getChildAt(3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hightestIndex==3){
-                v.clearAnimation();
-                setHighestIndexImage();
-                flowerLeft.getChildAt(3).startAnimation(flowerAnim);}
+                if (hightestIndex == 3) {
+                    v.clearAnimation();
+                    setHighestIndexImage();
+                    flowerLeft.getChildAt(3).startAnimation(flowerAnim);
+                }
             }
         });
 
         flowerLeft.getChildAt(4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hightestIndex==4){
-                v.clearAnimation();
-                setHighestIndexImage();
-                flowerLeft.getChildAt(4).startAnimation(flowerAnim);}
+                if (hightestIndex == 4) {
+                    v.clearAnimation();
+                    setHighestIndexImage();
+                    flowerLeft.getChildAt(4).startAnimation(flowerAnim);
+                }
             }
         });
 
         flowerRight.getChildAt(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hightestIndex==0){
-                v.clearAnimation();
-                setHighestIndexImage();
-                flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);}
+                if (hightestIndex == 0) {
+                    v.clearAnimation();
+                    setHighestIndexImage();
+                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);
+                }
             }
         });
 
         flowerRight.getChildAt(1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hightestIndex==1){
+                if (hightestIndex == 1) {
                     v.clearAnimation();
                     setHighestIndexImage();
-                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);}
+                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);
+                }
             }
         });
 
         flowerRight.getChildAt(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hightestIndex==2){
+                if (hightestIndex == 2) {
                     v.clearAnimation();
                     setHighestIndexImage();
-                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);}
+                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);
+                }
             }
         });
 
         flowerRight.getChildAt(3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hightestIndex==3){
+                if (hightestIndex == 3) {
                     v.clearAnimation();
                     setHighestIndexImage();
-                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);}
+                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);
+                }
             }
         });
 
         flowerRight.getChildAt(4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hightestIndex==4){
+                if (hightestIndex == 4) {
                     v.clearAnimation();
                     setHighestIndexImage();
-                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);}
+                    flowerRight.getChildAt(hightestIndex).startAnimation(flowerAnim);
+                }
             }
         });
 
-        character.getChildAt(0).setOnClickListener(new View.OnClickListener()
-        {
+        character.getChildAt(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final ImageView kkya = (ImageView) findViewById(R.id.kkya);
@@ -236,19 +242,17 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences mutePreference = getSharedPreferences("mute", MODE_PRIVATE);
                 int mute = mutePreference.getInt("mute", 0);
                 final float volume;
-                if(mute!=1) {
+                if (mute != 1) {
                     volume = preference.getFloat("volume", 1f);
                     Log.d("volume", "" + volume);
-                }
-                else
-                {
-                    volume=0f;
+                } else {
+                    volume = 0f;
                 }
 
                 Random random = new Random();
                 int ran = random.nextInt(4);
-                sound.play(soundbeep[ran],volume,volume,0,0,1);
-                interactTxt.setText(db.getSaessabClickScript(0));
+                sound.play(soundbeep[ran], volume, volume, 0, 0, 1);
+                interactTxt.setText(db.getSaessabClickScript(ran));
 
                 TimerTask task = new TimerTask() {
                     @Override
@@ -256,8 +260,9 @@ public class MainActivity extends AppCompatActivity {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                kkya.setVisibility(View.INVISIBLE);
                                 interactTxt.setText(db.getSaessabScript());
+                                kkya.setVisibility(View.INVISIBLE);
+
 
                             }
                         });
@@ -270,9 +275,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        evaBtn.setOnClickListener(new View.OnClickListener()
-        {
+        evaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.clearAnimation();
@@ -326,11 +329,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_MENU) {
-            Toast.makeText(getApplicationContext(), "요청 코드: " + requestCode + " 결과 코드: " + resultCode, Toast.LENGTH_LONG).show();
-
             if (resultCode == RESULT_OK) {
-                String msg = data.getExtras().getString("msg");
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -515,11 +514,10 @@ public class MainActivity extends AppCompatActivity {
     public void setBackgroundImage() {
         String hour = hourFormat.format(date);
         int cHour = Integer.parseInt(hour);
-        if(cHour>=18 || cHour <=6){
+        if (cHour >= 18 || cHour <= 6) {
             nightTimeBackground.setVisibility(View.VISIBLE);
             dayTimeBackground.setVisibility(View.INVISIBLE);
-        }
-        else{
+        } else {
             nightTimeBackground.setVisibility(View.INVISIBLE);
             dayTimeBackground.setVisibility(View.VISIBLE);
         }
@@ -535,12 +533,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         setBackgroundImage();
-        Log.i("INDEX","onResume : "+hightestIndex);
+        Log.i("INDEX", "onResume : " + hightestIndex);
         hightestIndex = db.getHighestIngredient(strDate);
-        Log.i("INDEX","onResume : "+hightestIndex);
-        if(hightestIndex==5)
-            hightestIndex=0;
-        Log.i("INDEX","onResume : "+hightestIndex);
+        Log.i("INDEX", "onResume : " + hightestIndex);
+        if (hightestIndex == 5)
+            hightestIndex = 0;
+        Log.i("INDEX", "onResume : " + hightestIndex);
         setHighestIndexImage();
 
         interactTxt.setText(db.getSaessabScript());
@@ -556,8 +554,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         setBackgroundImage();
         hightestIndex = db.getHighestIngredient(strDate);
-        if(hightestIndex==5)
-            hightestIndex=0;
+        if (hightestIndex == 5)
+            hightestIndex = 0;
         setHighestIndexImage();
     }
 
@@ -578,15 +576,14 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog.Builder evEffectDialog;
     private SeekBar seek;
 
-    public void showSetting()
-    {
+    public void showSetting() {
         popDialog = new AlertDialog.Builder(this);
         muteDialog = new AlertDialog.Builder(this);
         volumeDialog = new AlertDialog.Builder(this);
         evEffectDialog = new AlertDialog.Builder(this);
         seek = new SeekBar(this);
 
-        final CharSequence[] NormalItem = {"튜토리얼","음소거","볼륨 조절","일일평가 말풍선 효과","개발자 정보"};
+        final CharSequence[] NormalItem = {"튜토리얼", "음소거", "볼륨 조절", "일일평가 말풍선 효과", "개발자 정보"};
 
         volumeSetting();
         effectSetting();
@@ -596,8 +593,7 @@ public class MainActivity extends AppCompatActivity {
         popDialog.setItems(NormalItem, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch(which)
-                {
+                switch (which) {
                     case 0:
                         startActivity(new Intent(MainActivity.this,Tutorial.class));
                         break;
@@ -610,14 +606,14 @@ public class MainActivity extends AppCompatActivity {
                     case 2://볼륨 조절
                         SharedPreferences preferenceM2 = getSharedPreferences("mute", MODE_PRIVATE);
                         int mute2 = preferenceM2.getInt("mute", 0);
-                        if(mute2==0){
+                        if (mute2 == 0) {
                             volumeDialog.setTitle("볼륨 조절");
                             seek.setMax(10);
                             volumeDialog.setMessage("");
                             volumeDialog.setView(seek);
                             volumeDialog.create();
-                            volumeDialog.show();}
-                        else{
+                            volumeDialog.show();
+                        } else {
                             volumeDialog.setTitle("볼륨 조절");
                             volumeDialog.setMessage("음소거 중에는 볼륨 조절이 불가능 합니다.");
                             volumeDialog.create();
@@ -634,7 +630,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this,DevInfo.class));
                         break;
                 }
-         }
+            }
         });
 
         popDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -649,15 +645,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void muteSetting()
-    {
-        final CharSequence[] MuteItem = {"음소거 X","음소거 O"};
+    private void muteSetting() {
+        final CharSequence[] MuteItem = {"음소거 X", "음소거 O"};
         SharedPreferences preferenceM = getSharedPreferences("mute", MODE_PRIVATE);
         int mute = preferenceM.getInt("mute", 0);
-        muteDialog.setSingleChoiceItems(MuteItem,mute, new DialogInterface.OnClickListener() {
+        muteDialog.setSingleChoiceItems(MuteItem, mute, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch(which) {
+                switch (which) {
                     case 0://음소거 X
                         SharedPreferences a = getSharedPreferences("mute", MODE_PRIVATE);
                         SharedPreferences.Editor editor = a.edit();
@@ -679,26 +674,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void volumeSetting()
-    {
+
+    private void volumeSetting() {
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 SharedPreferences preference = getSharedPreferences("mute", MODE_PRIVATE);
                 int mute = preference.getInt("mute", 0);
-                if(mute==1)
-                {
-                    Toast.makeText(getApplicationContext(),"음소거 중에는 볼륨을 바꿀 수 없습니다.",Toast.LENGTH_SHORT).show();
-                }
-                else {
+                if (mute == 1) {
+                    Toast.makeText(getApplicationContext(), "음소거 중에는 볼륨을 바꿀 수 없습니다.", Toast.LENGTH_SHORT).show();
+                } else {
                     SharedPreferences a = getSharedPreferences("volume", MODE_PRIVATE);
                     SharedPreferences.Editor editor = a.edit();
-                    editor.putFloat("volume", (float)(progress * 0.1));
+                    editor.putFloat("volume", (float) (progress * 0.1));
                     Log.d("volume setting", "" + progress * 0.1);
                     editor.commit();
                 }
             }
+
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
+
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
@@ -708,15 +703,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void effectSetting()
-    {
-        final CharSequence[] EffectItem = {"효과 O","효과 X"};
+
+    private void effectSetting() {
+        final CharSequence[] EffectItem = {"효과 O", "효과 X"};
         SharedPreferences preferenceE = getSharedPreferences("effect", MODE_PRIVATE);
         int evEffect = preferenceE.getInt("effect", 0);
-        evEffectDialog.setSingleChoiceItems(EffectItem,evEffect, new DialogInterface.OnClickListener() {
+        evEffectDialog.setSingleChoiceItems(EffectItem, evEffect, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch(which) {
+                switch (which) {
                     case 0://효과 O
                         SharedPreferences a = getSharedPreferences("effect", MODE_PRIVATE);
                         SharedPreferences.Editor editor = a.edit();
@@ -742,15 +737,14 @@ public class MainActivity extends AppCompatActivity {
     private SoundPool sound;
     private int[] soundbeep;
 
-    public void SoundPrepare()
-    {
-        sound = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+    public void SoundPrepare() {
+        sound = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         soundbeep = new int[4];
 
-        soundbeep[0] = sound.load(getApplicationContext(),R.raw.ssaessap,1);
-        soundbeep[1] = sound.load(getApplicationContext(),R.raw.ssae,1);
-        soundbeep[2] = sound.load(getApplicationContext(),R.raw.ssaessap__,1);
-        soundbeep[3] = sound.load(getApplicationContext(),R.raw.skkya,1);
+        soundbeep[0] = sound.load(getApplicationContext(), R.raw.ssaessap, 1);
+        soundbeep[1] = sound.load(getApplicationContext(), R.raw.ssae, 1);
+        soundbeep[2] = sound.load(getApplicationContext(), R.raw.ssaessap__, 1);
+        soundbeep[3] = sound.load(getApplicationContext(), R.raw.skkya, 1);
 
 
     }

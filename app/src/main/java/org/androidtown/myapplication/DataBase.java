@@ -732,8 +732,8 @@ public class DataBase extends AppCompatActivity {
             String SQL = "SELECT good FROM ssaessabScript;";
             Cursor c = foodDB.rawQuery(SQL, null);
             c.moveToFirst();
-            int num = c.getCount();
-            int selectNum = random.nextInt(num);
+
+            int selectNum = random.nextInt(2);
 
             c.moveToPosition(selectNum);
             script = c.getString(0);
@@ -745,8 +745,8 @@ public class DataBase extends AppCompatActivity {
            String SQL = "SELECT noData FROM ssaessabScript;";
            Cursor c = foodDB.rawQuery(SQL,null);
            c.moveToFirst();
-           int num = c.getCount();
-           int selectNum = random.nextInt(num);
+
+           int selectNum = random.nextInt(2);
            c.moveToPosition(selectNum);
            script=c.getString(0);
 
@@ -757,8 +757,8 @@ public class DataBase extends AppCompatActivity {
             String SQL = "SELECT exceed FROM ssaessabScript;";
             Cursor c = foodDB.rawQuery(SQL, null);
             c.moveToFirst();
-            int num = c.getCount();
-            int selectNum = random.nextInt(num);
+
+            int selectNum = random.nextInt(2);
             String ingre[] = {"나트륨", "포화 지방", "콜레스테롤", "당"};
             c.moveToPosition(selectNum);
 
@@ -787,8 +787,6 @@ public class DataBase extends AppCompatActivity {
         String SQL = "SELECT click FROM ssaessabScript;";
         Cursor c = foodDB.rawQuery(SQL, null);
         c.moveToFirst();
-        int num = c.getCount();
-
         c.moveToPosition(selectNum);
         script = c.getString(0);
 

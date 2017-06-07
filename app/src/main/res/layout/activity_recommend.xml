@@ -18,6 +18,8 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/border"
+        android:padding="3dp"
         android:stretchColumns="1,2,3">
        <TableRow>
            <TextView
@@ -39,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="추천 음식/활동"
             android:gravity="center"
-            android:textSize="18dp"/>
+            android:textSize="17dp"/>
         <TextView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
@@ -66,18 +68,21 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
             <TextView
                 android:id="@+id/naRecommend"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
             <TextView
                 android:id="@+id/naRecommendAmount"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
         </TableRow>
 
@@ -94,25 +99,28 @@
                 android:gravity= "center"
                 android:text="포화지방"
                 android:layout_gravity="center_vertical"
-                android:textSize="18dp"/>
+                android:textSize="16dp"/>
 
             <TextView
                 android:id="@+id/fatExceedTxt"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
             <TextView
                 android:id="@+id/fatRecommend"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
             <TextView
                 android:id="@+id/fatRecommendAmount"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
         </TableRow>
 
@@ -134,18 +142,21 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
             <TextView
                 android:id="@+id/cholRecommend"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
             <TextView
                 android:id="@+id/cholRecommendAmount"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
         </TableRow>
 
@@ -170,18 +181,21 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
             <TextView
                 android:id="@+id/sugarRecommend"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
             <TextView
                 android:id="@+id/sugarRecommendAmount"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:gravity="right"
                 android:textSize="18dp"/>
         </TableRow>
         <TableRow

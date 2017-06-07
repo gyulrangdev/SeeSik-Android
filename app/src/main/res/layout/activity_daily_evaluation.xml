@@ -5,18 +5,17 @@
     android:id="@+id/activity_daily_evaluation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context="org.androidtown.myapplication.DailyEvaluation">
 
     <View
+        android:id="@+id/evaluationTitle"
         android:layout_width="match_parent"
-        android:layout_height="9dp"
-        android:id="@+id/evaluationTitle">
-    </View>
+        android:layout_height="9dp"></View>
 
     <LinearLayout
         android:id="@+id/ingredientSet"
@@ -60,13 +59,13 @@
         android:id="@+id/barSet"
         android:layout_width="250dp"
         android:layout_height="180dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="11dp"
-        android:orientation="vertical"
         android:layout_below="@+id/evaluationTitle"
-        android:layout_toRightOf="@+id/ingredientSet"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/ingredientSet"
-        android:layout_marginStart="11dp">
+        android:layout_toRightOf="@+id/ingredientSet"
+        android:orientation="vertical">
 
         <ProgressBar
             android:id="@+id/naBar"
@@ -81,12 +80,13 @@
             android:progressTint="#ffd500" />
 
         <TextView
-                android:id="@+id/naText"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:text="0 / 2000(mg)"
-                android:textSize="15dp"
-                android:gravity="right"/>
+            android:id="@+id/naText"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="right"
+            android:text="0 / 2000(mg)"
+            android:textSize="15dp" />
+
         <ProgressBar
             android:id="@+id/fatBar"
             style="?android:attr/progressBarStyleHorizontal"
@@ -99,13 +99,15 @@
             android:minHeight="20dp"
             android:progressBackgroundTint="?android:attr/textColorHighlightInverse"
             android:progressTint="@android:color/holo_red_light" />
+
         <TextView
             android:id="@+id/fatText"
             android:layout_width="match_parent"
             android:layout_height="20dp"
+            android:gravity="right"
             android:text="0 / 15(g)"
-            android:textSize="15dp"
-            android:gravity="right"/>
+            android:textSize="15dp" />
+
         <ProgressBar
             android:id="@+id/cholBar"
             style="?android:attr/progressBarStyleHorizontal"
@@ -116,13 +118,15 @@
             android:max="300"
             android:progressBackgroundTint="#b0deed"
             android:progressTint="@android:color/holo_blue_bright" />
+
         <TextView
             android:id="@+id/cholText"
             android:layout_width="match_parent"
             android:layout_height="20dp"
+            android:gravity="right"
             android:text="0 / 300(mg)"
-            android:textSize="15dp"
-            android:gravity="right"/>
+            android:textSize="15dp" />
+
         <ProgressBar
             android:id="@+id/sugarBar"
             style="?android:attr/progressBarStyleHorizontal"
@@ -133,59 +137,81 @@
             android:max="50"
             android:progressBackgroundTint="#debee8"
             android:progressTint="@android:color/holo_purple" />
+
         <TextView
             android:id="@+id/sugarText"
             android:layout_width="match_parent"
             android:layout_height="20dp"
+            android:gravity="right"
             android:text="0 / 50(g)"
-            android:textSize="15dp"
-            android:gravity="right"/>
+            android:textSize="15dp" />
     </LinearLayout>
 
-<FrameLayout
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_below="@+id/ingredientSet"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true">
-
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="174dp"
-        android:layout_height="199dp"
-        app:srcCompat="@drawable/blabla" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ingredientSet">
 
-        <TextView
-            android:id="@+id/recommendText"
-            android:layout_width="167dp"
-            android:layout_height="244dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/ingredientSet"
-            android:layout_marginTop="20dp"
-            android:padding="25dp"
-            android:text="This is a textfield for today's evaluation."
-            android:textSize="20dp" />
 
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="157dp"
+            android:layout_width="174dp"
             android:layout_height="match_parent"
-            android:layout_gravity="right|end"
-            app:srcCompat="@drawable/ludarf_stand" />
+            app:srcCompat="@drawable/report" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/recommendText"
+                android:layout_width="167dp"
+                android:layout_height="244dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ingredientSet"
+                android:layout_marginTop="20dp"
+                android:gravity="fill_horizontal"
+                android:padding="25dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="This is a textfield for today's evaluation."
+                android:textSize="18dp" />
+
+            <FrameLayout
+                android:id="@+id/character_ludarf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ludarf_base_body"
+                    android:layout_width="157dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|end"
+                    app:srcCompat="@drawable/ludarf_base_body" />
+
+                <ImageSwitcher
+                    android:id="@+id/switcher_ludarf_mouth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|end"></ImageSwitcher>
+
+                <ImageSwitcher
+                    android:id="@+id/switcher_ludarf_eye"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|end"></ImageSwitcher>
 
 
-    </LinearLayout>
+            </FrameLayout>
 
 
+        </LinearLayout>
 
-</FrameLayout>
+
+    </FrameLayout>
 
 
 </RelativeLayout>

@@ -2,7 +2,6 @@ package org.androidtown.myapplication;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -25,8 +24,9 @@ public class Evaluation extends AppCompatActivity {
     DailyEvaluation fDailyEvaluation;
     Recommend fRecommend;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evaluation);
 
@@ -80,9 +80,13 @@ public class Evaluation extends AppCompatActivity {
 
 
         });
+
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
+
+
 }
