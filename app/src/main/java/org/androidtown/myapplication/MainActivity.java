@@ -515,7 +515,7 @@ public class MainActivity extends AppCompatActivity {
     public void setBackgroundImage() {
         String hour = hourFormat.format(date);
         int cHour = Integer.parseInt(hour);
-        if (cHour >= 18 || cHour <= 6) {//night
+        if (cHour > 18 || cHour < 6) {//night
             nightTimeBackground.setVisibility(View.VISIBLE);
             dayTimeBackground.setVisibility(View.INVISIBLE);
             interactTxt.setTextColor(Color.parseColor("#ffffffff"));
