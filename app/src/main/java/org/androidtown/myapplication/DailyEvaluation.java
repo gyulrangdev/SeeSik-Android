@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+import android.media.SoundPool;
 
 import static android.content.Context.MODE_PRIVATE;
 

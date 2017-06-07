@@ -34,8 +34,9 @@
             android:layout_alignLeft="@+id/leftNormal"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/leftNormal"
-            android:layout_marginLeft="5dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
             android:textColor="#ff000000" />
 
         <ImageView

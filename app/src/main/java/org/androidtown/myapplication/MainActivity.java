@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -514,12 +515,14 @@ public class MainActivity extends AppCompatActivity {
     public void setBackgroundImage() {
         String hour = hourFormat.format(date);
         int cHour = Integer.parseInt(hour);
-        if (cHour >= 18 || cHour <= 6) {
+        if (cHour >= 18 || cHour <= 6) {//night
             nightTimeBackground.setVisibility(View.VISIBLE);
             dayTimeBackground.setVisibility(View.INVISIBLE);
+            interactTxt.setTextColor(Color.parseColor("#ffffffff"));
         } else {
             nightTimeBackground.setVisibility(View.INVISIBLE);
             dayTimeBackground.setVisibility(View.VISIBLE);
+            interactTxt.setTextColor(Color.parseColor("#00000000"));
         }
     }
 
