@@ -1,4 +1,4 @@
-package org.androidtown.myapplication;
+package org.androidtown.seesik;
 
 import org.junit.Test;
 

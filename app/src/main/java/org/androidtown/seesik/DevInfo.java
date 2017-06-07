@@ -1,4 +1,4 @@
-package org.androidtown.myapplication;
+package org.androidtown.seesik;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;

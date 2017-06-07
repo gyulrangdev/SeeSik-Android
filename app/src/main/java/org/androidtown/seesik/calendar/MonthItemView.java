@@ -1,4 +1,4 @@
-package org.androidtown.myapplication.calendar;
+package org.androidtown.seesik.calendar;
 
 import android.content.Context;
 import android.graphics.Typeface;

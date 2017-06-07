@@ -1,4 +1,4 @@
-package org.androidtown.myapplication.calendar;
+package org.androidtown.seesik.calendar;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -16,15 +16,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.androidtown.myapplication.DataBase;
-import org.androidtown.myapplication.MainActivity;
-import org.androidtown.myapplication.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.androidtown.seesik.DataBase;
+import org.androidtown.seesik.MainActivity;
+import org.androidtown.seesik.R;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 
 public class Calendar_main extends Fragment {

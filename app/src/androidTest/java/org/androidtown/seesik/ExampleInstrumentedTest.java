@@ -1,4 +1,4 @@
-package org.androidtown.myapplication;
+package org.androidtown.seesik;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("org.androidtown.myapplication", appContext.getPackageName());
+        assertEquals("org.androidtown.seesik", appContext.getPackageName());
     }
 }

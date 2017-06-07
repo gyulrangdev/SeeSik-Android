@@ -1,4 +1,4 @@
-package org.androidtown.myapplication;
+package org.androidtown.seesik;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
 
-import org.androidtown.myapplication.calendar.Calendar_main;
+import org.androidtown.seesik.calendar.Calendar_main;
 
 /**
  * Created by HAMHAM on 2017-05-17.

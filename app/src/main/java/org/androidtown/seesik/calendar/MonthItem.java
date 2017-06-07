@@ -1,4 +1,4 @@
-package org.androidtown.myapplication.calendar;
+package org.androidtown.seesik.calendar;
 
 /**
  * Created by sohyeon on 2017-05-15.

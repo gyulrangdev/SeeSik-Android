@@ -1,4 +1,4 @@
-package org.androidtown.myapplication;
+package org.androidtown.seesik;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -39,9 +39,9 @@ public class DataBase extends AppCompatActivity {
         //To create intakeList in database
         userDB.execSQL("create table if not exists dailyList(date text,times integer,foodName text ,sugar int,na int,chol int,fat int );");// Create intakeList table
         userDB.execSQL("create table if not exists intakeList(date text, sugar int, na int, chol int, fat int, highestIngredient int);");
-        File folder = new File("data/data/org.androidtown.myapplication/databases/");
+        File folder = new File("data/data/org.androidtown.seesik/databases/");
         if (!folder.exists()) folder.mkdir();
-        File file = new File("data/data/org.androidtown.myapplication/databases/foodList.db");
+        File file = new File("data/data/org.androidtown.seesik/databases/foodList.db");
         AssetManager assetManager = context.getAssets();
         try {
 

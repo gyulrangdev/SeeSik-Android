@@ -1,4 +1,4 @@
-package org.androidtown.myapplication.calendar;
+package org.androidtown.seesik.calendar;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
-import org.androidtown.myapplication.DataBase;
-import org.androidtown.myapplication.MainActivity;
+import org.androidtown.seesik.DataBase;
+import org.androidtown.seesik.MainActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

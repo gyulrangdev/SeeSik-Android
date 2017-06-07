@@ -1,4 +1,4 @@
-package org.androidtown.myapplication;
+package org.androidtown.seesik;
 
 /**
  * Created by sohyeon on 2017-05-17.
