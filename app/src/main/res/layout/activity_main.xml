@@ -321,6 +321,15 @@
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/setting_icon" />
 
+    <ImageView
+        android:id="@+id/color_info_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/evaluationBtn"
+        android:layout_toStartOf="@+id/evaluationBtn"
+        app:srcCompat="@drawable/color_info"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
