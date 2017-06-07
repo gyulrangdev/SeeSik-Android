@@ -248,6 +248,7 @@ public class DataBase extends AppCompatActivity {
         userDB = context.openOrCreateDatabase(userDBName, MODE_PRIVATE, null);// 위의 로그 때문에 넣은 것, 같이 지워야 함
         String SQL1 = "UPDATE IntakeList SET sugar =" + newSugar + ", na = " + newNa + ", chol = " + newChol + ", fat = " + newFat + " WHERE date = '" + today + "';";// 값 업데이트
         userDB.execSQL(SQL1);
+        c1.close();
         userDB.close();
 
         logIntakeList("Before Delete", today);
@@ -281,6 +282,7 @@ public class DataBase extends AppCompatActivity {
         SQL2 = "UPDATE dailyList SET times =" + newTimes + " WHERE foodName = '" + foodName + "';";
 
         userDB.execSQL(SQL2);
+        cur.close();
         userDB.close();
 
         insertIntakeList(sugar, na, chol, fat);
@@ -315,6 +317,7 @@ public class DataBase extends AppCompatActivity {
         Log.d("ASD", newTimes + "");
         SQL2 = "UPDATE dailyList SET times =" + newTimes + " WHERE foodName = '" + foodName + "';";
         userDB.execSQL(SQL2);
+        cur.close();
         userDB.close();
 
         deleteIntakeList(sugar, na, chol, fat, 1);
@@ -345,6 +348,7 @@ public class DataBase extends AppCompatActivity {
         String SQL = "SELECT times FROM dailyList WHERE foodName = '" + foodName + "';";
         Cursor c = userDB.rawQuery(SQL, null);
         c.moveToFirst();
+        c.close();
         userDB.close();
         return c.getInt(0);
     }
@@ -500,6 +504,7 @@ public class DataBase extends AppCompatActivity {
             int ingredient = c1.getInt(0);
 
             logIntakeList("달력에 넘어가는 하이값: ", strDate);
+            c1.close();
             userDB.close();
             return ingredient;
         }
@@ -536,6 +541,7 @@ public class DataBase extends AppCompatActivity {
             times[i] = cursor.getInt(0);
             cursor.moveToNext();
         }
+        cursor.close();
         userDB.close();
         return times;
     }
@@ -560,6 +566,7 @@ public class DataBase extends AppCompatActivity {
                 return true;
             }
         } else {
+            c1.close();
             userDB.close();
             return false;
         }
@@ -650,6 +657,7 @@ public class DataBase extends AppCompatActivity {
                 fat = c1.getInt(3);
                 String SQL2 = "INSERT INTO simpleFoodList VALUES(" + 0 + ",'" + foodName + "'," + sugar + "," + na + "," + chol + "," + fat + ");";
                 foodDB.execSQL(SQL2);
+               c1.close();
                 foodDB.close();
             }
             logSimpleList();
@@ -667,8 +675,12 @@ public class DataBase extends AppCompatActivity {
                 fat = c2.getInt(3);
                 String SQL2 = "INSERT INTO simpleFoodList VALUES(" + 0 + ",'" + foodName + "'," + sugar + "," + na + "," + chol + "," + fat + ");";
                 foodDB.execSQL(SQL2);
+                 c2.close();
                 foodDB.close();
             }
+
+            c3.close();
+            foodDB.close();
             logSimpleList();
             return;
         }
@@ -683,6 +695,7 @@ public class DataBase extends AppCompatActivity {
             String SQL1 = "DELETE FROM simpleFoodList WHERE foodType=" + 0 + " and foodName = '" + foodName + "';";
             foodDB.execSQL(SQL1);
         }
+        c1.close();
         foodDB.close();
     }
 
@@ -715,6 +728,7 @@ public class DataBase extends AppCompatActivity {
             Log.d("SimpleFoodListAll", "종류: " + c1.getInt(0) + ",음식 이름: " + c1.getString(1) + ",당: " + c1.getInt(2) + " ,나트륨: " + c1.getInt(3) + " ,콜레스테롤: " + c1.getInt(4) + " ,포화지방: " + c1.getInt(5));
             c1.moveToNext();
         }
+        c1.close();
         foodDB.close();
     }
 
