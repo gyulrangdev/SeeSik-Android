@@ -273,7 +273,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         evaBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -329,11 +328,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_MENU) {
-            Toast.makeText(getApplicationContext(), "요청 코드: " + requestCode + " 결과 코드: " + resultCode, Toast.LENGTH_LONG).show();
-
-            if (resultCode == RESULT_OK) {
-                String msg = data.getExtras().getString("msg");
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+             if (resultCode == RESULT_OK) {
             }
         }
     }
