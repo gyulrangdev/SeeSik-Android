@@ -222,7 +222,7 @@ public class DailyEvaluation extends Fragment{
             score[3]=eachSocre;
         else {
             sugarT = sugar - recommendAmount[3];
-            score[3] = (int)(eachSocre - (cholT/scoreStandard[3]));
+            score[3] = (int)(eachSocre - (sugarT/scoreStandard[3]));
             if(score[3]<=0)
                 score[3] =0;
         }
@@ -322,6 +322,12 @@ public class DailyEvaluation extends Fragment{
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        calEvaluationScore();
+        startAnimation();
+    }
 
     @Override
     public void onStop() {

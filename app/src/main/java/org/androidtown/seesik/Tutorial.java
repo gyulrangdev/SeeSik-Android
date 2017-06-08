@@ -56,7 +56,7 @@ public class Tutorial extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 7;//나중에 튜토리얼 화면 수 바꾸면.... 하하하핳
+            return 8;//나중에 튜토리얼 화면 수 바꾸면.... 하하하핳
         }
 
 
@@ -68,30 +68,34 @@ public class Tutorial extends AppCompatActivity {
             switch (position)
             {
                 case 0:
+                    view = mInflater.inflate(R.layout.tutorial0,null);
+                    view.findViewById(R.id.tutorial0);
+                    break;
+                case 1:
                     view = mInflater.inflate(R.layout.tutorial1,null);
                     view.findViewById(R.id.tutorial1);
                     break;
-                case 1:
+                case 2:
                     view = mInflater.inflate(R.layout.tutorial2,null);
                     view.findViewById(R.id.tutorial2);
                     break;
-                case 2:
+                case 3:
                     view = mInflater.inflate(R.layout.tutorial3,null);
                     view.findViewById(R.id.tutorial3);
                     break;
-                case 3:
+                case 4:
                     view = mInflater.inflate(R.layout.tutorial4,null);
                     view.findViewById(R.id.tutorial4);
                     break;
-                case 4:
+                case 5:
                     view = mInflater.inflate(R.layout.tutorial5,null);
                     view.findViewById(R.id.tutorial5);
                     break;
-                case 5:
+                case 6:
                     view = mInflater.inflate(R.layout.tutorial6,null);
                     view.findViewById(R.id.tutorial6);
                     break;
-                case 6:
+                case 7:
                     view = mInflater.inflate(R.layout.tutorial7,null);
                     view.findViewById(R.id.tutorial7);
                     view.findViewById(R.id.close1).setOnClickListener(mCloseButtonClick);
