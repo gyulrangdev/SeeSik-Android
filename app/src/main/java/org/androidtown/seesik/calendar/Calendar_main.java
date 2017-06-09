@@ -145,6 +145,7 @@ public class Calendar_main extends Fragment {
                     String tmpStr[] = c.getString(0).split("-");
                     int ptrMonth = Integer.parseInt(tmpStr[1]);
 
+                    Log.d("디비에 있는 월", ptrMonth+"");
                     if (ptrMonth == curMonth)
                     {
                         switch (c.getInt(1)) {
@@ -171,8 +172,7 @@ public class Calendar_main extends Fragment {
                                 break;
                         }
                     }
-                    else if(ptrMonth==curMonth+1)
-                        break;
+
                     c.moveToNext();
                 }
             }
@@ -183,9 +183,15 @@ public class Calendar_main extends Fragment {
             db.userDB.close();
         }
 
-        if(normal >0){
-            normalR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * normal * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
-            normalR.setText(Double.parseDouble(String.format("%.1f", ((double) normal / (double) cnt) * 100)) + "%");
+        if(normal >=0){
+            if(normal==0){
+                normalR.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT));
+                normalR.setText("");
+            }
+            else{
+                normalR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * normal * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));
+                normalR.setText(Double.parseDouble(String.format("%.1f", ((double) normal / (double) cnt) * 100)) + "%");
+            }
         }
         if (na > 0) {
             naR.setLayoutParams(new LinearLayout.LayoutParams(Math.round(300 / cnt * na * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)), LinearLayout.LayoutParams.MATCH_PARENT));

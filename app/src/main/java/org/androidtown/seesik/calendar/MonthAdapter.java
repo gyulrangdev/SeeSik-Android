@@ -39,9 +39,6 @@ public class MonthAdapter extends BaseAdapter {
     public static final String TAG = "MonthAdapter";
     Context mContext;
 
-    public static int oddColor = Color.rgb(225, 225, 225);
-    public static int headColor = Color.rgb(12, 32, 158);
-
     private MonthItem[] items;
 
     int mStartDay;
