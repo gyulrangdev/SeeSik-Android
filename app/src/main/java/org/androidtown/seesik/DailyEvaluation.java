@@ -300,6 +300,7 @@ public class DailyEvaluation extends Fragment{
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
+                            if (m_currentIndex == image_m_Id.length) m_currentIndex = 0;
                             s_ludarfMouth.setImageResource(image_m_Id[m_currentIndex]);
                         }
                     });
@@ -323,6 +324,11 @@ public class DailyEvaluation extends Fragment{
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         calEvaluationScore();
@@ -332,13 +338,16 @@ public class DailyEvaluation extends Fragment{
     @Override
     public void onStop() {
         super.onStop();
-        stopAnimation();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        stopAnimation();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     public int getRandomTime(int min, int max) {
